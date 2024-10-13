@@ -5,5 +5,5 @@ Description: the Black Bazaar is the ideal game browsing and purchasing platform
 ### Nicolás Benedetti González / Saba Narimanishvili
 
 
-#IMPORTANT:
+# IMPORTANT:
 - In the assignment it was stated that all parts of the analysis (the description, the user stories, and the various models) should all be in one document, so I will be uploading one document with all parts of the analysis in it as well as all separate parts of the analysis each in their own file.
