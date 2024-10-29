@@ -1,9 +1,17 @@
 import { PurchasedGames } from "../model/purchasedGames";
+import GameDb from "../repository/game.db";
+
+
+const games = GameDb.getAllGames();
 
 const purchasedGames = [
-    new PurchasedGames({ totalValue: 159.97 }),  
-    new PurchasedGames({ totalValue: 49.99 }),  
-    new PurchasedGames({ totalValue: 79.98 }),   
-    new PurchasedGames({ totalValue: 249.95 }),  
-    new PurchasedGames({ totalValue: 99.99 })   
+    new PurchasedGames(games.slice(2, 4)),  
+    new PurchasedGames(games.slice(1, 3)),  
+    new PurchasedGames(games.slice(1, 2)),   
+    new PurchasedGames(games.slice(3, 5)),  
+    new PurchasedGames(games.slice(4, 5))   
 ];
+
+export default {
+    purchasedGames
+}

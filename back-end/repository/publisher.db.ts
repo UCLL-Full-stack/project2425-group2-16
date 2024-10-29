@@ -42,4 +42,9 @@ const publishers =
             country: "Australia",
             website: "www.gamepublisher5.com"
         })
-    ]
+    ];
+
+
+export default {
+    publishers
+}

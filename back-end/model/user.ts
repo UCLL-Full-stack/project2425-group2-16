@@ -66,9 +66,6 @@ export class User {
     }
 
     public setPhoneNumber(phoneNumber: number): void {
-        if (!this.validatePhoneNumber(phoneNumber)) {
-            throw new DomainError("Invalid phone number format.");
-        }
         this.phoneNumber = phoneNumber;
     }
 
@@ -77,13 +74,56 @@ export class User {
     }
 
     public setEmailAddress(emailAddress: string): void {
-        if (!this.validateEmailAddress(emailAddress)) {
-            throw new DomainError("Invalid email address format.");
-        }
         this.emailAddress = emailAddress;
     }
 
-    // Similar validation in other setters...
+    public getBirthDate(): Date {
+        return this.birthDate;
+    }
+
+    public setBirthDate(birthDate: Date): void {
+        this.birthDate = birthDate;
+    }
+
+    public getPassword(): string {
+        return this.password;
+    }
+
+    public setPassword(password: string): void {
+        this.password = password;
+    }
+
+    public getAccountCreationDate(): Date {
+        return this.accountCreationDate;
+    }
+
+    public setAccountCreationDate(accountCreationDate: Date): void {
+        this.accountCreationDate = accountCreationDate;
+    }
+
+    public getTimeZone(): string {
+        return this.timeZone;
+    }
+
+    public setTimeZone(timeZone: string): void {
+        this.timeZone = timeZone;
+    }
+
+    public getCountry(): string {
+        return this.country;
+    }
+
+    public setCountry(country: string): void {
+        this.country = country;
+    }
+
+    public getAge(): number {
+        return this.age;
+    }
+
+    public setAge(age: number): void {
+        this.age = age;
+    }
     
     public getPurchasedGames(): PurchasedGames[] {
         return this.purchasedGames;
@@ -106,8 +146,7 @@ export class User {
     }
 
     private validatePassword(password: string): boolean {
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        return passwordRegex.test(password);
+        return password.length > 8;
     }
 
     private validateAccountCreationDate(accountCreationDate: Date): boolean {
@@ -116,7 +155,7 @@ export class User {
     }
 
     private validateTimeZone(timeZone: string): boolean {
-        const timeZoneRegex = /^[A-Za-z\/]+$/;
+        const timeZoneRegex = /^[A-Za-z\/\+\-0-9]+$/;
         return timeZoneRegex.test(timeZone);
     }
 

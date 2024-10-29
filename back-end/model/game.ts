@@ -22,7 +22,7 @@ export class Game  {
         multiplayer: boolean;
     
     }) {
-        this.validate(Game)
+        this.validate(Game);
         this.genre = Game.genre;
         this.rating = Game.rating;
         this.supportedLanguages = Game.supportedLanguages;
@@ -61,7 +61,7 @@ export class Game  {
         if (Game.price < 0) { 
             throw new DomainError('Game price can not be negative')
         }
-        if (!Game.multiplayer) { 
+        if (Game.multiplayer === undefined || Game.multiplayer === null) { 
             throw new DomainError('no multiplayer status specification provided')
         }
         if (typeof Game.supportedLanguages !== 'string' || Game.supportedLanguages.trim() === '') {

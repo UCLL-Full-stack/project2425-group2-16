@@ -18,6 +18,7 @@ export class Publisher {
         website: string;
       
     }) {
+        this.validate(Publisher);
         this.contactInformation = Publisher.contactInformation;
         this.overallRating = Publisher.overallRating;
         this.dateOfFirstPublishing = Publisher.dateOfFirstPublishing;
@@ -47,7 +48,7 @@ export class Publisher {
             throw new DomainError('is it a country or a poem');
         }
         if (Publisher.website.length > 100) {
-            throw new DomainError('id it an url or a poem');
+            throw new DomainError('is it an url or a poem');
         }
     }
     public getContactInformation(): string {
