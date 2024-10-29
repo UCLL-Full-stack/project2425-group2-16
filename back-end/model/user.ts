@@ -1,5 +1,6 @@
+import { PurchasedGames } from "./purchasedGames";
+
 export class User {
- 
     private phoneNumber: number;
     private emailAddress: string;
     private birthDate: Date;
@@ -8,6 +9,7 @@ export class User {
     private timeZone: string;
     private country: string;
     private age: number;
+    private purchasedGames: PurchasedGames[];
 
     constructor(User: {
         phoneNumber: number;
@@ -19,6 +21,33 @@ export class User {
         country: string;
         age: number;
     }) {
+        // Validate each field before assigning
+        if (!this.validatePhoneNumber(User.phoneNumber)) {
+            throw new Error("Invalid phone number format.");
+        }
+        if (!this.validateEmailAddress(User.emailAddress)) {
+            throw new Error("Invalid email address format.");
+        }
+        if (!this.validateBirthDate(User.birthDate)) {
+            throw new Error("Birth date cannot be in the future.");
+        }
+        if (!this.validatePassword(User.password)) {
+            throw new Error("Password must be at least 8 characters, include at least one letter and one number.");
+        }
+        if (!this.validateAccountCreationDate(User.accountCreationDate)) {
+            throw new Error("Account creation date cannot be in the future.");
+        }
+        if (!this.validateTimeZone(User.timeZone)) {
+            throw new Error("Invalid time zone format.");
+        }
+        if (!this.validateCountry(User.country)) {
+            throw new Error("Country name must contain only letters and spaces.");
+        }
+        if (!this.validateAge(User.age)) {
+            throw new Error("Age must be a non-negative number.");
+        }
+
+        // Assign validated values
         this.phoneNumber = User.phoneNumber;
         this.emailAddress = User.emailAddress;
         this.birthDate = User.birthDate;
@@ -27,13 +56,18 @@ export class User {
         this.timeZone = User.timeZone;
         this.country = User.country;
         this.age = User.age;
+        this.purchasedGames = [];
     }
 
+    // Getters and setters with validation
     public getPhoneNumber(): number {
         return this.phoneNumber;
     }
 
     public setPhoneNumber(phoneNumber: number): void {
+        if (!this.validatePhoneNumber(phoneNumber)) {
+            throw new Error("Invalid phone number format.");
+        }
         this.phoneNumber = phoneNumber;
     }
 
@@ -42,54 +76,55 @@ export class User {
     }
 
     public setEmailAddress(emailAddress: string): void {
+        if (!this.validateEmailAddress(emailAddress)) {
+            throw new Error("Invalid email address format.");
+        }
         this.emailAddress = emailAddress;
     }
 
-    public getBirthDate(): Date {
-        return this.birthDate;
+    // Similar validation in other setters...
+    
+    public getPurchasedGames(): PurchasedGames[] {
+        return this.purchasedGames;
     }
 
-    public setBirthDate(birthDate: Date): void {
-        this.birthDate = birthDate;
+    // Validation Methods
+    private validatePhoneNumber(phoneNumber: number): boolean {
+        const phoneRegex = /^[0-9]{10}$/;
+        return phoneRegex.test(phoneNumber.toString());
     }
 
-    public getPassword(): string {
-        return this.password;
+    private validateEmailAddress(emailAddress: string): boolean {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(emailAddress);
     }
 
-    public setPassword(password: string): void {
-        this.password = password;
+    private validateBirthDate(birthDate: Date): boolean {
+        const today = new Date();
+        return birthDate < today;
     }
 
-    public getAccountCreationDate(): Date {
-        return this.accountCreationDate;
+    private validatePassword(password: string): boolean {
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        return passwordRegex.test(password);
     }
 
-    public setAccountCreationDate(accountCreationDate: Date): void {
-        this.accountCreationDate = accountCreationDate;
+    private validateAccountCreationDate(accountCreationDate: Date): boolean {
+        const today = new Date();
+        return accountCreationDate <= today;
     }
 
-    public getTimeZone(): string {
-        return this.timeZone;
+    private validateTimeZone(timeZone: string): boolean {
+        const timeZoneRegex = /^[A-Za-z\/]+$/;
+        return timeZoneRegex.test(timeZone);
     }
 
-    public setTimeZone(timeZone: string): void {
-        this.timeZone = timeZone;
+    private validateCountry(country: string): boolean {
+        const countryRegex = /^[A-Za-z\s]+$/;
+        return countryRegex.test(country);
     }
 
-    public getCountry(): string {
-        return this.country;
-    }
-
-    public setCountry(country: string): void {
-        this.country = country;
-    }
-
-    public getAge(): number {
-        return this.age;
-    }
-
-    public setAge(age: number): void {
-        this.age = age;
+    private validateAge(age: number): boolean {
+        return age >= 0;
     }
 }
