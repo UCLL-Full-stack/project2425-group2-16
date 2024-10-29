@@ -19,6 +19,7 @@ export class User {
         country: string;
         age: number;
     }) {
+        this.validate(User);
         this.phoneNumber = User.phoneNumber;
         this.emailAddress = User.emailAddress;
         this.birthDate = User.birthDate;
@@ -26,8 +27,59 @@ export class User {
         this.accountCreationDate = User.accountCreationDate;
         this.timeZone = User.timeZone;
         this.country = User.country;
-        this.age = User.age;
+        this.age = this.calculateAge(this.birthDate);
     }
+    validate(User: { 
+        phoneNumber: number;
+        emailAddress: string;
+        birthDate: Date;
+        password: string;
+        accountCreationDate: Date;
+        timeZone: string;
+        country: string;
+        age: number;
+    }) {
+        if (!User.phoneNumber) { 
+            throw new Error ("phone number was not specified")
+        }
+        if (!User.emailAddress)  {
+            throw new Error ("email address wa not specified")
+        }
+
+        if (!User.birthDate) {
+            throw new Error("birth date was not specified");
+        }
+        if (!User.password) {
+            throw new Error("password was not specified");
+        }
+        if (!User.accountCreationDate) {
+            throw new Error("account creation date was not specified");
+        }
+        if (!User.timeZone) {
+            throw new Error("time zone was not specified");
+        }
+        if (!User.country) {
+            throw new Error("country was not specified");
+        }
+        if (User.age === undefined || User.age === null) {
+            throw new Error("age was not specified");
+        }
+        if (User.age < 6 ) {
+            throw new Error('underaged users can not register, grow up at first lil bro')
+        }
+        if (User.password.length < 8)  {
+            throw new Error('password must be at least 8 charcaters long')
+        }
+    }
+
+    public calculateAge(birthDate: Date): number { 
+        const today = new Date();
+        let age  = today.getFullYear() - birthDate.getFullYear();
+        return age;
+
+    }
+
+
 
     public getPhoneNumber(): number {
         return this.phoneNumber;

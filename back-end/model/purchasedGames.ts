@@ -17,7 +17,7 @@ export class PurchasedGames {
          }
     }
 
-    // very random validation we dont even need this 
+
 }
 
 
