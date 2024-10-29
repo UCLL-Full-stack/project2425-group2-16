@@ -1,3 +1,4 @@
+import { DomainError } from "../errors/DomainError";
 import { PurchasedGames } from "./purchasedGames";
 
 export class User {
@@ -23,28 +24,28 @@ export class User {
     }) {
         // Validate each field before assigning
         if (!this.validatePhoneNumber(User.phoneNumber)) {
-            throw new Error("Invalid phone number format.");
+            throw new DomainError("Invalid phone number format.");
         }
         if (!this.validateEmailAddress(User.emailAddress)) {
-            throw new Error("Invalid email address format.");
+            throw new DomainError("Invalid email address format.");
         }
         if (!this.validateBirthDate(User.birthDate)) {
-            throw new Error("Birth date cannot be in the future.");
+            throw new DomainError("Birth date cannot be in the future.");
         }
         if (!this.validatePassword(User.password)) {
-            throw new Error("Password must be at least 8 characters, include at least one letter and one number.");
+            throw new DomainError("Password must be at least 8 characters, include at least one letter and one number.");
         }
         if (!this.validateAccountCreationDate(User.accountCreationDate)) {
-            throw new Error("Account creation date cannot be in the future.");
+            throw new DomainError("Account creation date cannot be in the future.");
         }
         if (!this.validateTimeZone(User.timeZone)) {
-            throw new Error("Invalid time zone format.");
+            throw new DomainError("Invalid time zone format.");
         }
         if (!this.validateCountry(User.country)) {
-            throw new Error("Country name must contain only letters and spaces.");
+            throw new DomainError("Country name must contain only letters and spaces.");
         }
         if (!this.validateAge(User.age)) {
-            throw new Error("Age must be a non-negative number.");
+            throw new DomainError("Age must be a non-negative number.");
         }
 
         // Assign validated values
@@ -66,7 +67,7 @@ export class User {
 
     public setPhoneNumber(phoneNumber: number): void {
         if (!this.validatePhoneNumber(phoneNumber)) {
-            throw new Error("Invalid phone number format.");
+            throw new DomainError("Invalid phone number format.");
         }
         this.phoneNumber = phoneNumber;
     }
@@ -77,7 +78,7 @@ export class User {
 
     public setEmailAddress(emailAddress: string): void {
         if (!this.validateEmailAddress(emailAddress)) {
-            throw new Error("Invalid email address format.");
+            throw new DomainError("Invalid email address format.");
         }
         this.emailAddress = emailAddress;
     }

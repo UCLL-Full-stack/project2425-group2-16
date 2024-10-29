@@ -7,6 +7,12 @@ const getAllUsers = (): Array<User> => {
 }
 
 const saveNewUser = (user: User): User => {
+    const existingUsers = userDb.getAllUsers();
+    const userExists = existingUsers.some(existingUser => existingUser.getEmailAddress() === user.getEmailAddress());
+
+    if (userExists) {
+        throw new Error('User already exists');
+    }
     return userDb.save(user);
 };
 

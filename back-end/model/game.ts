@@ -1,3 +1,5 @@
+import { DomainError } from "../errors/DomainError";
+
 export class Game  { 
     private genre: string;
     private rating: number;
@@ -42,28 +44,28 @@ export class Game  {
         multiplayer: boolean;
     }) { 
         if (Game.rating > 5 || Game.rating < 0) { 
-            throw new Error('Rating of a game can not be over 5 or below 0')
+            throw new DomainError('Rating of a game can not be over 5 or below 0')
         }
         if (Game.title.length > 40) { 
-            throw new Error('is it a game or a poem')
+            throw new DomainError('is it a game or a poem')
         }
         if (!Game.title) {
-            throw new Error('Title is required.');
+            throw new DomainError('Title is required.');
         }
         if (!Game.genre) {
-            throw new Error('Genre is required.');
+            throw new DomainError('Genre is required.');
         }
         if (!Game.systemRequirements) {
-            throw new Error('System requirements are required.');
+            throw new DomainError('System requirements are required.');
         } 
         if (Game.price < 0) { 
-            throw new Error('Game price can not be negative')
+            throw new DomainError('Game price can not be negative')
         }
         if (!Game.multiplayer) { 
-            throw new Error('no multiplayer status specification provided')
+            throw new DomainError('no multiplayer status specification provided')
         }
         if (typeof Game.supportedLanguages !== 'string' || Game.supportedLanguages.trim() === '') {
-            throw new Error('Supported languages must be a non-empty string.');
+            throw new DomainError('Supported languages must be a non-empty string.');
         }
     }
 

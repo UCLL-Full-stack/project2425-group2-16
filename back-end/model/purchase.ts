@@ -1,3 +1,5 @@
+import { DomainError } from "../errors/DomainError";
+
 export class Purchase {
     private dateOfPurchase: Date;
     private currency: string;
@@ -9,13 +11,13 @@ export class Purchase {
         amountPayed: number;
     }) {
         if (!this.validateDateOfPurchase(Purchase.dateOfPurchase)){
-            throw new Error("Invalid date: date is required.");
+            throw new DomainError("Invalid date: date is required.");
         }
         if (!this.validateCurrency(Purchase.currency)){
-            throw new Error("Invalid currency: currency in the form of USD, EUR, GBP, JPY or AUD is required.");
+            throw new DomainError("Invalid currency: currency in the form of USD, EUR, GBP, JPY or AUD is required.");
         } 
         if (!this.validateAmountPayed(Purchase.amountPayed)){
-            throw new Error("Invalid amount payed: sum payed must be a number above 0.");
+            throw new DomainError("Invalid amount payed: sum payed must be a number above 0.");
         }
         this.dateOfPurchase = Purchase.dateOfPurchase;
         this.currency = Purchase.currency;
