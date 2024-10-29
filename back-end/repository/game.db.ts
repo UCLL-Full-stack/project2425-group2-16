@@ -52,3 +52,14 @@ const games = [
         multiplayer: true
     })
 ];
+
+
+const getAllGames = (): Game[] => {
+    return games;
+}
+
+
+export default {
+    games,
+    getAllGames
+}

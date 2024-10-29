@@ -8,8 +8,14 @@ const router = express.Router();
 
 
 router.get('/getAll', async (req: Request, res: Response) => {
-    const users = userService.getAllUsers();
-    res.status(200).json(users);
+    try{
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    }
+    catch(error){
+        const err = error as Error;
+        res.status(400).json({status: 'error', errorMessage: err.message});
+    }
 } )
 
 

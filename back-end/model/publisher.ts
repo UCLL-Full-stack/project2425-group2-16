@@ -1,3 +1,5 @@
+import { DomainError } from "../errors/DomainError";
+
 export class Publisher { 
    
     private contactInformation: string;
@@ -16,6 +18,7 @@ export class Publisher {
         website: string;
       
     }) {
+        this.validate(Publisher);
         this.contactInformation = Publisher.contactInformation;
         this.overallRating = Publisher.overallRating;
         this.dateOfFirstPublishing = Publisher.dateOfFirstPublishing;
@@ -33,19 +36,19 @@ export class Publisher {
 
     }) { 
         if (Publisher.overallRating > 5 || Publisher.overallRating < 0) {
-            throw new Error('rating can not be over 5 or below 0')
+            throw new DomainError('rating can not be over 5 or below 0')
         }
         if (Publisher.dateOfFirstPublishing > new Date()) {
-            throw new Error('date of first publishing can not be in future')
+            throw new DomainError('date of first publishing can not be in future')
         }
         if (!Publisher.name || Publisher.name == "" ){
-            throw new Error ('name can not be empty')
+            throw new DomainError ('name can not be empty')
         }  
         if (Publisher.country.length > 50) {
-            throw new Error('is it a country or a poem');
+            throw new DomainError('is it a country or a poem');
         }
         if (Publisher.website.length > 100) {
-            throw new Error('id it an url or a poem');
+            throw new DomainError('is it an url or a poem');
         }
     }
     public getContactInformation(): string {

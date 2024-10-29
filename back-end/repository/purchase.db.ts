@@ -28,3 +28,6 @@ const purchase = [
         })
     ];
     
+export default {
+    purchase
+}
