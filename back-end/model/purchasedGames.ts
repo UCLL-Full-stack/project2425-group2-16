@@ -1,20 +1,41 @@
+import { DomainError } from "../errors/DomainError";
+import { Game } from "./game";
+
 export class PurchasedGames { 
+    private gamesList: Game[];
     private totalValue: number;
   
-    constructor(purchasedGames: { 
-        totalValue: number;
-    }) {
-        this.validate(purchasedGames)
-        this.totalValue = purchasedGames.totalValue;
+    constructor(gamesList: Game[]){
+        if (!this.validateGamesList(gamesList)){
+            throw new DomainError("Invalid game list: game list should either be empty or contain a list of games.");
+        }
+        this.gamesList = gamesList;
+        this.totalValue = this.getTotalValue();
     }
 
-    validate(purchasedGames: { 
-        totalValue: number;
-        
-    }) {
-        if (purchasedGames.totalValue > 10) {
-            throw new Error ('aaaa')
-         }
+    private validateGamesList(gamesList: any[]): boolean {
+        if (!Array.isArray(gamesList)) {
+            return false;
+        }
+        for (const game of gamesList) {
+            if (!(game instanceof Game)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public getTotalValue(): number{
+        if (this.gamesList.length == 0){
+            return 0
+        }
+        else{
+            let value = 0;
+            for (const game of this.gamesList){
+                value += game.getPrice();
+            }
+            return value;
+        }
     }
 
 

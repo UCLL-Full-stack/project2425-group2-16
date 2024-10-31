@@ -1,12 +1,12 @@
 export type User = {
   phoneNumber: number;
   emailAddress: string;
-  birthDate: Date;
+  birthDate?: Date;
   password: string;
   accountCreationDate: Date;
-  timeZone: string;
+  timeZone?: string;
   country: string;
-  age: number;
+  age?: number;
 };
 
 

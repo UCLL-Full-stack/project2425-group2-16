@@ -1,4 +1,4 @@
-import { User } from "../model/user"
+import { User } from "../model/user";
 import userDb from "../repository/user.db";
 
 const getAllUsers = (): Array<User> => { 
@@ -6,8 +6,23 @@ const getAllUsers = (): Array<User> => {
     return users;
 }
 
-const saveNewUser = (user: User): User => {
-    return userDb.save(user);
+const saveNewUser =  (userr: User): User => {
+    const existingUsers = userDb.getAllUsers();
+    let userExists = false;
+
+    for (const existingUser of existingUsers) {
+        if (existingUser.getEmailAddress() === userr.getEmailAddress()) {
+        
+            userExists = true;
+            break; 
+        }
+    }
+    const hello = "hello"
+    const goodBye = "goodBye"
+
+
+    // console.log('bro is saved')
+    return  userDb.save(userr);
 };
 
 
