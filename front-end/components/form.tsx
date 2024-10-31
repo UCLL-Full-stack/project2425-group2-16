@@ -5,21 +5,25 @@ import userService from '@services/UserService';
 const Form: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState<number>(0); // Initialize as number
     const [emailAddress, setEmailAddress] = useState('');
-    const [birthDate, setBirthDate] = useState<Date | null>(null);
+    const [birthDate, setBirthDate] = useState<Date>(new Date());
     const [country, setCountry] = useState('');
     const [password, setPassword] = useState('');
+    const [accountCreationDate, setAccountCreationDate] = useState<Date>(new Date());
+    const [age, setAge] = useState<number>(0);
 
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const user: User = { 
-            phoneNumber,
-            emailAddress,
-            birthDate: birthDate || new Date(), 
-            country,
-            password,
-            accountCreationDate: new Date(),
+            phoneNumber: phoneNumber,
+            emailAddress: emailAddress,
+            birthDate: birthDate, 
+            country: country,
+            password: password,
+            timeZone: timezone,
+            accountCreationDate: accountCreationDate,
+            age: (new Date().getFullYear() - birthDate.getFullYear())
             // age: age || undefined,
         };
 
@@ -36,7 +40,7 @@ const Form: React.FC = () => {
                         placeholder="Phone Number"
                         className="textInputField"
                         required
-                        value={phoneNumber.toString()} // Convert number to string for display
+                        value={phoneNumber} // Convert number to string for display
                         onChange={(e) => setPhoneNumber(Number(e.target.value))} // Convert string to number
                     />
                 </div>
@@ -56,7 +60,11 @@ const Form: React.FC = () => {
                         placeholder="Birth Date"
                         className="textInputField"
                         required
-                        onChange={(e) => setBirthDate(e.target.valueAsDate)}
+                        onChange={(e) => {
+                            if (e.target.valueAsDate) {
+                                setBirthDate(e.target.valueAsDate);
+                            }
+                        }}
                     />
                 </div>
                 <div className="inputDiv">
