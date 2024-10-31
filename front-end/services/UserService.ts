@@ -12,9 +12,9 @@ const userService = {
             body: JSON.stringify(user),
         });
 
-        // if (!response.ok) {
-        //     throw new Error(`Error: ${response.status} ${response.statusText}`); 
-        // }
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`); 
+        }
         console.log('step2')
         return response.json(); 
     }

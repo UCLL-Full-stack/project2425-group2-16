@@ -10,6 +10,7 @@ const Form: React.FC = () => {
     const [password, setPassword] = useState('');
     const [accountCreationDate, setAccountCreationDate] = useState<Date>(new Date());
     const [age, setAge] = useState<number>(0);
+    const [message, setMessage] = useState<string>('');
 
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -27,8 +28,15 @@ const Form: React.FC = () => {
             // age: age || undefined,
         };
 
-        const data = await userService.createUser(user);
-        console.log('User created successfully:', data);
+        try {
+            const data = await userService.createUser(user);
+            console.log('User created successfully:', data);
+            setMessage("User created successfully!");
+        }
+        catch(error){
+            setMessage("There was an error creating the user.");
+        }
+
     };
 
     return (
@@ -87,8 +95,9 @@ const Form: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" onClick={() => setMessage("")}>Submit</button>
             </form>
+            {message && <p className="message">{message}</p>}
         </>
     );
 };
