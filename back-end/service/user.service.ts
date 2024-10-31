@@ -1,3 +1,4 @@
+import { ServiceError } from "../errors/ServiceError";
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
 
@@ -6,15 +7,13 @@ const getAllUsers = (): Array<User> => {
     return users;
 }
 
-const saveNewUser =  (userr: User): User => {
+const saveNewUser =  async (userData: any): Promise<User> => {
     const existingUsers = userDb.getAllUsers();
-    let userExists = false;
+    const userr = new User(userData);
 
     for (const existingUser of existingUsers) {
         if (existingUser.getEmailAddress() === userr.getEmailAddress()) {
-        
-            userExists = true;
-            break; 
+            throw new ServiceError("User already exists");
         }
     }
     const hello = "hello"

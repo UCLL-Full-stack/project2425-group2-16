@@ -32,6 +32,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     else if (err.name === "DomainError"){
         res.status(400).json({status: 'domain error', message: err.message});
     }
+    else if (err.name === "ServiceError"){
+        res.status(400).json({status: 'service error', message: err.message});
+    }
     else{
         res.status(400).json({status: 'application error', message: err.message});
     }

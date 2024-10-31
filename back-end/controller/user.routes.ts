@@ -2,6 +2,8 @@ import express, { Request, Response} from "express";
 // import userService from "../service/user.service";
 import userService from "../service/user.service"; // Check this path
 import { User } from "../model/user";
+import { DomainError } from "../errors/DomainError";
+import { ServiceError } from "../errors/ServiceError";
 
 
 const router = express.Router();
@@ -60,11 +62,22 @@ router.get('/getAll', async (req: Request, res: Response) => {
 
 
 router.post('/post', async (req: Request, res: Response) => {
-    const user = req.body as User;
-    const result = await userService.saveNewUser(user);
-    res.status(200).json(result);
+    try {
+        const user = new User(req.body); // This might throw a DomainError
+        const result = await userService.saveNewUser(user);
+        res.status(201).json(result); // Use 201 for resource creation
 
-    console.log('backend side')
-})
+    } catch (error) {
+        if (error instanceof DomainError) {
+            return res.status(400).json({ error: error.message }); // Bad request
+        }
+        if (error instanceof ServiceError) {
+            return res.status(409).json({ error: error.message }); // Conflict
+        }
+        console.error(error); // Log unexpected errors
+        res.status(500).json({ error: 'Internal server error' }); // Generic error
+    }
+});
+
 
 export default router;

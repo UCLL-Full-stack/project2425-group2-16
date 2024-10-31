@@ -142,7 +142,8 @@ export class User {
 
     private validateBirthDate(birthDate: Date): boolean {
         const today = new Date();
-        return birthDate < today;
+        const toCompare = new Date(birthDate);
+        return toCompare < today;
     }
 
     private validatePassword(password: string): boolean {
@@ -151,7 +152,8 @@ export class User {
 
     private validateAccountCreationDate(accountCreationDate: Date): boolean {
         const today = new Date();
-        return accountCreationDate <= today;
+        const toCompare = new Date(accountCreationDate);
+        return toCompare <= today;
     }
 
     private validateTimeZone(timeZone: string): boolean {
