@@ -3,6 +3,7 @@ import { DomainError } from '../../errors/DomainError';
 
 test('Given valid input, when creating a User, then it should create the User successfully', () => {
     const validUser = {
+        username: "jpwoie",
         phoneNumber: 1234567890,
         emailAddress: 'test@example.com',
         birthDate: new Date('2000-01-01'),
@@ -21,6 +22,7 @@ test('Given valid input, when creating a User, then it should create the User su
 test('Given an invalid phone number, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "asdf",
             phoneNumber: 12345, // Invalid phone number
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),
@@ -36,6 +38,7 @@ test('Given an invalid phone number, when creating a User, then it should throw 
 test('Given an invalid email address, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "dfwie",
             phoneNumber: 1234567890,
             emailAddress: 'invalidEmail',
             birthDate: new Date('2000-01-01'),
@@ -51,6 +54,7 @@ test('Given an invalid email address, when creating a User, then it should throw
 test('Given a future birth date, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "pwfoiej",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('3000-01-01'), // Future birth date
@@ -66,6 +70,7 @@ test('Given a future birth date, when creating a User, then it should throw Doma
 test('Given a short password, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "fwjeir",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),
@@ -81,6 +86,7 @@ test('Given a short password, when creating a User, then it should throw DomainE
 test('Given a future account creation date, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "wpeorij",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),
@@ -96,6 +102,7 @@ test('Given a future account creation date, when creating a User, then it should
 test('Given an invalid time zone, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "fjowie",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),
@@ -111,6 +118,7 @@ test('Given an invalid time zone, when creating a User, then it should throw Dom
 test('Given an invalid country name, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "fpowiej",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),
@@ -126,6 +134,7 @@ test('Given an invalid country name, when creating a User, then it should throw 
 test('Given a negative age, when creating a User, then it should throw DomainError', () => {
     expect(() => {
         new User({ 
+            username: "wdfjowe",
             phoneNumber: 1234567890,
             emailAddress: 'test@example.com',
             birthDate: new Date('2000-01-01'),

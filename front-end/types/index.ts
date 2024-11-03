@@ -1,4 +1,5 @@
 export type User = {
+  username: string;
   phoneNumber: number;
   emailAddress: string;
   birthDate: Date;
@@ -6,8 +7,12 @@ export type User = {
   accountCreationDate: Date;
   timeZone: string;
   country: string;
-  age: number;
 };
+
+export type Login = {
+  emailAddress: string;
+  password: string;
+}
 
 
 export type FavoritesList = { 

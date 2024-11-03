@@ -2,6 +2,7 @@ import { DomainError } from "../errors/DomainError";
 import { PurchasedGames } from "./purchasedGames";
 
 export class User {
+    private username: string;
     private phoneNumber: number;
     private emailAddress: string;
     private birthDate: Date;
@@ -13,6 +14,7 @@ export class User {
     private purchasedGames: PurchasedGames[];
 
     constructor(User: {
+        username: string;
         phoneNumber: number;
         emailAddress: string;
         birthDate: Date;
@@ -22,6 +24,9 @@ export class User {
         country: string;
         age: number;
     }) {
+        if (!User.username){
+            throw new DomainError("Username is required");
+        }
         // Validate each field before assigning
         if (!this.validatePhoneNumber(User.phoneNumber)) {
             throw new DomainError("Invalid phone number format.");
@@ -49,6 +54,7 @@ export class User {
         }
 
         // Assign validated values
+        this.username = User.username;
         this.phoneNumber = User.phoneNumber;
         this.emailAddress = User.emailAddress;
         this.birthDate = User.birthDate;
@@ -63,6 +69,16 @@ export class User {
     // Getters and setters with validation
     public getPhoneNumber(): number {
         return this.phoneNumber;
+    }
+    public getUsername(): string {
+        return this.username;
+    }
+
+    public setUsername(username: string): void {
+        if (!username) {
+            throw new DomainError("Username is required");
+        }
+        this.username = username;
     }
 
     public setPhoneNumber(phoneNumber: number): void {

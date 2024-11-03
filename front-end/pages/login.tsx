@@ -1,9 +1,9 @@
 import NavBar from "@components/navbar";
+import LoginForm from "@components/loginForm";
 import Head from "next/head"
-import GameOverview from "@components/gameOverview";
 
 
-const Home: React.FC = () => { 
+const LoginPage: React.FC = () => { 
 
     return (
         <>
@@ -16,9 +16,15 @@ const Home: React.FC = () => {
         <header>
             <NavBar></NavBar>
         </header>
-        <GameOverview />
+            <LoginForm></LoginForm>
+
+
+        
+        
+        
+        
         </>
     );
 };
 
-export default Home;
+export default LoginPage;
