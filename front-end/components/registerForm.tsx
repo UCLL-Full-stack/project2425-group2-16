@@ -2,14 +2,14 @@ import React, { FormEvent, useState } from 'react';
 import { User } from "@types"; 
 import userService from '@services/UserService';
 
-const Form: React.FC = () => {
+const RegisterForm: React.FC = () => {
+    const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState<number>(0); // Initialize as number
     const [emailAddress, setEmailAddress] = useState('');
     const [birthDate, setBirthDate] = useState<Date>(new Date());
     const [country, setCountry] = useState('');
     const [password, setPassword] = useState('');
     const [accountCreationDate, setAccountCreationDate] = useState<Date>(new Date());
-    const [age, setAge] = useState<number>(0);
     const [message, setMessage] = useState<string>('');
 
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -17,16 +17,15 @@ const Form: React.FC = () => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         const user: User = { 
+            username: username,
             phoneNumber: phoneNumber,
             emailAddress: emailAddress,
             birthDate: birthDate, 
             country: country,
             password: password,
             timeZone: timezone,
-            accountCreationDate: accountCreationDate,
-            age: (new Date().getFullYear() - birthDate.getFullYear())
-            // age: age || undefined,
-        };
+            accountCreationDate: accountCreationDate
+};
 
         try {
             const data = await userService.createUser(user);
@@ -42,6 +41,16 @@ const Form: React.FC = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
+            <div className="inputDiv">
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        className="textInputField"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
                 <div className="inputDiv">
                     <input
                         type="tel"
@@ -102,4 +111,4 @@ const Form: React.FC = () => {
     );
 };
 
-export default Form;
+export default RegisterForm;

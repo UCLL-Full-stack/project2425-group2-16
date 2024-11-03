@@ -3,7 +3,9 @@ import express, { Request, Response} from "express";
 import userService from "../service/user.service"; // Check this path
 import { User } from "../model/user";
 import { DomainError } from "../errors/DomainError";
+import { Login } from "../types"; // Correct the import path
 import { ServiceError } from "../errors/ServiceError";
+import loginValidationMiddleware from "../middleware/loginValidationMiddleware";
 
 
 const router = express.Router();
@@ -13,6 +15,8 @@ const router = express.Router();
  * /users/getAll:
  *   get: 
  *     summary: Get all users
+ *     tags:
+ *       - Users
  *     responses:
  *       200:
  *         description: All users retrieved successfully
@@ -21,7 +25,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/user'
+ *                 $ref: '#/components/schemas/User'
  */
 
 
@@ -30,21 +34,53 @@ const router = express.Router();
  * /users/post:
  *   post: 
  *     summary: Registering a new user in the system
+ *     tags:
+ *       - Users
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/user'  
+ *             $ref: '#/components/schemas/User'  
  *     responses:
  *       200:
  *         description: User saved in the system
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/user'
+ *               $ref: '#/components/schemas/User'
  */
 
+
+
+
+/**
+ * @swagger
+ * /users/postlogin:
+ *   post:
+ *     summary: Log in a user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Login'
+ *     responses:
+ *       204:
+ *         description: User logged in successfully, no content returned (tokens not yet implemented).
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ */
 
 
 
@@ -58,7 +94,7 @@ router.get('/getAll', async (req: Request, res: Response) => {
         const err = error as Error;
         res.status(400).json({status: 'error', errorMessage: err.message});
     }
-} )
+} );
 
 
 router.post('/post', async (req: Request, res: Response) => {
@@ -78,6 +114,19 @@ router.post('/post', async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Internal server error' }); // Generic error
     }
 });
+
+
+router.post('/postlogin', loginValidationMiddleware, async (req: Request, res: Response) => {
+    try{    
+        const credentials: Login = req.body as Login; // Complete the instantiation
+        const result = await userService.logInUser(credentials);
+        res.status(201).json(result);
+    }
+    catch(error){
+        const err = error as Error;
+        return res.status(400).json({error: err.message});
+    }
+})
 
 
 export default router;

@@ -2,6 +2,7 @@ import { User } from "../model/user";
 
 const users = [
         new User({
+            username: "John",
             phoneNumber: 1234567890,
             emailAddress: "john.doe@example.com",
             birthDate: new Date('1990-05-15'),
@@ -12,6 +13,7 @@ const users = [
             age: 34,
         }),
         new User({
+            username: "Jane",
             phoneNumber: 9876543210,
             emailAddress: "jane.smith@example.com",
             birthDate: new Date('1985-10-20'),
@@ -22,6 +24,7 @@ const users = [
             age: 39,
         }),
         new User({
+            username: "Mike",
             phoneNumber: 1122334455,
             emailAddress: "mike.jones@example.com",
             birthDate: new Date('2000-08-05'),

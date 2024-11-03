@@ -1,6 +1,6 @@
 import NavBar from "@components/navbar";
+import RegisterForm from "@components/registerForm";
 import Head from "next/head"
-import GameOverview from "@components/gameOverview";
 
 
 const Home: React.FC = () => { 
@@ -16,7 +16,13 @@ const Home: React.FC = () => {
         <header>
             <NavBar></NavBar>
         </header>
-        <GameOverview />
+            <RegisterForm></RegisterForm>
+
+
+        
+        
+        
+        
         </>
     );
 };

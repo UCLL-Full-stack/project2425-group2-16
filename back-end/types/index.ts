@@ -1,4 +1,5 @@
 type UserInput = {
+    username: string;
     phoneNumber: number;
     emailAddress: string;
     birthDate: Date;
@@ -8,6 +9,11 @@ type UserInput = {
     country: string;
     age: number;
 
+}
+
+type Login = {
+    emailAddress: string;
+    password: string;
 }
 
 
@@ -47,6 +53,7 @@ type PurchasedGamesInput = {
 
 export {
     UserInput,
+    Login,
     GameInput,
     PublisherInput,
     PurchaseInput,
