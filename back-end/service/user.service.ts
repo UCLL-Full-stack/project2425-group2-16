@@ -33,12 +33,12 @@ const saveNewUser =  async (userData: any): Promise<User> => {
     }
     const hello = "hello"
     const goodBye = "goodBye"
-    const userAge = calculateAge(userr.getBirthDate());
+    const userAge = calculateAge(new Date(userr.getBirthDate()));
     userr.setAge(userAge);
 
 
     // console.log('bro is saved')
-    return  userDb.save(userr);
+    return await userDb.save(userr);
 };
 
 

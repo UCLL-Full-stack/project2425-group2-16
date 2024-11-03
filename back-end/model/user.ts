@@ -10,7 +10,7 @@ export class User {
     private accountCreationDate: Date;
     private timeZone: string;
     private country: string;
-    private age: number;
+    private age?: number;
     private purchasedGames: PurchasedGames[];
 
     constructor(User: {
@@ -22,7 +22,7 @@ export class User {
         accountCreationDate: Date;
         timeZone: string;
         country: string;
-        age: number;
+        age?: number;
     }) {
         if (!User.username){
             throw new DomainError("Username is required");
@@ -49,9 +49,11 @@ export class User {
         if (!this.validateCountry(User.country)) {
             throw new DomainError("Country name must contain only letters and spaces.");
         }
-        if (!this.validateAge(User.age)) {
-            throw new DomainError("Age must be a non-negative number.");
+        if (User.age !== undefined){
+            this.setAge(User.age);
+
         }
+
 
         // Assign validated values
         this.username = User.username;
@@ -133,11 +135,14 @@ export class User {
         this.country = country;
     }
 
-    public getAge(): number {
+    public getAge(): number | void {
         return this.age;
     }
 
     public setAge(age: number): void {
+        if (age < 0){
+            throw new DomainError("Age cannot be below 0");
+        }
         this.age = age;
     }
     

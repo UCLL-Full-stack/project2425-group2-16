@@ -6,42 +6,62 @@ const RegisterForm: React.FC = () => {
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState<number>(0); // Initialize as number
     const [emailAddress, setEmailAddress] = useState('');
-    const [birthDate, setBirthDate] = useState<Date>(new Date());
+    const [birthDate, setBirthDate] = useState<string>(''); // Store as string to match input value
     const [country, setCountry] = useState('');
     const [password, setPassword] = useState('');
-    const [accountCreationDate, setAccountCreationDate] = useState<Date>(new Date());
+    const [accountCreationDate] = useState<Date>(new Date());
     const [message, setMessage] = useState<string>('');
 
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
+
+        // Convert birthDate string to Date object
+        const birthDateObj = new Date(birthDate);
+        const today = new Date();
+
+        // Validate the birth date
+        if (isNaN(birthDateObj.getTime()) || birthDateObj > today) {
+            setMessage("Please enter a valid birth date.");
+            return;
+        }
+
         const user: User = { 
             username: username,
             phoneNumber: phoneNumber,
             emailAddress: emailAddress,
-            birthDate: birthDate, 
+            birthDate: birthDateObj, // Use Date object
             country: country,
             password: password,
             timeZone: timezone,
             accountCreationDate: accountCreationDate
-};
+        };
 
         try {
             const data = await userService.createUser(user);
             console.log('User created successfully:', data);
             setMessage("User created successfully!");
-        }
-        catch(error){
+        } catch (error) {
             setMessage("There was an error creating the user.");
         }
+    };
 
+    const handlePhoneNumberChange = (value: string) => {
+        // Only update the state if the value is a valid number
+        const validNumber = /^\d*$/.test(value); // Regex to allow only digits
+        if (validNumber) {
+            setPhoneNumber(Number(value));
+        } else {
+            // Optionally handle invalid input (e.g., show an error message)
+            setMessage("Please enter a valid phone number.");
+        }
     };
 
     return (
         <>
             <form onSubmit={handleSubmit}>
-            <div className="inputDiv">
+                <div className="inputDiv">
                     <input
                         type="text"
                         placeholder="Username"
@@ -57,8 +77,8 @@ const RegisterForm: React.FC = () => {
                         placeholder="Phone Number"
                         className="textInputField"
                         required
-                        value={phoneNumber} // Convert number to string for display
-                        onChange={(e) => setPhoneNumber(Number(e.target.value))} // Convert string to number
+                        value={phoneNumber.toString()} // Convert number to string for display
+                        onChange={(e) => handlePhoneNumberChange(e.target.value)} // Handle phone number input
                     />
                 </div>
                 <div className="inputDiv">
@@ -77,11 +97,8 @@ const RegisterForm: React.FC = () => {
                         placeholder="Birth Date"
                         className="textInputField"
                         required
-                        onChange={(e) => {
-                            if (e.target.valueAsDate) {
-                                setBirthDate(e.target.valueAsDate);
-                            }
-                        }}
+                        value={birthDate} // Use the state string for input value
+                        onChange={(e) => setBirthDate(e.target.value)} // Update state directly with string
                     />
                 </div>
                 <div className="inputDiv">
