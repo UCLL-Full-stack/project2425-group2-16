@@ -43,3 +43,6 @@
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
     gap: 1.5rem; /* Gap between items */
 }
+
+
+

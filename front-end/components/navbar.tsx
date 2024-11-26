@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
 
@@ -14,13 +15,16 @@ const NavBar: React.FC = () => {
         <nav>
                 <ul className="nav_list">
                     <li>
-                        <button onClick={() => navigateTo('/')}>Home</button>
+                       <Link href='/' >home</Link>
                         </li>
-                    <li onClick={() => navigateTo('/register')}>
-                        <button onClick={() => navigateTo('/register')}>Register</button>
+                    <li>
+                        <Link href='/register'>
+                        regiester
+                        </Link>
                     </li>
                     <li>
-                        <button onClick={() => navigateTo('/login')}>Log in</button>
+                        <Link href='/login'> 
+                        login </Link>
                     </li>
                     <li>some other thing</li>
                     <li>some other thing</li>

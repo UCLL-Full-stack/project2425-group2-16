@@ -3,44 +3,39 @@ import gameService from '@services/GameService';
 import { Game } from '@types';
 import styles from '../styles/GameOverview.module.css'
 
-const GameList: React.FC = () => {
-    const [games, setGames] = useState<Game[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+import GameDescriptionPupUp from "@components/GameDescriptionPupUp";
 
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const fetchedGames = await gameService.getAllGames();
-                setGames(fetchedGames);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError('An unknown error occurred');
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
+type Props = { 
+    games: Array<Game>;
+}
 
-        fetchGames();
-    }, []);
+const gameOverview: React.FC<Props> = ({ games } ) => {
 
-    if (loading) {
-        return <div>Loading games...</div>;
+    // const [loading, setLoading] = useState<boolean>(true);
+    // const [error, setError] = useState<string | null>(null);
+    const [ChosenCard, setChosenCard] = useState<HTMLElement | null>(null);
+
+
+    const handleCardClick = (event: React.MouseEvent<HTMLDivElement>) => { 
+        const clickedDIV = event.currentTarget;
+        setChosenCard(clickedDIV);
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading games...</div>;
+    // }
+
+    // if (error) {
+    //     return <div>Error: {error}</div>;
+    // }
 
     return (
+        <>
         <div className={styles['game-list']}>
             <h2 className={styles['game-list-title']}>Games</h2>
             <div className={styles['grid-container']}>
                 {games.map((game) => (
-                    <div className={styles['game-card']}>
+                    <div key={game.title} className={styles['game-card']} onClick={handleCardClick}>
                         <h3 className={styles['game-title']}>{game.title}</h3>
                         <p className={styles['game-info']}>Genre: {game.genre}</p>
                         <p className={styles['game-info']}>Rating: {game.rating}</p>
@@ -50,7 +45,11 @@ const GameList: React.FC = () => {
                 ))}
             </div>
         </div>
+        {ChosenCard && (
+        <GameDescriptionPupUp card={ChosenCard} />
+        )}
+        </>
     );
 };
 
-export default GameList;
+export default gameOverview;

@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import gameService from '../service/game.service';
 
+
 const router = express.Router();
 
 
@@ -86,5 +87,35 @@ router.get('/getAll', async (req: Request, res: Response) => {
         res.status(400).json({status: 'error', errorMessage: err.message});
     }
 } )
+
+
+router.get("/gameByTitle", async (req: Request, res: Response) => {
+    try {
+        const title = req.query.title as string;
+
+        // Ensure title is present in the query params
+        if (!title) {
+            return res.status(400).json({ error: "Title parameter is required" });
+        }
+
+        // Fetch the game by title using the service
+        const game = await gameService.findGameByTitle(title);
+
+        // Handle case where the game is not found
+        if (!game) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+
+        // Return the found game
+        res.status(200).json(game);
+    } catch (error) {
+        // Log the error for debugging purposes
+        console.error("Error fetching game:", error);
+
+        // Return a generic error message with status 500 for internal server errors
+        // res.status(500).json({ error: "Internal server error", message: error.message });
+    }
+});
+
 
 export default router;
