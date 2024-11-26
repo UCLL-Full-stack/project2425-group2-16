@@ -1,4 +1,5 @@
 export type User = {
+  id: string;
   username: string;
   phoneNumber: number;
   emailAddress: string;
@@ -22,7 +23,8 @@ export type FavoritesList = {
     listName: string;
 };
 
-export type Game = { 
+export type Game = {
+  id: string; 
   genre: string;
   rating: number;
   supportedLanguages: string;

@@ -4,7 +4,7 @@ const gameService = {
 
     // getUrl: 'http://localhost:3000//games/getAll',
 
-    getAllGames: async (): Promise<Game> => { // Specify the return type
+    getAllGames: async (): Promise<Game[]> => { // Specify the return type
         const response = await fetch('http://localhost:3000/games/getAll', {
             method: 'GET',
             headers: {
