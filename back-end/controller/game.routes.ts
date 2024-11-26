@@ -111,6 +111,8 @@ router.get("/gameByTitle", async (req: Request, res: Response) => {
     } catch (error) {
         // Log the error for debugging purposes
         console.error("Error fetching game:", error);
+        const err = error as Error;
+        res.status(500).json({error: "server error", message: err.message})
 
         // Return a generic error message with status 500 for internal server errors
         // res.status(500).json({ error: "Internal server error", message: error.message });

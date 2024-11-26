@@ -46,3 +46,79 @@
 
 
 
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it's above other content */
+}
+
+.modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.icon {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.buyButton {
+    background-color: #ff5733; /* Vibrant red-orange color */
+    color: white; /* White text */
+    font-size: 16px; /* Text size */
+    font-weight: bold; /* Bold text */
+    padding: 12px 24px; /* Padding for the button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .buyButton:hover {
+    background-color: #ff3f1a; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+  }
+  
+  .buyButton:active {
+    background-color: #e63946; /* Darker shade on click */
+    transform: translateY(0); /* Return to normal position */
+  }
+  
+  .buyButton:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.5); /* Focus ring on button */
+  }
+
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Space below the search bar */
+}

@@ -22,6 +22,10 @@ const gameService = {
 
 
     findGameByTitle: async (title: string): Promise<Game | null> => { 
+        if (!title) { 
+            throw new Error('title not there')
+        }
+
         const response = await fetch(`http://localhost:3000/games/gameByTitle?title=${encodeURIComponent(title)}`, {
 
             method: 'GET',
@@ -30,13 +34,9 @@ const gameService = {
             },
         });
 
-        if (!title) { 
-            throw new Error('title not there')
-        }
-
     
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            throw new Error(`Error: ${response.status} probleme: ${response.statusText}`);
         }
          
         const game = await response.json();

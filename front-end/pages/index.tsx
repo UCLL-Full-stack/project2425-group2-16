@@ -45,9 +45,6 @@ const Home: React.FC = () => {
             <NavBar></NavBar>
         </header>
         <SearchBar Allgames={Games} setFilteredGames={setFilteredGames} />
-        {/* {isPupUpVisible && selectedGame && (
-                <GameDescriptionPupUp selectedGame={selectedGame}/>
-            )} */}
         <GameOverview games={filteredGames}/>
      
         </>

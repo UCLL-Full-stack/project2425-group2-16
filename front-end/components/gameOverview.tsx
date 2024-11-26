@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import gameService from '@services/GameService';
+import React, { useState } from 'react';
 import { Game } from '@types';
 import styles from '../styles/GameOverview.module.css'
 
@@ -10,24 +9,19 @@ type Props = {
 }
 
 const gameOverview: React.FC<Props> = ({ games } ) => {
+    const [chosenGame, setChosenGame] = useState<Game | null>(null);
+    const [isPopupVisible, setPopupVisible] = useState(false);
 
-    // const [loading, setLoading] = useState<boolean>(true);
-    // const [error, setError] = useState<string | null>(null);
-    const [ChosenCard, setChosenCard] = useState<HTMLElement | null>(null);
-
-
-    const handleCardClick = (event: React.MouseEvent<HTMLDivElement>) => { 
-        const clickedDIV = event.currentTarget;
-        setChosenCard(clickedDIV);
+    const handleCardClick = (game: Game) => { 
+        console.log(`Game ${game.title} selected`);
+        setChosenGame(game);
+        setPopupVisible(true);
     }
 
-    // if (loading) {
-    //     return <div>Loading games...</div>;
-    // }
-
-    // if (error) {
-    //     return <div>Error: {error}</div>;
-    // }
+    const closePopup = () => {
+        setPopupVisible(false); // Close the popup when the close button is clicked
+        setChosenGame(null);  // Optionally reset selectedGame if necessary
+    };
 
     return (
         <>
@@ -35,7 +29,7 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
             <h2 className={styles['game-list-title']}>Games</h2>
             <div className={styles['grid-container']}>
                 {games.map((game) => (
-                    <div key={game.title} className={styles['game-card']} onClick={handleCardClick}>
+                    <div key={game.title} className={styles['game-card']} onClick={() => handleCardClick(game)}>
                         <h3 className={styles['game-title']}>{game.title}</h3>
                         <p className={styles['game-info']}>Genre: {game.genre}</p>
                         <p className={styles['game-info']}>Rating: {game.rating}</p>
@@ -45,8 +39,8 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
                 ))}
             </div>
         </div>
-        {ChosenCard && (
-        <GameDescriptionPupUp card={ChosenCard} />
+        {isPopupVisible && chosenGame && (
+        <GameDescriptionPupUp selectedGame={chosenGame} onClose={closePopup}/>
         )}
         </>
     );

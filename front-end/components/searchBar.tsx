@@ -1,5 +1,6 @@
 import { Game } from '@types';
 import React, { useState } from 'react';
+import style from "../styles/SearchBar.module.css";
 
 type Props = {
     Allgames: Array<Game>; // Specify the type more accurately if possible
@@ -24,12 +25,14 @@ const SearchBar: React.FC<Props> = ({ Allgames, setFilteredGames }) => {
 
     return (
         <>
-        <input
+        <div className={style.container}>
+        <input className={style.searchInput}
             type="text"
             value={searchTerm}
             onChange={handleSearch}
             placeholder="Search"
         />
+        </div>
     </>
     );
 };

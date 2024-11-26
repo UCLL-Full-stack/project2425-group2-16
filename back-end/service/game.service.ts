@@ -8,7 +8,17 @@ const getAllGames = async (): Promise<Array<Game>> => {
 }
 
 const findGameByTitle = async (title: string): Promise<Game | null> => {
-    return await gameDb.findGameByTitle(title);
+    const games = await gameDb.getAllGames();
+
+    if (games){
+    for (const game of games) {
+        if (game.title === title) {
+            return game;
+        }
+    }
+    return null;
+    }
+    return null;
 }
 
 export default {
