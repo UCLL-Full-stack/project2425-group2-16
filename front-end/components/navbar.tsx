@@ -15,16 +15,16 @@ const NavBar: React.FC = () => {
         <nav>
                 <ul className="nav_list">
                     <li>
-                       <Link href='/' >home</Link>
+                       <Link href='/' >Home</Link>
                         </li>
                     <li>
                         <Link href='/register'>
-                        regiester
+                        Register
                         </Link>
                     </li>
                     <li>
                         <Link href='/login'> 
-                        login </Link>
+                        Log In </Link>
                     </li>
                     <li>some other thing</li>
                     <li>some other thing</li>
