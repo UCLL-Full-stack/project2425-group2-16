@@ -60,6 +60,45 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     }
 };
 
+const getUserByUsername = async (username: string): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: {
+                username: username  // Use emailAddress here
+            }
+        });
+        if (!userPrisma) {
+            return null;
+        }
+        return User.from({
+            ...userPrisma,
+            phoneNumber: Number(userPrisma.phoneNumber)
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getUserByPhone = async (phoneNumber: number): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: {
+                phoneNumber: phoneNumber  // Use emailAddress here
+            }
+        });
+        if (!userPrisma) {
+            return null;
+        }
+        return User.from({
+            ...userPrisma,
+            phoneNumber: Number(userPrisma.phoneNumber)
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
 
 
@@ -67,4 +106,6 @@ export default {
     getAllUsers,
     saveUser,
     getUserByEmail,
+    getUserByUsername,
+    getUserByPhone
 };

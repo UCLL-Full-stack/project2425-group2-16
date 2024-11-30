@@ -8,6 +8,7 @@ export type User = {
   accountCreationDate: Date;
   timeZone: string;
   country: string;
+  age: number;
 };
 
 export type Login = {

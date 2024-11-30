@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { Login } from "@types"; 
 import userService from '@services/UserService';
+import router from 'next/router';
 
 const LoginForm: React.FC = () => {
     const [emailAddress, setEmailAddress] = useState('');
@@ -21,7 +22,12 @@ const LoginForm: React.FC = () => {
         try {
             const data = await userService.loginUser(credentials);
             console.log('User logged in successfully:', data);
-            setMessage("User logged in successfully!");
+            sessionStorage.setItem("loggedInUser", emailAddress);
+            setMessage("User logged in successfully! Redirecting...");
+            setTimeout(() => {
+                router.push("/");
+            }, 1000);
+            
         } catch (error) {
             console.error(error); // Log error for debugging
             setMessage("There was an error logging the user in.");

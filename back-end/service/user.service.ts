@@ -23,10 +23,19 @@ const calculateAge = (birthDate: Date): number => {
 }
 
 const saveNewUser =  async (userData: User): Promise<User> => {
-    const existingUser = await userDb.getUserByEmail(userData.getEmailAddress());
-    if (existingUser) {
-        throw new ServiceError("User already exists.");
+    const existingUserEmail = await userDb.getUserByEmail(userData.getEmailAddress());
+    const existingUserName = await userDb.getUserByUsername(userData.getUsername());
+    const existingUserPhone = await userDb.getUserByPhone(userData.getPhoneNumber());
+    if (existingUserEmail) {
+        throw new ServiceError(`User with email ${existingUserEmail.getEmailAddress()} already exists.`);
     }
+    if (existingUserName) {
+        throw new ServiceError(`User with username ${existingUserName.getUsername()} already exists.`);
+    }
+    if (existingUserPhone) {
+        throw new ServiceError(`User with phone number ${existingUserPhone.getPhoneNumber()} already exists.`);
+    }
+
 
     const newUser = new User({
         username: userData.getUsername(),
