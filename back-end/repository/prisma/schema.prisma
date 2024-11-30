@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql" 
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,11 +8,61 @@ generator client {
 }
 
 model Game {
-  id                Int      @id @default(autoincrement())
-  title             String 
+  id                 Int       @id @default(autoincrement())
+  title              String
+  genre              String @default("Unknown")
+  rating             Int
   supportedLanguages String
-  price             Float
+  price              Float
   systemRequirements String
-  releaseDate       DateTime
+  releaseDate        DateTime
   multiplayer        Boolean
+  publisherId        Int
+  publisher          Publisher @relation(fields: [publisherId], references: [id])
+
+  purchases Purchase[]
+   @@unique([title, releaseDate])
+}
+
+model User {
+  id                  Int      @id @default(autoincrement())
+  username            String
+  phoneNumber         BigInt
+  emailAddress        String @unique
+  birthDate           DateTime
+  password            String
+  accountCreationDate DateTime
+  timeZone            String
+  country             String
+  age                 Int
+
+  purchases Purchase[]
+  @@unique([username])
+}
+
+model Publisher {
+  id                    Int      @id @default(autoincrement())
+  name                  String
+  contactInformation    String
+  overallRating         Int
+  dateOfFirstPublishing DateTime
+  country               String
+  website               String
+  games                 Game[]
+  @@unique([name, website])
+}
+
+model Purchase {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  gameId         Int
+  dateOfPurchase DateTime
+  currency       String
+  amountPayed    Float
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+  game Game @relation(fields: [gameId], references: [id])
+
+  @@unique([userId, gameId]) // Prevent duplicate purchases
 }

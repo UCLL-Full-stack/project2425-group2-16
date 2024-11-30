@@ -1,10 +1,13 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "lib": ["es2016", "dom"],
-        "target": "es6",
-        "rootDir": "./",
-        "strict": true,
-        "esModuleInterop": true
+      "module": "commonjs",
+      "moduleResolution": "node",    // Ensures proper module resolution
+      "target": "esnext",            // For latest JS features
+      "lib": ["es2016", "dom"],      // ES6 and DOM libraries
+      "rootDir": "./",
+      "strict": true,
+      "esModuleInterop": true,       // Ensures compatibility with default imports
+      "allowSyntheticDefaultImports": true  // Helps resolve the issue with faker imports
     }
-}
+  }
+  

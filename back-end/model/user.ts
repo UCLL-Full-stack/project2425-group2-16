@@ -1,5 +1,5 @@
 import { DomainError } from "../errors/DomainError";
-import { PurchasedGames } from "./purchasedGames";
+import { Game } from "./game";
 
 export class User {
     private username: string;
@@ -11,7 +11,7 @@ export class User {
     private timeZone: string;
     private country: string;
     private age?: number;
-    private purchasedGames: PurchasedGames[];
+    private purchasedGames: Game[];
 
     constructor(User: {
         username: string;
@@ -135,8 +135,8 @@ export class User {
         this.country = country;
     }
 
-    public getAge(): number | void {
-        return this.age;
+    public getAge(): number | null {
+        return this.age ?? null;
     }
 
     public setAge(age: number): void {
@@ -146,7 +146,7 @@ export class User {
         this.age = age;
     }
     
-    public getPurchasedGames(): PurchasedGames[] {
+    public getPurchasedGames(): Game[] {
         return this.purchasedGames;
     }
 
@@ -190,4 +190,20 @@ export class User {
     private validateAge(age: number): boolean {
         return age >= 0;
     }
+
+    public static from(data: {
+        username: string;
+        phoneNumber: number;
+        emailAddress: string;
+        birthDate: Date;
+        password: string;
+        accountCreationDate: Date;
+        timeZone: string;
+        country: string;
+        age?: number;
+    }): User {
+        return new User(data);
+    }
 }
+
+

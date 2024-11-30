@@ -3,8 +3,8 @@ import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import { Login } from "../types";
 
-const getAllUsers = (): Array<User> => { 
-    const users = userDb.getAllUsers();
+const getAllUsers = async (): Promise<Array<User>> => { 
+    const users = await userDb.getAllUsers();
     return users;
 }
 
@@ -22,39 +22,37 @@ const calculateAge = (birthDate: Date): number => {
     return age;
 }
 
-const saveNewUser =  async (userData: any): Promise<User> => {
-    const existingUsers = userDb.getAllUsers();
-    const userr = new User(userData);
-
-    for (const existingUser of existingUsers) {
-        if (existingUser.getEmailAddress() === userr.getEmailAddress()) {
-            throw new ServiceError("User already exists");
-        }
+const saveNewUser =  async (userData: User): Promise<User> => {
+    const existingUser = await userDb.getUserByEmail(userData.getEmailAddress());
+    if (existingUser) {
+        throw new ServiceError("User already exists.");
     }
-    const hello = "hello"
-    const goodBye = "goodBye"
-    const userAge = calculateAge(new Date(userr.getBirthDate()));
-    userr.setAge(userAge);
 
-
-    // console.log('bro is saved')
-    return await userDb.save(userr);
+    const newUser = new User({
+        username: userData.getUsername(),
+        phoneNumber: userData.getPhoneNumber(),
+        emailAddress: userData.getEmailAddress(),
+        birthDate: userData.getBirthDate(),
+        password: userData.getPassword(),
+        accountCreationDate: userData.getAccountCreationDate(),
+        timeZone: userData.getTimeZone(),
+        country: userData.getCountry(),
+        age: userData.getAge() ?? undefined
+    });
+    await userDb.saveUser(newUser);
+    return newUser;
 };
 
 
-const logInUser = (credentials: Login): string => {
-    const users = userDb.getAllUsers();
-    for (const user of users){
-        if (user.getEmailAddress() == credentials.emailAddress){
-            if (user.getPassword() != credentials.password){
-                throw new ServiceError("Incorrect password.");
-            }
-            else{
-                return "User logged in successfully";
-            }
-        }
+const logInUser = async (credentials: Login): Promise<string> => {
+    const user = await userDb.getUserByEmail(credentials.emailAddress);
+    if (!user) {
+        throw new ServiceError("User not found");
     }
-    throw new ServiceError("User not found");
+    if (user.getPassword() !== credentials.password) {
+        throw new ServiceError("Incorrect password");
+    }
+    return "User logged in successfully";
 }
 
 

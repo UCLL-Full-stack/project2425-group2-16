@@ -1,12 +1,15 @@
 import { Game } from "../model/game";
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-
-
+import database from '../util/database';
 
 const getAllGames = async (): Promise<Game[]> => {
-    return await prisma.Game.findMany(); 
-}
+    try {
+        const gamesPrisma = await database.game.findMany();
+        return gamesPrisma.map((gamesPrisma) => Game.from(gamesPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
 
 
