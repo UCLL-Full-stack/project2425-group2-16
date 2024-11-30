@@ -24,6 +24,10 @@ app.use('/users', userRoutes)
 
 app.use('/games', gameRoutes)
 
+
+
+
+
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });

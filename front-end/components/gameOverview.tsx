@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import gameService from '@services/GameService';
+import React, { useState } from 'react';
 import { Game } from '@types';
 import styles from '../styles/GameOverview.module.css'
 
-const GameList: React.FC = () => {
-    const [games, setGames] = useState<Game[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+import GameDescriptionPupUp from "@components/GameDescriptionPupUp";
 
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const fetchedGames = await gameService.getAllGames();
-                setGames(fetchedGames);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError('An unknown error occurred');
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
+type Props = { 
+    games: Array<Game>;
+}
 
-        fetchGames();
-    }, []);
+const gameOverview: React.FC<Props> = ({ games } ) => {
+    const [chosenGame, setChosenGame] = useState<Game | null>(null);
+    const [isPopupVisible, setPopupVisible] = useState(false);
 
-    if (loading) {
-        return <div>Loading games...</div>;
+    const handleCardClick = (game: Game) => { 
+        console.log(`Game ${game.title} selected`);
+        setChosenGame(game);
+        setPopupVisible(true);
     }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    const closePopup = () => {
+        setPopupVisible(false); // Close the popup when the close button is clicked
+        setChosenGame(null);  // Optionally reset selectedGame if necessary
+    };
 
     return (
+        <>
         <div className={styles['game-list']}>
             <h2 className={styles['game-list-title']}>Games</h2>
             <div className={styles['grid-container']}>
                 {games.map((game) => (
-                    <div className={styles['game-card']}>
+                    <div key={game.title} className={styles['game-card']} onClick={() => handleCardClick(game)}>
                         <h3 className={styles['game-title']}>{game.title}</h3>
                         <p className={styles['game-info']}>Genre: {game.genre}</p>
                         <p className={styles['game-info']}>Rating: {game.rating}</p>
@@ -50,7 +39,11 @@ const GameList: React.FC = () => {
                 ))}
             </div>
         </div>
+        {isPopupVisible && chosenGame && (
+        <GameDescriptionPupUp selectedGame={chosenGame} onClose={closePopup}/>
+        )}
+        </>
     );
 };
 
-export default GameList;
+export default gameOverview;

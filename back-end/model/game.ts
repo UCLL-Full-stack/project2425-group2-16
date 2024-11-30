@@ -4,7 +4,7 @@ export class Game  {
     private genre: string;
     private rating: number;
     private supportedLanguages: string;
-    private title: string;
+    readonly title: string;
     private price: number;
     private systemRequirements: string;
     private releaseDate: Date;
@@ -30,7 +30,7 @@ export class Game  {
         this.price = Game.price;
         this.systemRequirements = Game.systemRequirements;
         this.releaseDate = Game.releaseDate;
-        this.multiplayer = Game.multiplayer
+        this.multiplayer = Game.multiplayer;
     }
 
     validate(Game: { 
@@ -98,9 +98,7 @@ export class Game  {
         return this.title;
     }
 
-    public setTitle(title: string): void {
-        this.title = title;
-    }
+
 
     public getPrice(): number {
         return this.price;
@@ -133,6 +131,8 @@ export class Game  {
     public setMultiplayer(multiplayer: boolean): void {
         this.multiplayer = multiplayer;
     }
+
+
 }
 
 
