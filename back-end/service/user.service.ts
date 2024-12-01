@@ -2,6 +2,7 @@ import { ServiceError } from "../errors/ServiceError";
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import { Login } from "../types";
+import bcrypt from 'bcrypt';
 
 const getAllUsers = async (): Promise<Array<User>> => { 
     const users = await userDb.getAllUsers();
@@ -36,13 +37,15 @@ const saveNewUser =  async (userData: User): Promise<User> => {
         throw new ServiceError(`User with phone number ${existingUserPhone.getPhoneNumber()} already exists.`);
     }
 
+    const hashed = await bcrypt.hash(userData.getPassword(), 12);
+
 
     const newUser = new User({
         username: userData.getUsername(),
         phoneNumber: userData.getPhoneNumber(),
         emailAddress: userData.getEmailAddress(),
         birthDate: userData.getBirthDate(),
-        password: userData.getPassword(),
+        password: hashed,
         accountCreationDate: userData.getAccountCreationDate(),
         timeZone: userData.getTimeZone(),
         country: userData.getCountry(),
