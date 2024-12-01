@@ -121,15 +121,15 @@ const swaggerOpts: OpenAPIV3.Document = {
             Login: {
                 type: 'object',
                 properties: {
-                    emailAddress: {
+                    username: {
                         type: 'string',
                         description: "User's email address",
-                        example: "asdf@gmail.com"
+                        example: "johns_doe"
                     },
                     password: {
                         type: 'string',
                         description: "User's password",
-                        example: "securePassword123"
+                        example: "Password123"
                     }
                 }
             }

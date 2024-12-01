@@ -7,10 +7,21 @@ import swaggerUi from 'swagger-ui-express';
 import userRoutes from './controller/user.routes';
 import gameRoutes from './controller/game.routes';
 import swaggerOpts from './swaggerConfig';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
+
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin']
+    })
+)
 
 // app.use(cors());
 app.use(cors({
