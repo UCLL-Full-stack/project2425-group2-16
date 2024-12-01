@@ -7,4 +7,4 @@ Description: the Black Bazaar is the ideal game browsing and purchasing platform
 
 
 ## Note for self about extra packages needed!!
-- So far: faker-js
+- So far: bcrypt and jwt
