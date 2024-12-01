@@ -12,7 +12,7 @@ type UserInput = {
 }
 
 type Login = {
-    emailAddress: string;
+    username: string;
     password: string;
 }
 
@@ -50,6 +50,11 @@ type PurchasedGamesInput = {
     totalValue: number;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+};
+
 
 export {
     UserInput,
@@ -57,5 +62,6 @@ export {
     GameInput,
     PublisherInput,
     PurchaseInput,
-    PurchasedGamesInput
+    PurchasedGamesInput,
+    AuthenticationResponse
 }

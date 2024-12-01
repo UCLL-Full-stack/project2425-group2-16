@@ -12,7 +12,7 @@ export type User = {
 };
 
 export type Login = {
-  emailAddress: string;
+  username: string;
   password: string;
 }
 

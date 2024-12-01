@@ -1,7 +1,10 @@
+import { Serializer } from "v8";
 import { ServiceError } from "../errors/ServiceError";
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
-import { Login } from "../types";
+import { AuthenticationResponse, Login, UserInput } from "../types";
+import bcrypt from 'bcrypt';
+import generateJWTtoken from "../util/jwt";
 
 const getAllUsers = async (): Promise<Array<User>> => { 
     const users = await userDb.getAllUsers();
@@ -36,13 +39,15 @@ const saveNewUser =  async (userData: User): Promise<User> => {
         throw new ServiceError(`User with phone number ${existingUserPhone.getPhoneNumber()} already exists.`);
     }
 
+    const hashed = await bcrypt.hash(userData.getPassword(), 12);
+
 
     const newUser = new User({
         username: userData.getUsername(),
         phoneNumber: userData.getPhoneNumber(),
         emailAddress: userData.getEmailAddress(),
         birthDate: userData.getBirthDate(),
-        password: userData.getPassword(),
+        password: hashed,
         accountCreationDate: userData.getAccountCreationDate(),
         timeZone: userData.getTimeZone(),
         country: userData.getCountry(),
@@ -53,21 +58,29 @@ const saveNewUser =  async (userData: User): Promise<User> => {
 };
 
 
-const logInUser = async (credentials: Login): Promise<string> => {
-    const user = await userDb.getUserByEmail(credentials.emailAddress);
-    if (!user) {
-        throw new ServiceError("User not found");
+const authenticate = async ({username, password}: UserInput): Promise<AuthenticationResponse> => {
+    const user = await userDb.getUserByUsername(username);
+    if (!user){
+        throw new ServiceError(`Incorrect username or password.`);
     }
-    if (user.getPassword() !== credentials.password) {
-        throw new ServiceError("Incorrect password");
+
+    const userPass = user.getPassword();
+    const isOk = await bcrypt.compare(password, userPass);
+    if (!isOk){
+        throw new ServiceError('Incorrect username or password.');
     }
-    return "User logged in successfully";
-}
+
+    const token = generateJWTtoken({username});
+    return {token: token, username: username};
+};
+
+
+
 
 
 export default  {
     getAllUsers,
     saveNewUser,
-    logInUser,
-    calculateAge
+    calculateAge,
+    authenticate
 };

@@ -1,12 +1,13 @@
 // validationMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
-import { Login } from '../types';
+import { Login, UserInput } from '../types';
+import { UserInfo } from 'os';
 
 const validateLogin = (req: Request, res: Response, next: NextFunction) => {
-    const { emailAddress, password } = req.body as Login;
+    const { username, password } = req.body as UserInput;
 
-    if (!emailAddress || emailAddress.trim() === '') {
-        return res.status(400).json({ message: 'Email address is required.' });
+    if (!username || username.trim() === '') {
+        return res.status(400).json({ message: 'Username is required.' });
     }
     if (!password || password.trim() === '') {
         return res.status(400).json({ message: 'Password is required.' });

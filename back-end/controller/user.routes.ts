@@ -1,19 +1,30 @@
-import express, { Request, Response} from "express";
+import express, { Request, Response } from 'express';
 // import userService from "../service/user.service";
-import userService from "../service/user.service"; // Check this path
-import { User } from "../model/user";
-import { DomainError } from "../errors/DomainError";
-import { Login } from "../types"; // Correct the import path
-import { ServiceError } from "../errors/ServiceError";
-import loginValidationMiddleware from "../middleware/loginValidationMiddleware";
-
+import userService from '../service/user.service'; // Check this path
+import { User } from '../model/user';
+import { DomainError } from '../errors/DomainError';
+import { Login, UserInput } from '../types'; // Correct the import path
+import { ServiceError } from '../errors/ServiceError';
+import loginValidationMiddleware from '../middleware/loginValidationMiddleware';
 
 const router = express.Router();
 
-/** 
+/**
+ * @swagger
+ *   components:
+ *    securitySchemes:
+ *     BearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ */
+
+/**
  * @swagger
  * /users/getAll:
- *   get: 
+ *   get:
+ *     security:
+ *        - BearerAuth: []
  *     summary: Get all users
  *     tags:
  *       - Users
@@ -28,11 +39,10 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/User'
  */
 
-
-/** 
+/**
  * @swagger
  * /users/post:
- *   post: 
+ *   post:
  *     summary: Registering a new user in the system
  *     tags:
  *       - Users
@@ -41,7 +51,7 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'  
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       200:
  *         description: User saved in the system
@@ -50,9 +60,6 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-
-
-
 
 /**
  * @swagger
@@ -69,7 +76,7 @@ const router = express.Router();
  *             $ref: '#/components/schemas/Login'
  *     responses:
  *       204:
- *         description: User logged in successfully, no content returned (tokens not yet implemented).
+ *         description: User logged in successfully, token returned.
  *       400:
  *         description: Bad request
  *         content:
@@ -82,27 +89,21 @@ const router = express.Router();
  *                   description: Error message
  */
 
-
-
-
 router.get('/getAll', async (req: Request, res: Response) => {
-    try{
+    try {
         const users = await userService.getAllUsers();
         res.status(200).json(users);
-    }
-    catch(error){
+    } catch (error) {
         const err = error as Error;
-        res.status(400).json({status: 'error', errorMessage: err.message});
+        res.status(400).json({ status: 'error', errorMessage: err.message });
     }
-} );
-
+});
 
 router.post('/post', async (req: Request, res: Response) => {
     try {
         const user = new User(req.body); // This might throw a DomainError
         const result = await userService.saveNewUser(user);
         res.status(201).json(result); // Use 201 for resource creation
-
     } catch (error) {
         if (error instanceof DomainError) {
             return res.status(400).json({ error: error.message }); // Bad request
@@ -115,18 +116,15 @@ router.post('/post', async (req: Request, res: Response) => {
     }
 });
 
-
 router.post('/postlogin', loginValidationMiddleware, async (req: Request, res: Response) => {
-    try{    
-        const credentials: Login = req.body as Login; // Complete the instantiation
-        const result = await userService.logInUser(credentials);
+    try {
+        const credentials: UserInput = req.body;
+        const result = await userService.authenticate(credentials);
         res.status(201).json(result);
-    }
-    catch(error){
+    } catch (error) {
         const err = error as Error;
-        return res.status(400).json({error: err.message});
+        return res.status(400).json({ error: err.message });
     }
-})
-
+});
 
 export default router;
