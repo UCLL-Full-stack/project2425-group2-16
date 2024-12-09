@@ -13,6 +13,7 @@ const NavBar: React.FC = () => {
   const handleLogout = (): void => {
     sessionStorage.setItem("loggedInUser", "")
     setLoggedInUser(null);
+    window.location.reload();
   }
 
   useEffect(() => {

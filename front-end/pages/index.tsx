@@ -14,11 +14,17 @@ const Home: React.FC = () => {
     const [selectedGame, setSelectedGame] = useState<Game | null>(null);
     const [isPupUpVisible, setPupUpIsVisible] = useState(false);
     const [filteredGames, setFilteredGames] = useState<Array<Game>>([]); // New state to store filtered games
-    
-    const fetchgames = async () => { 
-        const allGames: Game[] = await gameService.getAllGames();
-        setGames(allGames);
-        setFilteredGames(allGames);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const fetchgames = async () => {
+        if (!sessionStorage.getItem("loggedInUser")){
+            setErrorMessage("You are unauthorized. Please log in first.");
+        }
+        else{
+            const allGames: Game[] = await gameService.getAllGames();
+            setGames(allGames);
+            setFilteredGames(allGames);
+        }
     }
     
 
@@ -46,6 +52,11 @@ const Home: React.FC = () => {
         </header>
         <SearchBar Allgames={Games} setFilteredGames={setFilteredGames} />
         <GameOverview games={filteredGames}/>
+        {errorMessage && <div>
+            <p className="errorMessageIndex">{errorMessage}
+            </p>
+            </div>
+            }
      
         </>
     );

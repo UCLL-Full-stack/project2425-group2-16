@@ -58,8 +58,8 @@ const saveNewUser =  async (userData: User): Promise<User> => {
 };
 
 
-const authenticate = async ({username, password}: UserInput): Promise<AuthenticationResponse> => {
-    const user = await userDb.getUserByUsername(username);
+const authenticate = async ({emailAddress, password}: UserInput): Promise<AuthenticationResponse> => {
+    const user = await userDb.getUserByEmail(emailAddress);
     if (!user){
         throw new ServiceError(`Incorrect username or password.`);
     }
@@ -69,6 +69,7 @@ const authenticate = async ({username, password}: UserInput): Promise<Authentica
     if (!isOk){
         throw new ServiceError('Incorrect username or password.');
     }
+    const username = user.getUsername();
 
     const token = generateJWTtoken({username});
     return {token: token, username: username};

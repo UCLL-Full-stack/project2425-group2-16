@@ -4,7 +4,7 @@ import userService from '@services/UserService';
 import router from 'next/router';
 
 const LoginForm: React.FC = () => {
-    const [username, setUsername] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false); // New state for loading
@@ -15,14 +15,15 @@ const LoginForm: React.FC = () => {
         setLoading(true); // Set loading state
 
         const credentials: Login = { 
-            username: username,
+            emailAddress: emailAddress,
             password: password
         };
 
         try {
+            console.log('Submitting credentials:', credentials);
             const data = await userService.loginUser(credentials);
             console.log('User logged in successfully:', data);
-            sessionStorage.setItem("loggedInUser", username);
+            sessionStorage.setItem("loggedInUser", JSON.stringify(data));
             setMessage("User logged in successfully! Redirecting...");
             setTimeout(() => {
                 router.push("/");
@@ -45,8 +46,8 @@ const LoginForm: React.FC = () => {
                         placeholder="Email Address"
                         className="textInputField"
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={emailAddress}
+                        onChange={(e) => setEmailAddress(e.target.value)}
                     />
                 </div>
                 

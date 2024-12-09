@@ -5,10 +5,13 @@ const gameService = {
     // getUrl: 'http://localhost:3000//games/getAll',
 
     getAllGames: async (): Promise<Game[]> => { // Specify the return type
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
         const response = await fetch('http://localhost:3000/games/getAll', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
             },
         });
 
@@ -21,7 +24,9 @@ const gameService = {
     },
 
 
-    findGameByTitle: async (title: string): Promise<Game | null> => { 
+    findGameByTitle: async (title: string): Promise<Game | null> => {
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
         if (!title) { 
             throw new Error('title not there')
         }
@@ -31,6 +36,7 @@ const gameService = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
             },
         });
 

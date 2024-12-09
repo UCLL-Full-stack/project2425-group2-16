@@ -4,10 +4,10 @@ import { Login, UserInput } from '../types';
 import { UserInfo } from 'os';
 
 const validateLogin = (req: Request, res: Response, next: NextFunction) => {
-    const { username, password } = req.body as UserInput;
+    const { emailAddress, password } = req.body as UserInput;
 
-    if (!username || username.trim() === '') {
-        return res.status(400).json({ message: 'Username is required.' });
+    if (!emailAddress || emailAddress.trim() === '') {
+        return res.status(400).json({ message: 'Email address is required.' });
     }
     if (!password || password.trim() === '') {
         return res.status(400).json({ message: 'Password is required.' });

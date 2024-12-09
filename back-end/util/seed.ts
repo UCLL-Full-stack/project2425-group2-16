@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { Game } from '../model/game';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -61,9 +63,9 @@ async function main() {
       username: 'gamer123',
       phoneNumber: 1234567890,
       emailAddress: 'gamer123@example.com',
-      birthDate: new Date('1990-03-15'),
-      password: 'password123',
       accountCreationDate: new Date(),
+      birthDate: new Date('1987-01-01'),
+      password: await bcrypt.hash('password123', 12),
       timeZone: 'UTC',
       country: 'USA',
       age: 34,
@@ -76,7 +78,7 @@ async function main() {
       phoneNumber: 9876543210,
       emailAddress: 'adventureFan@example.com',
       birthDate: new Date('1985-06-10'),
-      password: 'adventure123',
+      password: await bcrypt.hash('adventure123', 12),
       accountCreationDate: new Date(),
       timeZone: 'UTC',
       country: 'Canada',
