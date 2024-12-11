@@ -11,6 +11,11 @@ type UserInput = {
 
 }
 
+type ListInput = {
+    username: string;
+    gameId: number;
+}
+
 type Login = {
     username: string;
     password: string;
@@ -65,5 +70,6 @@ export {
     PublisherInput,
     PurchaseInput,
     PurchasedGamesInput,
-    AuthenticationResponse
+    AuthenticationResponse,
+    ListInput
 }

@@ -36,17 +36,20 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
     };
     
     const handleLIstAdd = async () => { 
-        const username = sessionStorage.getItem("username");
-        // ListService.findByUsername()
-        if (username) {
-            ListService.fetchByUser(username);
-        } else {
-            console.log("please log in if first if you want to add a game into the favorites")
+        try {
+            const gameId = Number(selectedGame.id);
+            const loggedInUser = sessionStorage.getItem("loggedInUser");
+            const username = loggedInUser ? JSON.parse(loggedInUser).username : null;
+            const result = await ListService.addGameToFavorites(username, gameId);
+            console.log("success:", result);
+        } catch (error) {
+            console.log(error);
         }
+        
+        
 
-        //    1. try to retrieve favoriteslist
-    //    2. if it is not there then create one with specified game in it
-    //    3. 
+        // fyi bro, you won't be able to see games to begin with if you're not logged in, so no worries about this.
+        // Just gotta add game to list of favorites, no need to check if user is logged in.
     }
 
 

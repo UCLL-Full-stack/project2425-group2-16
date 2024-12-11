@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import userService from '../service/user.service'; // Check this path
 import favoritesListService from '../service/list.service'; // Check this path
+import { ListInput } from "../types";
 
 const router = express.Router();
 
@@ -10,26 +11,34 @@ router.put('/add', async (req: Request, res: Response) => {
     try {
         // Extract username and gameId from query parameters
         // This follows the specified URL pattern: /favorites/add?username=<username>&gameId=<id>
-        const { username, gameId } = req.query;
+        const { username, gameId } = req.query as unknown as ListInput;
 
         // Perform rigorous validation of query parameters
         // Checks that both username and gameId are:
         // 1. Present (not undefined or null)
         // 2. Non-empty strings
         // 3. Trimmed to remove any potential whitespace
-        if (!username || !gameId || 
-            typeof username !== 'string' || 
-            typeof gameId !== 'string' || 
-            username.trim() === '' || 
-            gameId.trim() === '') {
-            return res.status(400).json({ 
-                error: "Valid username and gameId are required.",
-                details: {
-                    username: username ? "Provided" : "Missing",
-                    gameId: gameId ? "Provided" : "Missing"
-                }
-            });
-        }
+        // if (!username || !gameId || 
+        //     typeof username !== 'string' || 
+        //     typeof gameId !== 'string' || 
+        //     username.trim() === '' || 
+        //     gameId.trim() === '') {
+        //     return res.status(400).json({ 
+        //         error: "Valid username and gameId are required.",
+        //         details: {
+        //             username: username ? "Provided" : "Missing",
+        //             gameId: gameId ? "Provided" : "Missing"
+        //         }
+        //     });
+        // }
+
+        //broski, not gud not gud
+        //NEVER put business logic in controller
+        //tbh if therer exists the possibility of either the username or the gameId being null, you should test that in the frontend first
+        //also, in what situation would the username be null? there will ALWAYS be a username that exists if a user is pressing the button,
+        //because a user HAS to be logged in to add the game to their favorites
+        //Same thing with the game lol, if the user is viewing the game then the game MUST exist on the database
+        //Little wall of text for you here lmao
 
         // Call the service method to add the game to favorites
         // This method is expected to:

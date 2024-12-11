@@ -2,7 +2,8 @@ import { FavoritesList } from "@types";
 
 const ListService = {
     fetchByUser: async (username: string): Promise<FavoritesList[]> => {
-        const token = sessionStorage.getItem('token');
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
         const response = await fetch(`http://localhost:3000/favorites/getList?username=${username}`, {
             method: 'GET',
             headers: {
@@ -22,7 +23,8 @@ const ListService = {
     },
 
     addGameToFavorites: async (username: string, id: number): Promise<FavoritesList[]> => {
-        const token = sessionStorage.getItem('token');
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
         const response = await fetch(`http://localhost:3000/favorites/add?username=${username}&gameId=${id}`, {
             method: 'PUT',
             headers: {
