@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import userRoutes from './controller/user.routes';
 import gameRoutes from './controller/game.routes';
+import listRoutes from './controller/list.routes';
 import swaggerOpts from './swaggerConfig';
 import { expressjwt } from 'express-jwt';
 
@@ -35,6 +36,7 @@ app.use('/users', userRoutes)
 
 app.use('/games', gameRoutes)
 
+app.use('/favorites', listRoutes)
 
 
 

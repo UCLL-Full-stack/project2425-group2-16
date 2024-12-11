@@ -100,6 +100,30 @@ const getUserByPhone = async (phoneNumber: number): Promise<User | null> => {
     }
 };
 
+const findById = async (id: number): Promise<User | null> => { 
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: { id }
+        });
+
+        // Check if the user was found before trying to convert
+        if (!userPrisma) {
+            return null;  // Return null if no user is found
+        }
+
+        return User.from({
+            ...userPrisma,
+            phoneNumber: Number(userPrisma.phoneNumber)
+        });
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
+
+
 
 
 export default {
@@ -107,5 +131,6 @@ export default {
     saveUser,
     getUserByEmail,
     getUserByUsername,
-    getUserByPhone
+    getUserByPhone,
+    findById
 };

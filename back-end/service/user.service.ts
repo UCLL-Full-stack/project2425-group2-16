@@ -11,6 +11,16 @@ const getAllUsers = async (): Promise<Array<User>> => {
     return users;
 }
 
+const findByUsername = async (username: string): Promise<User> => {
+    const user = await userDb.getUserByUsername(username);
+    if (user) {
+        return user;
+    } else {
+        throw new Error("error dawg")
+    }
+
+}
+
 const calculateAge = (birthDate: Date): number => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -43,6 +53,7 @@ const saveNewUser =  async (userData: User): Promise<User> => {
 
 
     const newUser = new User({
+        id: 10,
         username: userData.getUsername(),
         phoneNumber: userData.getPhoneNumber(),
         emailAddress: userData.getEmailAddress(),
@@ -83,5 +94,6 @@ export default  {
     getAllUsers,
     saveNewUser,
     calculateAge,
-    authenticate
+    authenticate,
+    findByUsername
 };

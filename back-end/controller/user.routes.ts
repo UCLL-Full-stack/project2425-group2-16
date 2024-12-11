@@ -113,6 +113,7 @@ router.post('/post', async (req: Request, res: Response) => {
         }
         console.error(error); // Log unexpected errors
         res.status(500).json({ error: 'Internal server error' }); // Generic error
+        // thrown while creating user :/
     }
 });
 

@@ -122,3 +122,27 @@
     justify-content: center;
     margin-bottom: 2rem; /* Space below the search bar */
 }
+
+.listButton { 
+    background-color: #5499d6; /* Vibrant red-orange color */
+    color: white; /* White text */
+    font-size: 16px; /* Text size */
+    font-weight: bold; /* Bold text */
+    padding: 12px 24px; /* Padding for the button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.listbutton:hover {
+    background-color: #5381ff; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.buttonsWrap { 
+    display: flex;
+    justify-content: space-around;
+    
+}

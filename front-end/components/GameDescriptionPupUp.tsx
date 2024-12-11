@@ -3,6 +3,8 @@ import { Game } from "@types";
 import error from "next/error";
 import { useEffect, useState } from "react";
 import styles from "../styles/GameOverview.module.css"; // Import styles
+import { it } from "node:test";
+import ListService from "@services/ListService"
 
 type Props = { 
     selectedGame: Game;
@@ -32,6 +34,20 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
             setLoading(false);
         }
     };
+    
+    const handleLIstAdd = async () => { 
+        const username = sessionStorage.getItem("username");
+        // ListService.findByUsername()
+        if (username) {
+            ListService.fetchByUser(username);
+        } else {
+            console.log("please log in if first if you want to add a game into the favorites")
+        }
+
+        //    1. try to retrieve favoriteslist
+    //    2. if it is not there then create one with specified game in it
+    //    3. 
+    }
 
 
 
@@ -51,8 +67,13 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
                         <h2>{game.title}</h2>
                         <p><strong>System Requirements:</strong> {game.systemRequirements}</p>
                         <p><strong>Rating:</strong> {game.rating}</p>
-                        <button className={styles.buyButton}>Buy</button>
-                        {/* Add more fields here */}
+                        <div className={styles.buttonsWrap}>
+
+                        <button className={styles.buyButton}>Buy </button>
+                        <button className={styles.listButton} onClick={handleLIstAdd}>add to a list</button>
+
+                        </div>
+
                     </>
                 )}
             </div>

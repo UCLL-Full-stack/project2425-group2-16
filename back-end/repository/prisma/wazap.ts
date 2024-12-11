@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { Game } from '../model/game';
+import { Game } from '../../model/game';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();

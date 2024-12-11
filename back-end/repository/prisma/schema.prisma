@@ -10,7 +10,7 @@ generator client {
 model Game {
   id                 Int       @id @default(autoincrement())
   title              String
-  genre              String @default("Unknown")
+  genre              String    @default("Unknown")
   rating             Int
   supportedLanguages String
   price              Float
@@ -19,26 +19,57 @@ model Game {
   multiplayer        Boolean
   publisherId        Int
   publisher          Publisher @relation(fields: [publisherId], references: [id])
+  
+  // Many-to-many relation via junction table
+  favoritesLists     FavoritesListGame[]
 
   purchases Purchase[]
-   @@unique([title, releaseDate])
+  @@unique([title, releaseDate])
 }
+
+model FavoritesList {
+  id             Int            @id @default(autoincrement())
+  userId         Int            
+  privacySettings Boolean
+  createdAt      DateTime       @default(now())
+  description    String
+  
+  // Many-to-many relation via junction table
+  games          FavoritesListGame[]
+  
+  // Relations
+  owner  User @relation(fields: [userId], references: [id])
+  @@unique([userId])
+}
+
+// Junction table for many-to-many relationship
+model FavoritesListGame {
+  favoritesListId Int
+  gameId         Int
+  
+  favoritesList  FavoritesList @relation(fields: [favoritesListId], references: [id])
+  game           Game          @relation(fields: [gameId], references: [id])
+  
+  @@id([favoritesListId, gameId])
+}
+
 
 model User {
   id                  Int      @id @default(autoincrement())
   username            String
   phoneNumber         BigInt
-  emailAddress        String @unique
+  emailAddress        String   @unique
   birthDate           DateTime
   password            String
   accountCreationDate DateTime
   timeZone            String
   country             String
   age                 Int
-
-  purchases Purchase[]
+  purchases           Purchase[]
+  favoritesList       FavoritesList?  // Optional relation
   @@unique([username])
 }
+
 
 model Publisher {
   id                    Int      @id @default(autoincrement())
