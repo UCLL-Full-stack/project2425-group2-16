@@ -41,6 +41,29 @@ const userService = {
     console.log("Login successful");
     return response.json();
   },
+
+  fetchUser: async (): Promise<User> => {
+      const loggedInUser = sessionStorage.getItem("loggedInUser");
+      const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+      const username = loggedInUser
+        ? JSON.parse(loggedInUser).username
+        : null;
+      const response = await fetch(
+        `http://localhost:3000/users/getByUsername?username=${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch user profile");
+      }
+
+      return response.json();
+  }
+    
 };
 
 export default userService;

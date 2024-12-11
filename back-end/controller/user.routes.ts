@@ -99,6 +99,24 @@ router.get('/getAll', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/getByUsername', async (req: Request, res: Response) => {
+    try {
+        const username = req.query.username as string;
+        const result = await userService.findByUsername(username);
+        res.status(201).json(result);
+    } catch (error) {
+        if (error instanceof DomainError) {
+            return res.status(400).json({ error: error.message }); // Bad request
+        }
+        if (error instanceof ServiceError) {
+            return res.status(409).json({ error: error.message }); // Conflict
+        }
+        console.error(error); // Log unexpected errors
+        res.status(500).json({ error: 'Internal server error' }); // Generic error
+    }
+})
+
+
 router.post('/post', async (req: Request, res: Response) => {
     try {
         const user = new User(req.body); // This might throw a DomainError

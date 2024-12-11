@@ -20,7 +20,7 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin']
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin', '/status', '/users/getByUsername']
     })
 )
 
@@ -44,6 +44,8 @@ app.use('/favorites', listRoutes)
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });
+
+
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err.name === "Unauthorized error"){
