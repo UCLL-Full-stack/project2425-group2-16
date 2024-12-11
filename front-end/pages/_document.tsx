@@ -7,7 +7,7 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     {/* Add your global stylesheet here */}
-                    {/* <link rel="stylesheet" href="/styles/globals.css" /> */}
+                    <link rel="stylesheet" href="/styles/globals.css"></link>
                     {/* <link rel="stylesheet" href="/styles/third_badboy.css" /> */}
 
                     {/* You can also add other external stylesheets or fonts here */}

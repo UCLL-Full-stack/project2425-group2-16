@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useEffect, useState } from "react";
+import Language from "./Language";
+import { useTranslation } from "next-i18next";
+
 
 const NavBar: React.FC = () => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
@@ -36,28 +41,29 @@ const NavBar: React.FC = () => {
     <nav>
       <ul className="nav_list">
         <li>
-          <Link href="/">Home</Link>
+          <Link className="nav_link" href="/">{t('nav.home')}</Link>
         </li>
 
         {!loggedInUser && (
           <>
             <li>
-              <Link href="/register">Register</Link>
+              <Link className="nav_link" href="/register">{t('nav.register')}</Link>
             </li>
             <li>
-              <Link href="/login">Log In </Link>
+              <Link className="nav_link" href="/login">{t('nav.login')}</Link>
             </li>
           </>
         )}
         {loggedInUser && (
           <><li>
-            <Link onClick={handleLogout} href="#">
-              Log Out
+            <Link className="nav_link" onClick={handleLogout} href="#">
+              {t('nav.logout')}
             </Link>
           </li><li>
-            <Link href="/profile">My Profile</Link>
+            <Link className="nav_link" href="/profile">{t('nav.profile')}</Link>
             </li></>
         )}
+      <Language></Language>
       </ul>
 
       {message && (

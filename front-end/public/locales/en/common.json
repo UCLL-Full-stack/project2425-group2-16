@@ -1,0 +1,26 @@
+{
+  "pages": {
+    "Register": "Register Page",
+    "Profile": "Profile Page",
+    "Login": "Log In Page",
+    "Home": "Home Page"
+  },
+  "nav": {
+    "home": "Home",
+    "login": "Log in",
+    "profile": "My Profile",
+    "register": "Register",
+    "logout": "Log Out",
+    "Language": "Language"
+  },
+  "info": {
+    "greet": "Hello",
+    "email": "E-mail",
+    "phone": "Phone number",
+    "country": "Country"
+  },
+  "message": {
+    "logout": "Logging out...",
+    "userFail": "Failed to fetch user. Please try refreshing the page or logging out and back in."
+  }
+}

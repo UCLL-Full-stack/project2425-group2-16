@@ -4,21 +4,24 @@ import { useEffect, useState } from "react";
 import UserOverview from "@components/userOverview";
 import { User } from "@types";
 import UserService from "@services/UserService";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSideProps } from 'next';
 
 const ProfilePage: React.FC = () => {
+  const { t } = useTranslation();
   const [fullUser, setFullUser] = useState<User>();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setFullUser(undefined);
+    setError(null);
     const fetchUser = async () => {
       try {
         const user = await UserService.fetchUser();
         setFullUser(user);
       } catch (error) {
-        setError(
-          "Failed to fetch user. Please try refreshing the page or logging out and back in."
-        );
+        setError(t('Lil whoopsie lmao'));
       }
     };
     fetchUser();
@@ -27,7 +30,7 @@ const ProfilePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Home page</title>
+        <title>{t('pages.Profile')}</title>
         <meta name="description" content="Courses app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -38,11 +41,24 @@ const ProfilePage: React.FC = () => {
       {fullUser && <UserOverview user={fullUser} />}
       {error && (
         <div>
-          <p>{error}</p>
+          <p>{t('message.userFail')}</p>
         </div>
       )}
     </>
   );
 };
+
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { locale } = context;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
+};
+
 
 export default ProfilePage;

@@ -1,0 +1,26 @@
+{
+  "pages": {
+    "Register": "Página de Registro",
+    "Profile": "Página de Perfil",
+    "Login": "Inicio de Sesión",
+    "Home": "Página Principal"
+  },
+  "nav": {
+    "home": "Inicio",
+    "login": "Iniciar Sesión",
+    "profile": "Mi Perfil",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "Language": "Idioma"
+  },
+  "info": {
+    "greet": "Hola",
+    "email": "Dirección de correo",
+    "phone": "Número de teléfono",
+    "country": "País"
+  },
+  "message": {
+    "logout": "Cerrando sesión...",
+    "userFail": "Ha habido un problema. Por favor, intente refrescar la página o cerrar sesión y volver a iniciarla."
+  }
+}
