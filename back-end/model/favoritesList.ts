@@ -3,29 +3,29 @@ import { Game } from "./game";
 import { User } from "./user";
 
 export class FavoritesList {
-    private id: number;
-    private privacySettings: boolean;
-    private description: string;
-    private owner?: User;
-    private games: Array<Game>;
+    id?: number;
+    privacySettings: boolean;
+    description: string;
+    owner: User;
+    games: Array<Game>;
 
     // Constructor
     constructor(params: { 
-        id: number; 
+        id?: number; 
         privacySettings: boolean; 
         description: string; 
-        owner?: User; 
+        owner: User; 
         games: Array<Game>
     }) {
         this.id = params.id;
         this.privacySettings = params.privacySettings;
         this.description = params.description;
         this.owner = params.owner;
-        this.games = params.games;
+        this.games = params.games || []; // Ensure games is initialized as an array
     }
 
     // Getters and Setters
-    public getId(): number {
+    public getId(): number | undefined {
         return this.id;
     }
 
@@ -49,7 +49,7 @@ export class FavoritesList {
         this.description = description;
     }
 
-    public getOwner(): User | undefined {
+    public getOwner(): User {
         return this.owner;
     }
 
@@ -66,7 +66,10 @@ export class FavoritesList {
     }
 
     public addGame(game: Game): void {
-        this.games.push(game);
+        if (!Array.isArray(this.games)) {
+            this.games = []; // Reinitialize games as an array if it's not already
+        }
+        this.games.push(game); // Use push method to add the game
     }
 
     public removeGame(gameId: number): void {
@@ -79,7 +82,8 @@ export class FavoritesList {
             id: obj.id,
             privacySettings: obj.privacySettings,
             description: obj.description,
-            games: obj.games
+            owner: obj.Owner,
+            games: obj.games || [] // Ensure games is initialized as an array
         });
 
         // Fetch the owner (user) from the database

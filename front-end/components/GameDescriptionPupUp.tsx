@@ -15,6 +15,7 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
     const [game, setGame] = useState<Game | null>(null); 
     const [loading, setLoading] = useState<boolean>(true); // Add loading state
     const [error, setError] = useState<string | null>(null);
+    const [favoritedStatus, setFavoritedStatus] = useState<boolean>(false)
 
     const fetchMoreInfo = async () => { 
         try {
@@ -40,17 +41,24 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
             const gameId = Number(selectedGame.id);
             const loggedInUser = sessionStorage.getItem("loggedInUser");
             const username = loggedInUser ? JSON.parse(loggedInUser).username : null;
-            const result = await ListService.addGameToFavorites(username, gameId);
-            console.log("success:", result);
-        } catch (error) {
-            console.log(error);
-        }
-        
-        
+            
+            // Call the service and destructure the response
+            const { message, updatedFavoritesList } = await ListService.addGameToFavorites(username, gameId);
+    
+            // Log or handle the response
+            console.log("Success message:", message);
+            console.log("Updated Favorites List:", updatedFavoritesList);
+    
+            if (message == "Game successfully added to favorites") {
+                setFavoritedStatus(true); // You can use this to track whether the game was successfully added to the favorites
 
-        // fyi bro, you won't be able to see games to begin with if you're not logged in, so no worries about this.
-        // Just gotta add game to list of favorites, no need to check if user is logged in.
+            }
+    
+        } catch (error) {
+            console.log("Error adding game to favorites:", error);
+        }
     }
+    
 
 
 
@@ -74,7 +82,9 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose }) => {
 
                         <button className={styles.buyButton}>Buy </button>
                         <button className={styles.listButton} onClick={handleLIstAdd}>add to a list</button>
-
+                        {favoritedStatus && (
+                            <p>game has been sent to gulag</p>
+                        )}
                         </div>
 
                     </>

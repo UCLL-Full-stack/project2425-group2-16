@@ -1,6 +1,7 @@
 import { DomainError } from "../errors/DomainError";
 import { FavoritesList } from "./favoritesList";
 import { Game } from "./game";
+import { UserRole } from "./role.enum";
 
 export class User {
     id: number;
@@ -15,7 +16,8 @@ export class User {
     age?: number;
     purchasedGames: Game[];
     favoritesList?: FavoritesList;
-
+    role: UserRole; 
+    // enum of standard / moderator 
     constructor(data: {
         id: number;
         username: string;
@@ -27,6 +29,7 @@ export class User {
         timeZone: string;
         country: string;
         age?: number;
+        role: UserRole;
     }) {
         if (!data.username) {
             throw new DomainError("Username is required");
@@ -68,6 +71,7 @@ export class User {
         this.country = data.country;
         this.age = data.age;
         this.purchasedGames = [];
+        this.role = data.role;
     }
 
     // Validation methods
@@ -118,6 +122,7 @@ export class User {
         timeZone: string;
         country: string;
         age?: number;
+        role: UserRole;
     }): User {
         return new User(data);
     }

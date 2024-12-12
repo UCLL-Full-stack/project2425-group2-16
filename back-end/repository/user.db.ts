@@ -1,3 +1,4 @@
+import { UserRole } from "../model/role.enum";
 import { User } from "../model/user";
 import database from '../util/database';
 
@@ -51,14 +52,14 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
             return null;
         }
         return User.from({
-            ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber)
+            ...userPrisma
         });
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
+
 
 const getUserByUsername = async (username: string): Promise<User | null> => {
     try {
@@ -67,12 +68,16 @@ const getUserByUsername = async (username: string): Promise<User | null> => {
                 username: username  // Use emailAddress here
             }
         });
+        function mapPrismaRoleToCustomRole(prismaRole: PrismaClient.$Enums.UserRole): UserRole {
+            return UserRole[prismaRole];
+          }
         if (!userPrisma) {
             return null;
         }
         return User.from({
             ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber)
+            phoneNumber: Number(userPrisma.phoneNumber),
+            role: userPrisma.role,
         });
     } catch (error) {
         console.error(error);
@@ -92,8 +97,10 @@ const getUserByPhone = async (phoneNumber: number): Promise<User | null> => {
         }
         return User.from({
             ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber)
+            phoneNumber: Number(userPrisma.phoneNumber),
+            role: userPrisma.role || UserRole.Standard // Check if role exists, otherwise assign default
         });
+        
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

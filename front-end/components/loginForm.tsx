@@ -61,6 +61,10 @@ const LoginForm: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                <label>
+                <input type="checkbox" />
+                Login as a lambrgmbr
+                </label>
                 <button type="submit" disabled={loading}>
                     {loading ? 'Logging in...' : 'Submit'}
                 </button>
