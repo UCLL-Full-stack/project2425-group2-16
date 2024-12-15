@@ -14,6 +14,7 @@ type Props = {
 
 const UserOverview: React.FC<Props> = ({ user }) => {
     const [favorites, setFavorites] = useState<Array<Game>>([]);
+    const [message, setMessage] = useState<string | null>(null);
     // const [purchasedGames, setPurchasedGmas] = useState<Array<Game>>;
     
     const { t } = useTranslation();
@@ -32,14 +33,19 @@ const UserOverview: React.FC<Props> = ({ user }) => {
         const username = userObj.username;
     
         // Fetch favorites by username
-        const favorites = await ListService.fetchByUser(username);
-        const gamesList = favorites.games;
-        setFavorites(gamesList)
+        try {
+            const favorites = await ListService.fetchByUser(username);
+            const gamesList = favorites.games;
+            setFavorites(gamesList)
+        } catch (error) {
+            setMessage('No favorites to display!');
+        }
 
     }
     
     
     useEffect(() => {
+        setMessage('');
         
         // fetchgames();
         fetchFavorites();
@@ -70,6 +76,8 @@ const UserOverview: React.FC<Props> = ({ user }) => {
                 <button className="puchasedFilterButton">purchased</button>
                 <button className="favoritesFilterButton">favorites</button>
             </div>
+            {message && 
+            <p>No favorite games found.</p>}
             <GameOverview games={favorites}/>
         </>
     );

@@ -26,20 +26,30 @@ const userService = {
   },
 
   loginUser: async (credentials: Login): Promise<any> => {
-    const response = await fetch(userService.loginUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    try {
+      const response = await fetch(userService.loginUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+  
+      if (!response.ok) {
+        // Try to parse the error response for details
+        const errorResponse = await response.json().catch(() => null);
+        const errorMessage =
+          errorResponse?.error || `Error: ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
+      }
+  
+      console.log("Login successful");
+      return await response.json();
+    } catch (error) {
+      // Re-throw the error for handling in the calling code
+      console.error("Login failed:", error);
+      throw error;
     }
-
-    console.log("Login successful");
-    return response.json();
   },
 
   fetchUser: async (): Promise<User> => {

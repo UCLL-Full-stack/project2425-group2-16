@@ -96,7 +96,7 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose, moderato
             <div className={styles.modalContent}>
                 <button className={styles.closeButton} onClick={onClose}><span className={styles.icon}>×</span></button>
                 {game && (
-                    <>  {!moderatorStatus && ( 
+                    <>  {moderatorStatus && ( 
                         <button onClick={deleteGame}>delete </button>
 
                     )}

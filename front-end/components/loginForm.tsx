@@ -34,7 +34,12 @@ const LoginForm: React.FC = () => {
             
         } catch (error) {
             console.error(error); // Log error for debugging
-            setMessage("There was an error logging the user in.");
+            if (error instanceof Error) {
+                console.log(error);
+                setMessage(`There was an error logging the user in: ${error.message}`);
+            } else {
+                setMessage('There was an unknown error logging the user in.');
+            }
         } finally {
             setLoading(false); // Reset loading state
         }

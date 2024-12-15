@@ -73,19 +73,19 @@ async function main() {
     },
   });
 
-  // const user2 = await prisma.user.create({
-  //   data: {
-  //     username: 'adventureFan',
-  //     phoneNumber: 9876543210,
-  //     emailAddress: 'adventureFan@example.com',
-  //     birthDate: new Date('1985-06-10'),
-  //     password: await bcrypt.hash('adventure123', 12),
-  //     accountCreationDate: new Date(),
-  //     timeZone: 'UTC',
-  //     country: 'Canada',
-  //     age: 39,
-  //   },
-  // });
+  const user2 = await prisma.user.create({
+    data: {
+      username: 'adventureFan',
+      phoneNumber: 9876543210,
+      emailAddress: 'adventureFan@example.com',
+      birthDate: new Date('1985-06-10'),
+      password: await bcrypt.hash('adventure123', 12),
+      accountCreationDate: new Date(),
+      timeZone: 'UTC',
+      country: 'Canada',
+      age: 39,
+    },
+  });
 
   // Seed Purchases
   const purchase1 = await prisma.purchase.create({
