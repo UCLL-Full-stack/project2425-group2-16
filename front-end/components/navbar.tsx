@@ -73,12 +73,7 @@ const NavBar: React.FC = () => {
   );
 };
 
-const navStyle: React.CSSProperties = {
-  position: 'relative',
-  backgroundColor: '#333',
-  padding: '10px 20px',
-  color: 'white',
-};
+
 
 // CSS styles for the popup message
 const popupStyle: React.CSSProperties = {

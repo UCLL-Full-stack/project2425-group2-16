@@ -11,16 +11,24 @@
     "profile": "Mi Perfil",
     "register": "Registrarse",
     "logout": "Cerrar Sesión",
-    "Language": "Idioma"
+    "Language": "Idioma",
+    "logging in...": "Iniciando sesión..."
   },
   "info": {
     "greet": "Hola",
     "email": "Dirección de correo",
     "phone": "Número de teléfono",
-    "country": "País"
+    "country": "País",
+    "password": "Contraseña"
   },
   "message": {
     "logout": "Cerrando sesión...",
     "userFail": "Ha habido un problema. Por favor, intente refrescar la página o cerrar sesión y volver a iniciarla."
+  },
+
+  "status": {
+    "loginGud": "Bienvenido! Redirigiendo a la página principal...",
+    "loginBad": "Ha habido un problema al iniciar sesión; por favor, inténtenlo otra vez.",
+    "loginTeribol": "Ha habido un problema desconocido al iniciar sesión."
   }
 }
