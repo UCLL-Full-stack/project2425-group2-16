@@ -84,6 +84,7 @@ async function main() {
       timeZone: 'UTC',
       country: 'Canada',
       age: 39,
+      role: 'moderator',
     },
   });
 

@@ -53,6 +53,7 @@ const userService = {
   },
 
   fetchUser: async (): Promise<User> => {
+    try{
       const loggedInUser = sessionStorage.getItem("loggedInUser");
       const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
       const username = loggedInUser
@@ -69,11 +70,22 @@ const userService = {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch user profile");
+        // Try to parse the error response for details
+        const errorResponse = await response.json().catch(() => null);
+        const errorMessage =
+          errorResponse?.error || `Error: ${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
       }
+  
+      console.log("Fetched user successfully");
+      return await response.json();
+    } catch (error) {
+      // Re-throw the error for handling in the calling code
+      console.error("Failed to fetch user:", error);
+      throw error;
+    }
+  },
 
-      return response.json();
-  }
     
 };
 
