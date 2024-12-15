@@ -210,29 +210,41 @@ form {
     justify-content: center;
 }
 
-.puchasedFilterButton { 
-    height: 3em;
-    background: linear-gradient(to bottom, 
-      rgb(14, 99, 185) 0%, /* Light blue at the top */
-      rgba(255, 255, 255, 1) 100% /* White at the bottom */
-    );
-    background-clip: border-box;
-    border: none; /* Remove border if you want a clean look */
-    color: #000; /* Ensures text is visible */
+/* styles.css */
+.purchasedFilterButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 10px;
+  }
   
-}
-
-.favoritesFilterButton { 
-    height: 3em;
-    background: linear-gradient(to bottom,     
-      rgb(14, 99, 185) 0%, /* Light blue at the top */
-      rgba(255, 255, 255, 0.485) 100% /* White at the bottom */
-    );
-    background-clip: border-box;
-    border: none; /* Remove border if you want a clean look */
-    color: #000; /* Ensures text is visible */
+  .purchasedFilterButton:hover {
+    background-color: #45a049;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.5); /* Glow effect */
+  }
   
-}
+  .favoritesFilterButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .favoritesFilterButton:hover {
+    background-color: #9f9d1c;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Glow effect */
+  }
+  
 
 /* hintcontainer */
 

@@ -9,6 +9,7 @@ export type User = {
   timeZone: string;
   country: string;
   age: number;
+  purchasedGames: Game[];
 };
 
 export type Login = {
