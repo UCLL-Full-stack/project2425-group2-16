@@ -8,13 +8,13 @@ generator client {
 }
 
 enum UserRole {
-  standard
-  moderator
+  standard      
+  moderator     
 }
 
 model Game {
   id                 Int       @id @default(autoincrement())
-  title              String
+  title              String    @unique 
   genre              String    @default("Unknown")
   rating             Int
   supportedLanguages String

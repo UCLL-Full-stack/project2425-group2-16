@@ -1,8 +1,12 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { FavoritesList } from '../model/favoritesList';
 import { User } from '../model/user';
+import { Game } from '../model/game';
+import userDb from './user.db';
+
 const database = new PrismaClient()
 const prisma = new PrismaClient();
+
 
 
 
@@ -28,23 +32,89 @@ const save = async (favoritesList: FavoritesList) => {
     }
   };
 
-
-const findByUserId = async (userid: number) => {
+  const findByUserId = async (userId: number): Promise<FavoritesList | null> => {
     try {
-        // Find the user first to get their ID
-   
-
-        // Then find favorites list by user ID
-        const listPrisma = await database.favoritesList.findFirst({
+        // Use Prisma client directly instead of raw SQL
+        const favoritesListRecord = await prisma.favoritesList.findUnique({
             where: { 
-                userId: userid
+                userId: userId 
             },
+            include: {
+                games: {
+                    include: {
+                        game: true // Include the full game details
+                    }
+                },
+                owner: true // Include the user details
+            }
         });
 
-        return listPrisma;
+        // If no favorites list found, return null
+        if (!favoritesListRecord) {
+            return null;
+        }
+
+        // Transform the Prisma result to your domain model
+        const games = favoritesListRecord.games.map(gameAssoc => 
+            new Game({
+                id: gameAssoc.game.id,
+                title: gameAssoc.game.title,
+                genre: gameAssoc.game.genre,
+                rating: gameAssoc.game.rating,
+                supportedLanguages: gameAssoc.game.supportedLanguages,
+                price: gameAssoc.game.price,
+                systemRequirements: gameAssoc.game.systemRequirements,
+                releaseDate: gameAssoc.game.releaseDate,
+                multiplayer: gameAssoc.game.multiplayer,
+                publisherId: gameAssoc.game.publisherId
+            })
+        );
+
+        // Create the FavoritesList instance
+        return new FavoritesList({
+            id: favoritesListRecord.id,
+            privacySettings: favoritesListRecord.privacySettings,
+            description: favoritesListRecord.description,
+            owner: User.from(favoritesListRecord.owner),
+            games: games
+        });
+
     } catch (error) {
-        console.error("Error fetching favorites list by username:", error);
+        console.error("Error fetching favorites list by userId:", error);
         throw new Error("Database error while fetching favorites list");
+    }
+};
+const replaceFavoritesList = async (list: FavoritesList): Promise<FavoritesList> => {
+    try {
+        const updatedFavoritesList = await prisma.favoritesList.update({
+            where: { id: list.id },
+            data: {
+                privacySettings: list.privacySettings,
+                description: list.description,
+                userId: list.owner.id, // Update the owner ID if necessary
+                games: {
+                    // This assumes you want to replace the existing games
+                    deleteMany: {}, // Remove all existing associations
+                    create: list.games.map(game => ({
+                        gameId: game.id // Assuming you have a gameId field in the junction table
+                    }))
+                }
+            }
+        });
+
+        // Create a new instance of FavoritesList using the updated data
+        const favoritesListInstance = new FavoritesList({
+            id: updatedFavoritesList.id,
+            privacySettings: updatedFavoritesList.privacySettings,
+            description: updatedFavoritesList.description,
+            owner: list.owner, // Assuming you have the owner object available
+            games: list.games // You may want to fetch the games again if needed
+        });
+
+        return favoritesListInstance; // Return the mapped instance
+    } catch (error) {
+        console.error("Error replacing favorites list:", error);
+        throw new Error("Database error while replacing favorites list");
     }
 };
 
@@ -64,43 +134,35 @@ const updateFavoritesList = async (list: FavoritesList, userId: number) => {
             );
         }
 
-        // Ensure user's favorites list exists or create one if not
-        const existingFavoritesList = await prisma.favoritesList.findUnique({
-            where: { userId: userId },
-            include: { games: true }
-        });
-
         // Start a transaction for atomic operations
-        return await prisma.$transaction(async (prisma) => {
-            // If no existing favorites list, create one
-            const favoritesListRecord = existingFavoritesList 
-                ? existingFavoritesList 
-                : await prisma.favoritesList.create({
-                    data: {
-                        userId: userId,
-                        description: "User's Game Favorites",
-                        privacySettings: false, // Default privacy setting
-                    }
-                });
+        return await prisma.$transaction(async (transactionPrisma) => {
+            // Find or create the favorites list for the user
+            const favoritesListRecord = await transactionPrisma.favoritesList.upsert({
+                where: { userId: userId },
+                update: {}, // No updates needed
+                create: {
+                    userId: userId,
+                    description: "User's Game Favorites",
+                    privacySettings: false // Default privacy setting
+                }
+            });
 
             // Prepare game IDs for junction table
             const gameIds = games.map(game => game.getId());
 
             // Remove existing game-list associations
-            await prisma.favoritesListGame.deleteMany({
+            await transactionPrisma.favoritesListGame.deleteMany({
                 where: { 
                     favoritesListId: favoritesListRecord.id 
                 }
             });
 
             // Create new game-list associations
-            const favoritesListGames = await prisma.favoritesListGame.createMany({
+            await transactionPrisma.favoritesListGame.createMany({
                 data: gameIds.map(gameId => ({
                     favoritesListId: favoritesListRecord.id,
                     gameId: gameId
-                })),
-                // Skip duplicates if any
-                skipDuplicates: true
+                }))
             });
 
             return {
@@ -110,62 +172,23 @@ const updateFavoritesList = async (list: FavoritesList, userId: number) => {
         });
 
     } catch (error) {
-        // Comprehensive error logging
-        // console.error("Favorites List Update Error:", {
-        //     message: error.message,
-        //     stack: error.stack,
-        //     name: error.name,
-        //     userId: userId
-        // });
+        console.error("Favorites List Update Error:", {
+            userId: userId,
+            // errorMessage: error.message,
+            // stack: error.stack
+        });
 
-        // // Prisma-specific error handling
-        // if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        //     console.error("Prisma Error Details:", {
-        //         code: error.code,
-        //         meta: error.meta
-        //     });
-        // }
-
-        // Rethrow to allow caller to handle
         throw error;
-    } finally {
-        // Ensure connection is closed
-        await prisma.$disconnect();
     }
 };
-        // const updatedFavoritesList = await prisma.$transaction(async (tx) => {
-        //     // Update the scalar fields of FavoritesList
-        //     const updatedList = await tx.favoritesList.update({
-        //         where: { id: list.getId() },
-        //         data: {
-        //             privacySettings: list.getPrivacySettings(),
-        //             description: list.getDescription(),
-        //         },
-        //     });
 
-        //     // Cleanly handle the many-to-many relationship update
-        //     // Delete existing relations first
-        //     await tx.favoritesListGame.deleteMany({
-        //         where: { favoritesListId: list.getId() },
-        //     });
 
-        //     // Insert new relations, assuming favoritesListId and gameId are defined
-        //     await tx.favoritesListGame.createMany({
-        //         data: games.map((game) => ({
-        //             favoritesListId: list.getId() as number,
-        //             gameId: game.getId() as number,
-        //         })),
-        //     });
-
-        //     return updatedList;
-        // });
-
-        // return updatedFavoritesList;
 
 
 
 export default {
     findByUserId,
     updateFavoritesList,
-    save
+    save, 
+    replaceFavoritesList
 };

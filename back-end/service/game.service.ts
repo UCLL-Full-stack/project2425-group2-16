@@ -21,7 +21,13 @@ const findGameByTitle = async (title: string): Promise<Game | null> => {
     return null;
 }
 
+
+const deleteGame = async (title: string): Promise<void> => {
+    await gameDb.deleteGame(title);
+}
+
 export default {
     getAllGames,
-    findGameByTitle
+    findGameByTitle,
+    deleteGame
 };

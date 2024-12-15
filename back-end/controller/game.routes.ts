@@ -74,7 +74,17 @@ const router = express.Router();
  *                   example: "An error occurred while retrieving games."
  */
 
-
+router.delete('/delete', async (req: Request, res: Response) => { 
+    try{
+        const title = req.query.title as string
+        const deleteMaBoy = await gameService.deleteGame(title);
+        res.status(200).json(deleteMaBoy);
+    }
+    catch(error){
+        const err = error as Error;
+        res.status(400).json({status: 'error', errorMessage: err.message});
+    }
+})
 
 
 router.get('/getAll', async (req: Request, res: Response) => {

@@ -14,6 +14,10 @@ const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
+// Add this to your main app.ts or a utility file
+(BigInt.prototype as any).toJSON = function() {
+    return this.toString();
+};
 
 app.use(
     expressjwt({
@@ -23,6 +27,7 @@ app.use(
         path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin', '/status', '/users/getByUsername']
     })
 )
+
 
 // app.use(cors());
 app.use(cors({

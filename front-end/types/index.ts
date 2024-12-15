@@ -14,14 +14,18 @@ export type User = {
 export type Login = {
   emailAddress: string;
   password: string;
+  role: string;
+  // role: 'moderator' | 'standardUser';
 }
 
-
-export type FavoritesList = { 
-    privacySettings: string;
-    listCreationDate: Date;
-    description: string;
-    listName: string;
+export type FavoritesList = {
+  id?: number;
+  privacySettings: boolean;
+  description: string;
+  listName?: string; // Optional, since it's not in the backend class
+  listCreationDate?: Date; // Optional, since it's not in the backend class
+  games: Array<Game>; // Add this to match backend
+  owner: User; // Add this to match backend
 };
 
 export type Game = {

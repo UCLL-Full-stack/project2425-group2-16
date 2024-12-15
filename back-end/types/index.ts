@@ -1,3 +1,5 @@
+import { UserRole } from "@prisma/client";
+
 type UserInput = {
     username: string;
     phoneNumber: number;
@@ -8,7 +10,7 @@ type UserInput = {
     timeZone: string;
     country: string;
     age: number;
-
+    role: UserRole;
 }
 
 type ListInput = {
@@ -58,6 +60,7 @@ type PurchasedGamesInput = {
 type AuthenticationResponse = {
     token: string;
     username: string;
+    role: UserRole;
 };
 
 

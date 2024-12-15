@@ -28,7 +28,30 @@ const fetchByUsername = async (username: string): Promise<FavoritesList | null> 
     return FavoritesList.fromObjectAsync(plainObject)
 };
 
-const addGameToFavorites = async (username: string, gameId: number): Promise<{ message: string; favoritesListId?: number }> => {
+
+const replace = async (username: string, gameId: number): Promise<FavoritesList> => {
+    try { 
+        const plain = await fetchByUsername(String(username));
+        
+        if (plain == null) { 
+            throw new Error("No list was found for the user");
+        }
+
+        const favoritesList = FavoritesList.from(plain);
+        const games = favoritesList.getGames();
+        const updatedGames = games.filter((game) => game.getId() !== Number(gameId));
+        favoritesList.setGames(updatedGames);
+
+        // Assuming replaceFavoritesList returns a FavoritesList instance
+        const updatedFavoritesList = await favoritesListDb.replaceFavoritesList(favoritesList);
+        
+        return updatedFavoritesList; // Return the updated list
+    } catch (error) {
+        console.error("Error replacing game in favorites list:", error);
+        throw new Error("Database error while replacing game in favorites list");
+    }
+};
+const addGameToFavorites = async (username: string, gameId: number): Promise<{ message: string; favoritesList: FavoritesList }> => {
     try {
         // Fetch the user
         const userPlain = await userDb.getUserByUsername(username);
@@ -45,36 +68,62 @@ const addGameToFavorites = async (username: string, gameId: number): Promise<{ m
         }
         const game = Game.from(gamePlain);
 
-        // Fetch or create the favorites list
+        // Check if game is already in favorites
         const plainObject = await favoritesListDb.findByUserId(userId);
-        let favoritesListReal;
+
+        let favoritesList: FavoritesList;
+
         if (!plainObject) {
             // If there is no favorites list, create a new one
-            const newList = new FavoritesList({
+            favoritesList = new FavoritesList({
                 privacySettings: true,
                 description: "",
                 owner: realUser,
                 games: [game],
             });
-            realUser.setFavoritesList(newList);
-            await favoritesListDb.save(newList);
+            realUser.setFavoritesList(favoritesList);
+            await favoritesListDb.save(favoritesList);
             await userDb.saveUser(realUser);
-
-            favoritesListReal = newList;
         } else {
-            favoritesListReal = await FavoritesList.fromObjectAsync(plainObject);
-            favoritesListReal.addGame(game);
+            // Use the fromObjectAsync method to create a class instance
+            favoritesList = await FavoritesList.fromObjectAsync(plainObject);
+            
+            // Check if game is already in favorites
+            const isGameAlreadyInFavorites = favoritesList.games.some(
+                existingGame => existingGame.id === gameId
+            );
 
-            // Optionally persist the updated list back to the database
-            await favoritesListDb.updateFavoritesList(favoritesListReal, realUser.id);
+            if (isGameAlreadyInFavorites) {
+                return {
+                    message: `Game with ID "${gameId}" is already in favorites.`,
+                    favoritesList
+                };
+            }
+
+            // Use the class method to add the game
+            favoritesList.addGame(game);
+
+            // Persist the updated list back to the database
+            await favoritesListDb.updateFavoritesList(favoritesList, realUser.id);
         }
 
-        // Return success message and optional favorites list ID
+        // Fetch the updated favorites list with related games
+        const updatedFavoritesList = await favoritesListDb.findByUserId(userId);
+
+        if (!updatedFavoritesList) {
+            throw new Error("Failed to retrieve updated favorites list.");
+        }
+
+        // Return success message and favorites list
         return {
             message: `Game with ID "${gameId}" successfully added to favorites!`,
-            favoritesListId: favoritesListReal.id, // Assuming `id` exists on `FavoritesList`
+            favoritesList: updatedFavoritesList
         };
     } catch (error) {
+        // Log the actual error for debugging
+        console.error("Error in addGameToFavorites:", error);
+        
+        // Throw a more generic error for the client
         throw new Error("Failed to add game to favorites. Please try again later.");
     }
 };
@@ -82,8 +131,11 @@ const addGameToFavorites = async (username: string, gameId: number): Promise<{ m
 
 
 
+
+
 export default {
     fetchByUsername,
-    addGameToFavorites
+    addGameToFavorites,
+    replace
 };
 

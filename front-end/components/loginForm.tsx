@@ -2,11 +2,13 @@ import React, { FormEvent, useState } from 'react';
 import { Login } from "@types"; 
 import userService from '@services/UserService';
 import router from 'next/router';
+import { stringify } from 'querystring';
 
 const LoginForm: React.FC = () => {
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState<string>('');
+    const [role, setRole] = useState<string>('standard')
     const [loading, setLoading] = useState<boolean>(false); // New state for loading
 
     const handleSubmit = async (event: FormEvent) => {
@@ -16,7 +18,8 @@ const LoginForm: React.FC = () => {
 
         const credentials: Login = { 
             emailAddress: emailAddress,
-            password: password
+            password: password,
+            role: role
         };
 
         try {

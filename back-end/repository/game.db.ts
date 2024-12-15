@@ -1,4 +1,4 @@
-import { w } from "@faker-js/faker/dist/airline-BLb3y-7w";
+import { Prisma } from "@prisma/client";
 import { Game } from "../model/game";
 import database from '../util/database';
 
@@ -12,11 +12,19 @@ const getAllGames = async (): Promise<Game[]> => {
     }
 };
 
-
+const deleteGame = async (title: string): Promise<void> => { 
+    try {
+        await database.game.delete({
+            where: { title } as Prisma.GameWhereUniqueInput
+        });
+    } catch (error) {
+        console.error(`Error deleting game: ${title}`, error);
+    }
+};
 const findById = async (id: number): Promise<Game> => { 
     try {
         const gamePrisma = await database.game.findFirst({
-            where: { id: id }, // Correct syntax for Prisma
+            where: { id: id }, 
         });
 
         if (!gamePrisma) {
@@ -30,9 +38,8 @@ const findById = async (id: number): Promise<Game> => {
     }
 };
 
-
-
 export default {
     getAllGames,
-    findById
+    findById,
+    deleteGame
 };

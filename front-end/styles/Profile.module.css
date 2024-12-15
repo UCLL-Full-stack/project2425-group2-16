@@ -1,5 +1,6 @@
 .profile-cont {
     display: flex;
+    background-color:  rgb(14, 99, 185); 
     align-items: center;
     justify-content: center;
 }

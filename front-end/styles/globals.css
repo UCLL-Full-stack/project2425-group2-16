@@ -202,3 +202,44 @@ form {
 .ml-6{
     margin-top: 35px;
 }
+
+.filterButtons { 
+    color: green;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+}
+
+.puchasedFilterButton { 
+    height: 3em;
+    background: linear-gradient(to bottom, 
+      rgb(14, 99, 185) 0%, /* Light blue at the top */
+      rgba(255, 255, 255, 1) 100% /* White at the bottom */
+    );
+    background-clip: border-box;
+    border: none; /* Remove border if you want a clean look */
+    color: #000; /* Ensures text is visible */
+  
+}
+
+.favoritesFilterButton { 
+    height: 3em;
+    background: linear-gradient(to bottom,     
+      rgb(14, 99, 185) 0%, /* Light blue at the top */
+      rgba(255, 255, 255, 0.485) 100% /* White at the bottom */
+    );
+    background-clip: border-box;
+    border: none; /* Remove border if you want a clean look */
+    color: #000; /* Ensures text is visible */
+  
+}
+
+/* hintcontainer */
+
+.hintDiv {
+    /* border: 2px black soli   d; */
+}
+.hintDivText { 
+    display: flex;
+    justify-content: center;
+}

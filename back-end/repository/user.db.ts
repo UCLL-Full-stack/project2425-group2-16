@@ -1,13 +1,35 @@
-import { UserRole } from "../model/role.enum";
+
+import { UserRole } from "@prisma/client";
 import { User } from "../model/user";
 import database from '../util/database';
+
+
+const getUserByUsername = async (username: string): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: { username }
+        });
+
+        if (!userPrisma) {
+            return null;
+        }
+
+        const user = User.from(userPrisma); // Ensure this method works as expected
+        return user;
+    } catch (error) {
+        console.error('Error while fetching user:', error);
+        throw error; // Optionally rethrow the error to let the caller handle it
+    }
+};
+
+
+
 
 const getAllUsers = async (): Promise<User[]> => {
     try {
         const usersPrisma = await database.user.findMany();
         return usersPrisma.map((usersPrisma) => User.from({
-            ...usersPrisma,
-            phoneNumber: Number(usersPrisma.phoneNumber)
+            ...usersPrisma
         }));
     } catch (error) {
         console.error(error);
@@ -32,8 +54,7 @@ const saveUser = async (user: User): Promise<User> => {
             }
         });
         return User.from({
-            ...savedUser,
-            phoneNumber: Number(savedUser.phoneNumber)
+            ...savedUser
         });
     } catch (error) {
         console.error(error);
@@ -61,31 +82,8 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
 };
 
 
-const getUserByUsername = async (username: string): Promise<User | null> => {
-    try {
-        const userPrisma = await database.user.findFirst({
-            where: {
-                username: username  // Use emailAddress here
-            }
-        });
-        function mapPrismaRoleToCustomRole(prismaRole: PrismaClient.$Enums.UserRole): UserRole {
-            return UserRole[prismaRole];
-          }
-        if (!userPrisma) {
-            return null;
-        }
-        return User.from({
-            ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber),
-            role: userPrisma.role,
-        });
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-};
 
-const getUserByPhone = async (phoneNumber: number): Promise<User | null> => {
+const getUserByPhone = async (phoneNumber: bigint): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findFirst({
             where: {
@@ -96,9 +94,7 @@ const getUserByPhone = async (phoneNumber: number): Promise<User | null> => {
             return null;
         }
         return User.from({
-            ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber),
-            role: userPrisma.role || UserRole.Standard // Check if role exists, otherwise assign default
+            ...userPrisma
         });
         
     } catch (error) {
@@ -119,8 +115,7 @@ const findById = async (id: number): Promise<User | null> => {
         }
 
         return User.from({
-            ...userPrisma,
-            phoneNumber: Number(userPrisma.phoneNumber)
+            ...userPrisma
         });
 
     } catch (error) {

@@ -5,6 +5,7 @@ import userDb from "../repository/user.db";
 import { AuthenticationResponse, Login, UserInput } from "../types";
 import bcrypt from 'bcrypt';
 import generateJWTtoken from "../util/jwt";
+import { UserRole } from "@prisma/client";
 
 const getAllUsers = async (): Promise<Array<User>> => { 
     const users = await userDb.getAllUsers();
@@ -62,14 +63,15 @@ const saveNewUser =  async (userData: User): Promise<User> => {
         accountCreationDate: userData.getAccountCreationDate(),
         timeZone: userData.getTimeZone(),
         country: userData.getCountry(),
-        age: userData.getAge() ?? undefined
+        age: userData.getAge() ?? undefined,
+        role: userData.getRole()
     });
     await userDb.saveUser(newUser);
     return newUser;
 };
 
 
-const authenticate = async ({emailAddress, password}: UserInput): Promise<AuthenticationResponse> => {
+const authenticate = async ({emailAddress, password, role}: UserInput): Promise<AuthenticationResponse> => {
     const user = await userDb.getUserByEmail(emailAddress);
     if (!user){
         throw new ServiceError(`Incorrect username or password.`);
@@ -81,9 +83,9 @@ const authenticate = async ({emailAddress, password}: UserInput): Promise<Authen
         throw new ServiceError('Incorrect username or password.');
     }
     const username = user.getUsername();
-
+    
     const token = generateJWTtoken({username});
-    return {token: token, username: username};
+    return {token: token, username: username, role: role};
 };
 
 

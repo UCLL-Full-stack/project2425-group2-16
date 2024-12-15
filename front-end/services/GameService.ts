@@ -49,14 +49,23 @@ const gameService = {
         return game; // Ensure this matches the expected return type
     },
 
-};
+    removeByTitle: async (title: string): Promise<void> => { 
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+        const response = await fetch(`http://localhost:3000/games/delete?title=${title}`, {
+        method: 'DELETE',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        },
+    });
 
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status} probleme: ${response.statusText}`);
+    }
+
+    }
+}
 export default gameService;
 
 
-
-// 1. pass the title to the backend (probs as a DTO?)
-// 2. in the backend, controller recireves it at first and passes to the service 
-// 3. service passes it to the database where query will be made
-// 4.them the returned game comes back here, in GameService as A DTO.
-// 5. that DTO will be mapped to the readl object and returned

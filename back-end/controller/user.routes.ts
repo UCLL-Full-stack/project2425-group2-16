@@ -103,7 +103,14 @@ router.get('/getByUsername', async (req: Request, res: Response) => {
     try {
         const username = req.query.username as string;
         const result = await userService.findByUsername(username);
-        res.status(201).json(result);
+
+        // Convert BigInt fields to strings in the result
+        const sanitizedResult = {
+            ...result,
+            phoneNumber: result.phoneNumber ? result.phoneNumber.toString() : null, // Example for id
+        };
+
+        res.status(201).json(sanitizedResult);
     } catch (error) {
         if (error instanceof DomainError) {
             return res.status(400).json({ error: error.message }); // Bad request
@@ -114,7 +121,9 @@ router.get('/getByUsername', async (req: Request, res: Response) => {
         console.error(error); // Log unexpected errors
         res.status(500).json({ error: 'Internal server error' }); // Generic error
     }
-})
+});
+
+
 
 
 router.post('/post', async (req: Request, res: Response) => {

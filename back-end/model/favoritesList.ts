@@ -3,6 +3,7 @@ import { Game } from "./game";
 import { User } from "./user";
 
 export class FavoritesList {
+  
     id?: number;
     privacySettings: boolean;
     description: string;
@@ -21,7 +22,7 @@ export class FavoritesList {
         this.privacySettings = params.privacySettings;
         this.description = params.description;
         this.owner = params.owner;
-        this.games = params.games || []; // Ensure games is initialized as an array
+        this.games = params.games; // Ensure games is initialized as an array
     }
 
     // Getters and Setters
@@ -66,10 +67,7 @@ export class FavoritesList {
     }
 
     public addGame(game: Game): void {
-        if (!Array.isArray(this.games)) {
-            this.games = []; // Reinitialize games as an array if it's not already
-        }
-        this.games.push(game); // Use push method to add the game
+        this.games = [...this.games, game];
     }
 
     public removeGame(gameId: number): void {
@@ -94,4 +92,16 @@ export class FavoritesList {
 
         return list;
     }
-}
+
+    public static from(data: { 
+    id?: number;
+    privacySettings: boolean;
+    description: string;
+    owner: User;
+    games: Array<Game>;
+    }): FavoritesList { 
+        return new FavoritesList(data);
+    }
+    }
+
+

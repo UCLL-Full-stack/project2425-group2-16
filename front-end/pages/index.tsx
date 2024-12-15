@@ -32,6 +32,10 @@ const Home: React.FC = () => {
         }
     }
     
+    useEffect(() => {
+        
+        fetchgames();
+    }, []);
 
 
     const handleCardClick = (game: Game) => { 
@@ -39,10 +43,6 @@ const Home: React.FC = () => {
         setPupUpIsVisible(true);
     }
 
-    useEffect(() => {
-        
-        fetchgames();
-    }, []);
 
     return (
         <>

@@ -1,12 +1,12 @@
+import { UserRole } from "@prisma/client";
 import { DomainError } from "../errors/DomainError";
 import { FavoritesList } from "./favoritesList";
 import { Game } from "./game";
-import { UserRole } from "./role.enum";
 
 export class User {
     id: number;
     username: string;
-    phoneNumber: number;
+    phoneNumber: bigint;
     emailAddress: string;
     birthDate: Date;
     password: string;
@@ -21,7 +21,7 @@ export class User {
     constructor(data: {
         id: number;
         username: string;
-        phoneNumber: number;
+        phoneNumber: bigint;
         emailAddress: string;
         birthDate: Date;
         password: string;
@@ -75,7 +75,7 @@ export class User {
     }
 
     // Validation methods
-    private validatePhoneNumber(phoneNumber: number): boolean {
+    private validatePhoneNumber(phoneNumber: bigint): boolean {
         const phoneRegex = /^[0-9]{10}$/;
         return phoneRegex.test(phoneNumber.toString());
     }
@@ -106,6 +106,14 @@ export class User {
         const countryRegex = /^[A-Za-z\s]+$/;
         return countryRegex.test(country);
     }
+    
+    public getRole(): UserRole { 
+        return this.role;
+    }
+    
+    private setRole(role: UserRole): void {
+        this.role = role;
+    }
 
     private validateAge(age: number): boolean {
         return age >= 0;
@@ -114,7 +122,7 @@ export class User {
     static from(data: {
         id: number;
         username: string;
-        phoneNumber: number;
+        phoneNumber: bigint;
         emailAddress: string;
         birthDate: Date;
         password: string;
@@ -145,11 +153,11 @@ export class User {
         this.username = value;
     }
 
-    public getPhoneNumber(): number {
+    public getPhoneNumber(): bigint {
         return this.phoneNumber;
     }
 
-    public setPhoneNumber(value: number): void {
+    public setPhoneNumber(value: bigint): void {
         if (!this.validatePhoneNumber(value)) throw new DomainError("Invalid phone number format.");
         this.phoneNumber = value;
     }
