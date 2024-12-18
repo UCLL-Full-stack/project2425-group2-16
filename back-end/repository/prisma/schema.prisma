@@ -113,5 +113,4 @@ model Purchase {
   user User @relation(fields: [userId], references: [id])
   game Game @relation(fields: [gameId], references: [id])
 
-  @@unique([userId, gameId]) // Prevent duplicate purchases
 }

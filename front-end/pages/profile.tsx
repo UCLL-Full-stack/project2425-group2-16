@@ -7,6 +7,7 @@ import UserService from "@services/UserService";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSideProps } from 'next';
+import React from "react";
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();

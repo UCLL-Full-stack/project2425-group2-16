@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head"
-
+import React from "react";
 
 const Home: React.FC = () => { 
 

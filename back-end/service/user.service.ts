@@ -112,20 +112,25 @@ const addPayment = async (
     username: string,
     amount: number,
     currency: string,
+    gameId: number,
     time: string,
-    gameId: number
 ): Promise<void> => {
 
     const purchaseTime = new Date(time); // This will create a Date object from the ISO string
     if (!username || !amount || !currency || !time || !gameId) {
+        console.log('my bad bro');
+        
         throw new Error("Invalid input: All fields are required.");
     }
 
     if (typeof amount !== 'number' || amount <= 0) {
+        console.log('my bad bro');
+        
         throw new Error("Invalid amount: Must be a positive number.");
     }
 
     if (!(purchaseTime instanceof Date) || isNaN(purchaseTime.getTime())) {
+        console.log('my bad bro');
         throw new Error("Invalid time: Must be a valid Date object.");
     }
 
@@ -142,13 +147,13 @@ const addPayment = async (
         if (!userId) {
             throw new Error("Invalid user: Unable to retrieve user ID.");
         }
-        const game = await gameDb.findById(gameId)
+        const game = await gameDb.findById(gameId);
         // Add the payment record to the database
         const paymentToSave = new Purchase({user, game, amountPayed: amount, currency, dateOfPurchase: purchaseTime})
         await userDb.addPayment(paymentToSave);
-    } catch (error) {
+    } catch (error: any) {
         console.error("Service error:", error);
-        throw new Error("An error occurred while processing the payment. Please try again.");
+        throw new Error(`An error occurred while processing the payment. Please try again.`);
     }
 };
 

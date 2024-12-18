@@ -6,6 +6,7 @@ import gameService from "@services/GameService";
 import { useEffect, useState } from "react";
 import ListService from "@services/ListService";
 import userService from "@services/UserService";
+import React from "react";
 
 type Props = {
   user: User;

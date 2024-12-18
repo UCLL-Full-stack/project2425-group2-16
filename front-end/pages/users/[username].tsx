@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import userService from '@services/UserService'; // Assume this fetches user data
 import { User } from '@types';
-
+import React from 'react';
 
 const UserPage = () => {
     const router = useRouter();

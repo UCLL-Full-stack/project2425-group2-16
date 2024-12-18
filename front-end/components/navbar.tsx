@@ -1,6 +1,6 @@
+import React, { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FormEvent, useEffect, useState } from "react";
 import Language from "./Language";
 import { useTranslation } from "next-i18next";
 
@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
 
   const handleLogout = (): void => {
     setRole('');
-    sessionStorage.setItem("loggedInUser", "");
+    sessionStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
     setMessage("Log out successful. Now redirecting to homepage...")
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-
+import React from 'react';
 
 
 const AllUsers = () => {

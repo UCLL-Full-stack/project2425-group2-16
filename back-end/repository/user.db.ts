@@ -78,7 +78,11 @@ const addPayment = async (purchaseDetails: Purchase): Promise<void> => {
         })
     } catch (error) { 
         console.error(error)
-        throw new Error("database error")
+        if (error instanceof Error) {
+            throw new Error(`database error`);
+        } else {
+            throw new Error('database error: unknown error');
+        }
     }
 }
 const saveUser = async (user: User): Promise<User> => {

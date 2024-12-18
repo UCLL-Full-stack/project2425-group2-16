@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 class MyDocument extends Document {
     render() {

@@ -1,3 +1,5 @@
+import React from "react";
+
 type Props = { 
     error: Error;
     onClose: () => void; // Add onClose prop to handle button click

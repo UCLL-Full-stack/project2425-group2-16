@@ -32,7 +32,7 @@ export type FavoritesList = {
 };
 
 export type Game = {
-  id: string; 
+  id: number; 
   genre: string;
   rating: number;
   supportedLanguages: string;

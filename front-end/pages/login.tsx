@@ -4,7 +4,7 @@ import Head from "next/head"
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-
+import React from "react";
 
 const LoginPage: React.FC = () => { 
 

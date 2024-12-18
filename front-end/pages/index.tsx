@@ -5,7 +5,7 @@ import SearchBar from "@components/searchBar";
 import { useEffect, useState } from "react";
 import { Game, User } from "@types";
 import gameService from "@services/GameService";
-
+import React from "react";
 import GameDescriptionPupUp from "@components/GameDescriptionPupUp";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

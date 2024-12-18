@@ -7,4 +7,4 @@ Description: the Black Bazaar is the ideal game browsing and purchasing platform
 
 
 ## Note for self about extra packages needed!!
-- So far: bcrypt, jwt, helmet and useRef for timeout message management
+- So far: bcrypt, jwt, helmet, babel, and a few babel + jest dependencies for testing, and useRef for timeout message management
