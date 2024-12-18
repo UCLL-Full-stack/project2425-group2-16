@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import userService from '@services/UserService';
 import { Game } from '@types';
-import { compare } from 'swr/dist/_internal';
 
 const PurchasePage: React.FC = () => {
     const router = useRouter();
     const [creditCardNumber, setCreditCardNumber] = useState('');
     const [civ, setCiv] = useState('');
     const [nameOnCard, setNameOnCard] = useState('');
-    // const [amount, setAmount] = useState(''); // Payment amount
-    const [currency, setCurrency] = useState('USD'); // Default currency
+    const [currency, setCurrency] = useState('USD');
     const [game, setGame] = useState<Game | null>(null);
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); 
+
         if (game == null) {
             alert("Game could not be found");
             return;
@@ -31,19 +30,17 @@ const PurchasePage: React.FC = () => {
             await userService.addPurchase({ creditCardNumber, civ, nameOnCard, gameId });
 
             await userService.createPurchaseRecord({
-                amount: game.price, // Convert amount to a number
+                amount: game.price, 
                 currency,
                 time: new Date().toISOString(),
                 gameId,
             });
 
-            console.log("Purchase successful");
             alert("Purchase completed successfully! (your credit card info is in very safe hands)");
-            setLoading(true)
+            setLoading(true);
             setTimeout(() => {
                 router.push('/'); // Redirect after 2 seconds
-            }, 2000); // 2000 milliseconds = 2F
-
+            }, 2000);
         } catch (error) {
             console.error("Error during purchase:", error);
             alert("An error occurred during the purchase. Please try again.");
@@ -96,8 +93,6 @@ const PurchasePage: React.FC = () => {
                     />
                 </div>
 
-     
-
                 <div>
                     <label htmlFor="currency" className="cardInputLabel">Currency</label>
                     <select
@@ -112,13 +107,13 @@ const PurchasePage: React.FC = () => {
                     </select>
                 </div>
            
-             <button type="submit">Submit</button>
+                <button type="submit">Submit</button>
                 
             </form>
             <div className='purchasePage_Pwrap'>
-                    <p>Price:</p>
-                    <p>{game? game.price : 0}</p>
-                </div>
+                <p>Price:</p>
+                <p>{game ? game.price : 0}</p>
+            </div>
         </>
     );
 };

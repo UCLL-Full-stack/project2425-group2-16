@@ -56,8 +56,6 @@ const router = express.Router();
  *             $ref: '#/components/schemas/User'
  *     responses:
  *       200:
- *         description: User saved in the system
- *         content:>
  *         description: User logged in successfully, token returned.
  *       400:
  *         description: Bad request

@@ -1,10 +1,10 @@
-import GameService from "../services/GameService";
+import GameService from "@services/GameService";
 import { Game } from "@types";
 import { useEffect, useState } from "react";
 import styles from "../styles/GameOverview.module.css";
-import ListService from "../services/ListService";
+import ListService from "@services/ListService";
 import Link from "next/link";
-import gameService from "../services/GameService";
+import gameService from "@services/GameService";
 import HintContainer from "./hintContainer";
 import React from "react";
 
@@ -12,6 +12,7 @@ type Props = {
     selectedGame: Game;
     moderatorStatus: boolean;
     purchasedStatus: boolean;
+    favoritedStatus: boolean;
     onClose: () => void;
 }
 
@@ -120,7 +121,7 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose, moderato
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-                <button className={styles.closeButton} onClick={onClose} aria-label="close"><span className={styles.icon}>×</span></button>
+                <button className={styles.closeButton} onClick={onClose}><span className={styles.icon}>×</span></button>
                 {game && (
                     <>  
                         {moderatorStatus && <button onClick={angryModeratorDeletes}>Delete</button>}

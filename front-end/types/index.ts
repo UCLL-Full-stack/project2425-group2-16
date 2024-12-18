@@ -22,6 +22,7 @@ export type Login = {
 }
 
 export type FavoritesList = {
+  some(arg0: (favoritedGame: any) => boolean): unknown;
   id?: number;
   privacySettings: boolean;
   description: string;

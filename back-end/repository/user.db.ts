@@ -202,15 +202,25 @@ const updatePurchases = async (inputUser: User): Promise<void> => {
         }));
 
         await prisma.$transaction(async (transactionPrisma) => {
-            await transactionPrisma.purchasedGameUser.deleteMany({
-                where: {
-                    userId: inputUser.id,
-                },
-            });
+            // Loop over the purchased games and add only the new ones that are not already in the database
+            await Promise.all(
+                purchasedGames.map(async (purchase) => {
+                    // Check if the purchase already exists in the database
+                    const existingPurchase = await transactionPrisma.purchasedGameUser.findFirst({
+                        where: {
+                            userId: inputUser.id,
+                            gameId: purchase.gameId,
+                        },
+                    });
 
-            await transactionPrisma.purchasedGameUser.createMany({
-                data: purchasedGames
-            });
+                    // If the purchase doesn't exist, add it
+                    if (!existingPurchase) {
+                        await transactionPrisma.purchasedGameUser.create({
+                            data: purchase,
+                        });
+                    }
+                })
+            );
         });
 
         console.log("User purchases updated successfully");
