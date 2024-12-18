@@ -1,3 +1,117 @@
+/**
+ * @swagger
+ * tags:
+ *   name: FavoritesList
+ *   description: API for managing user's favorite games list
+ */
+
+/**
+ * @swagger
+ * /remove:
+ *   put:
+ *     summary: Remove a game from the user's favorites list
+ *     tags: [FavoritesList]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Username of the user
+ *       - in: query
+ *         name: gameId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the game to remove
+ *     responses:
+ *       200:
+ *         description: Successfully removed the game from favorites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 updatedList:
+ *                   $ref: '#/components/schemas/FavoritesList'
+ *       400:
+ *         description: Missing username or gameId
+ *       500:
+ *         description: Error removing game from favorites
+ */
+
+/**
+ * @swagger
+ * /add:
+ *   put:
+ *     summary: Add a game to the user's favorites list
+ *     tags: [FavoritesList]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Username of the user
+ *       - in: query
+ *         name: gameId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the game to add
+ *     responses:
+ *       200:
+ *         description: Successfully added the game to favorites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 updatedFavoritesList:
+ *                   $ref: '#/components/schemas/FavoritesList'
+ *       400:
+ *         description: Missing username or gameId
+ *       500:
+ *         description: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /getList:
+ *   get:
+ *     summary: Get the user's favorites list
+ *     tags: [FavoritesList]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Username of the user
+ *     responses:
+ *       200:
+ *         description: Successfully fetched the favorites list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/FavoritesList'
+ *       400:
+ *         description: Username is required
+ *       404:
+ *         description: User not found or No favorites list found for this user
+ *       500:
+ *         description: Internal server error
+ */
+
+
 import express, { Request, Response } from "express";
 import userService from '../service/user.service'; // Check this path
 import favoritesListService from '../service/list.service'; // Check this path
@@ -8,6 +122,9 @@ import { FavoritesList } from "../model/favoritesList";
 
 
 const router = express.Router();
+
+
+
 
 
 router.put('/remove', async (req: Request, res: Response) => {

@@ -9,11 +9,13 @@ import gameRoutes from './controller/game.routes';
 import listRoutes from './controller/list.routes';
 import swaggerOpts from './swaggerConfig';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
+app.use(helmet());
 // Add this to your main app.ts or a utility file
 (BigInt.prototype as any).toJSON = function() {
     return this.toString();
@@ -24,7 +26,7 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin', '/status', '/users/getByUsername']
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/post', '/users/postlogin', '/status']
     })
 )
 
