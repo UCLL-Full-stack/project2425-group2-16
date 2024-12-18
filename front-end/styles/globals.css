@@ -1,7 +1,9 @@
+
 body{
     margin: 0px;
     width: 100%;
 }
+
 
 
  
@@ -381,4 +383,40 @@ form {
     border-radius: 5px;
     z-index: 9999;
     font-size: 16px;
+}
+
+
+
+/* card form */
+.cardForm { 
+    color: black;
+}
+
+.cardInputLabel { 
+    color: black;
+}
+
+.purchasePage_Pwrap {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Hint container styling */
+.hintDiv {
+    border: 2px solid black;
+    width: 50%;
+    position: fixed; /* Change to fixed to make it stay in view even when scrolling */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; /* Ensure the background is solid */
+    z-index: 10000; /* Make sure it is on top of all other elements */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for emphasis */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 80%; /* Ensure it's not too wide */
 }

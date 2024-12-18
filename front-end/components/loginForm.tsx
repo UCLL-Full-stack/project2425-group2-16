@@ -10,7 +10,7 @@ const LoginForm: React.FC = () => {
     const [password, setPassword] = useState('');
     const [gudMessage, setGudMessage] = useState<string>('');
     const [message, setMessage] = useState<string>('');
-    const [role, setRole] = useState<string>('standard');
+    // const [role, setRole] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false); // New state for loading
     const { t } = useTranslation();
     const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -21,15 +21,16 @@ const LoginForm: React.FC = () => {
         setMessage('');
         setLoading(true); // Set loading state
 
-        const credentials: Login = { 
-            emailAddress: emailAddress,
-            password: password,
-            role: role
-        };
+        // const credentials: Login = { 
+        //     emailAddress: emailAddress,
+        //     password: password,
+        //     role: role
+        // };
 
         try {
-            console.log('Submitting credentials:', credentials);
-            const data = await userService.loginUser(credentials);
+            // setRole(role)
+            // console.log('Submitting credentials:', credentials);
+            const data = await userService.loginUser({emailAddress, password});
             console.log('User logged in successfully:', data);
             sessionStorage.setItem("loggedInUser", JSON.stringify(data));
             setGudMessage(t('status.loginGud'));

@@ -1,9 +1,17 @@
-const hintContainer: React.FC = () => { 
-    return (
-        <>
-        <div className="hintDiv"><p className="hintDivText">it has alreadyy been added dawg, you can remove it from profile tab</p></div>
-        
-        </>
-    )
+type Props = { 
+    error: Error;
+    onClose: () => void; // Add onClose prop to handle button click
 }
-export default hintContainer;
+
+const HintContainer: React.FC<Props> = ({ error, onClose }) => { 
+    return (
+        <div className="hintDiv">
+            <p className="hintDivText">{error.message}</p>
+            <button className="closeButton" onClick={onClose}>
+                Close
+            </button>
+        </div>
+    );
+};
+
+export default HintContainer;

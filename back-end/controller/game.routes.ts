@@ -76,13 +76,25 @@ const router = express.Router();
 
 router.delete('/delete', async (req: Request, res: Response) => { 
     try{
-        const title = req.query.title as string
-        const deleteMaBoy = await gameService.deleteGame(title);
+        const i = req.query.id 
+        const id = Number(i)
+        const deleteMaBoy = await gameService.deleteGame(id);
         res.status(200).json(deleteMaBoy);
     }
     catch(error){
-        const err = error as Error;
-        res.status(400).json({status: 'error', errorMessage: err.message});
+        if (error instanceof Error) {
+            res.status(400).json({
+                status: 'error',
+                errorMessage: error.message,
+            });
+            console.error(`Error: ${error.message}`);
+        } else {
+            res.status(500).json({
+                status: 'error',
+                errorMessage: 'An unknown error occurred',
+            });
+            console.error('Unknown error:', error);
+        }
     }
 })
 
@@ -97,6 +109,17 @@ router.get('/getAll', async (req: Request, res: Response) => {
         res.status(400).json({status: 'error', errorMessage: err.message});
     }
 } )
+
+router.get('/purchasedByUser', async (req: Request, res: Response) => {
+    try {
+        const username = req.query.username;
+        const gamesToReturn = await gameService.fetchPurchasedForUser(String(username));
+        res.status(200).json(gamesToReturn)
+
+    } catch(error) { 
+        res.status(400).json({status: 'error'});
+    }
+})
 
 
 router.get("/gameByTitle", async (req: Request, res: Response) => {

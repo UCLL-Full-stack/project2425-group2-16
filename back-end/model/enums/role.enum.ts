@@ -1,5 +1,6 @@
 enum UserRole {
   standard = 'standard',
-  moderator = 'moderator'
+  moderator = 'moderator',
+  publisher = 'publisher'
 }
 export default UserRole;

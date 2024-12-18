@@ -3,6 +3,8 @@ import { Game } from '@types';
 import styles from '../styles/GameOverview.module.css'
 
 import GameDescriptionPupUp from "@components/GameDescriptionPupUp";
+import userService from '@services/UserService';
+import gameService from '@services/GameService';
 
 type Props = { 
     games: Array<Game>;
@@ -12,6 +14,7 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
     const [chosenGame, setChosenGame] = useState<Game | null>(null);
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [moderator, setModerator] = useState<boolean>(false)
+    const [purchasedStatus, setPurchasedStatus] = useState<boolean>(false);
 
     const sessionStorageRoleDealer = async () => { 
         const user = sessionStorage.getItem("loggedInUser");
@@ -21,7 +24,10 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
             return false
         } else if (role == 'moderator') { 
             return true
-        } else { 
+        } else if (role == 'publisher') {
+            return false
+        }
+        else{ 
             throw new Error("something went wrong while fetching role")
         }
     }
@@ -29,10 +35,22 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
 
     const handleCardClick = async (game: Game) => { 
         const roleStatus = await sessionStorageRoleDealer()
+        const userFromSession = sessionStorage.getItem("loggedInUser");
+        const username = userFromSession ? JSON.parse(userFromSession).username : null;
+        const purchasedGames = await gameService.findPurchasedByUser(username)
+    
         setModerator(roleStatus);
         console.log(`Game ${game.title} selected`);
         setChosenGame(game);
         setPopupVisible(true);
+        // if (purchasedGames.includes(game)) { 
+        //     setPurchasedStatus(true);
+        // }
+        if (purchasedGames.some(purchasedGame => purchasedGame.id === game.id)) { 
+            setPurchasedStatus(true);
+        } else {
+            setPurchasedStatus(false);
+        }
     }
 
     const closePopup = () => {
@@ -63,7 +81,7 @@ const gameOverview: React.FC<Props> = ({ games } ) => {
             </div>
         </div>
         {isPopupVisible && chosenGame && (
-        <GameDescriptionPupUp selectedGame={chosenGame} onClose={closePopup} moderatorStatus={moderator}/>
+        <GameDescriptionPupUp selectedGame={chosenGame} onClose={closePopup} moderatorStatus={moderator} purchasedStatus={purchasedStatus}/>
         )}
         </>
     );

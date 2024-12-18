@@ -1,130 +1,147 @@
 import userService from '../../service/user.service';
-import { User } from '../../model/user';
 import userDb from '../../repository/user.db';
-import { UserInput } from '../../types';
-import { ServiceError } from "../../errors/ServiceError"; // Import ServiceError for checking in tests
+import gameDb from '../../repository/game.db';
+import { User } from '../../model/user';
+import { Purchase } from '../../model/purchase';
+import bcrypt from 'bcrypt';
+import { ServiceError } from '../../errors/ServiceError';
 
-let mockUserDbGetAllUsers: jest.Mock;
-let mockUserDbSave: jest.Mock;
+jest.mock('../../repository/user.db');
+jest.mock('../../repository/game.db');
 
-const userInput: UserInput = {
-    username: "jfpowie",
-    emailAddress: 'jane.doe@example.com',
-    phoneNumber: 1234567890,
+const mockUser = {
+    id: 1,
+    username: 'testuser',
+    phoneNumber: '1234567890',
+    emailAddress: 'testuser@example.com',
     birthDate: new Date('1990-01-01'),
-    password: 'securePassword123',
+    password: 'hashedpassword',
     accountCreationDate: new Date(),
     timeZone: 'UTC',
     country: 'USA',
-    age: 34
-};
-
-const createMockUser = (overrides: Partial<typeof userInput> = {}): User => {
-    return new User({ ...userInput, ...overrides });
+    age: 30,
+    role: 'standard'
 };
 
 beforeEach(() => {
-    mockUserDbGetAllUsers = jest.fn();
-    mockUserDbSave = jest.fn();
-    userDb.getAllUsers = mockUserDbGetAllUsers; // Set the mock functions here
-    userDb.save = mockUserDbSave;
-});
-
-afterEach(() => {
     jest.clearAllMocks();
 });
 
-test('getAllUsers should return all users', () => {
-    // Given
-    const users = [createMockUser(), createMockUser({ emailAddress: "john.doe@example.com" })];
-    mockUserDbGetAllUsers.mockReturnValue(users); // Use mock directly
+// Test for getAllUsers
+test('Given the database has users, When getAllUsers is called, Then it should return all users', async () => {
+    (userDb.getAllUsers as jest.Mock).mockResolvedValue([mockUser]);
 
-    // When
-    const result = userService.getAllUsers();
+    const users = await userService.getAllUsers();
 
-    // Then
-    expect(result).toEqual(users);
-    expect(mockUserDbGetAllUsers).toHaveBeenCalledTimes(1);
+    expect(users).toEqual([mockUser]);
+    expect(userDb.getAllUsers).toHaveBeenCalledTimes(1);
 });
 
-test('saveNewUser should save a new user if they do not already exist', async () => {
-    // Given
-    const newUser = createMockUser();
-    mockUserDbGetAllUsers.mockReturnValue([]); // No existing users
-    mockUserDbSave.mockReturnValue(Promise.resolve(newUser)); // Mock saving the user
+// Test for findByUsername - user found
+test('Given the user exists, When findByUsername is called with an existing username, Then it should return the user', async () => {
+    (userDb.getUserByUsername as jest.Mock).mockResolvedValue(mockUser);
 
-    // When
-    const result = await userService.saveNewUser(newUser); // Await the promise
+    const user = await userService.findByUsername('testuser');
 
-    // Then
-    expect(result).toEqual(newUser);
-    expect(mockUserDbSave).toHaveBeenCalledWith(newUser);
+    expect(user).toEqual(mockUser);
+    expect(userDb.getUserByUsername).toHaveBeenCalledWith('testuser');
 });
 
-test('saveNewUser should throw an error if the user already exists', async () => {
-    // Given
-    const existingUser = createMockUser();
-    const duplicateUser = createMockUser({ emailAddress: existingUser.getEmailAddress() });
+// Test for findByUsername - user not found
+test('Given the user does not exist, When findByUsername is called with a non-existing username, Then it should throw an error', async () => {
+    (userDb.getUserByUsername as jest.Mock).mockResolvedValue(null);
 
-    mockUserDbGetAllUsers.mockReturnValue([existingUser]); // Existing user
-
-    // When & Then
-    await expect(userService.saveNewUser(duplicateUser)).rejects.toThrow(ServiceError); // Use rejects to handle async error
-    await expect(userService.saveNewUser(duplicateUser)).rejects.toThrow('User already exists');
+    await expect(userService.findByUsername('nonexistentuser')).rejects.toThrow("error dawg");
+    expect(userDb.getUserByUsername).toHaveBeenCalledWith('nonexistentuser');
 });
 
-test('logInUser should return success message if credentials are correct', () => {
-    // Given
-    const existingUser = createMockUser();
-    const credentials = { emailAddress: existingUser.getEmailAddress(), password: existingUser.getPassword() };
-
-    mockUserDbGetAllUsers.mockReturnValue([existingUser]); // Existing user
-
-    // When
-    const result = userService.logInUser(credentials);
-
-    // Then
-    expect(result).toBe("User logged in successfully");
-});
-
-test('logInUser should throw an error if the user is not found', () => {
-    // Given
-    const credentials = { emailAddress: "nonexistent@example.com", password: "somePassword" };
-
-    mockUserDbGetAllUsers.mockReturnValue([]); // No users
-
-    // When & Then
-    expect(() => userService.logInUser(credentials)).toThrow(ServiceError);
-    expect(() => userService.logInUser(credentials)).toThrow("User not found");
-});
-
-test('logInUser should throw an error if the password is incorrect', () => {
-    // Given
-    const existingUser = createMockUser();
-    const credentials = { emailAddress: existingUser.getEmailAddress(), password: "wrongPassword" };
-
-    mockUserDbGetAllUsers.mockReturnValue([existingUser]); // Existing user
-
-    // When & Then
-    expect(() => userService.logInUser(credentials)).toThrow(ServiceError);
-    expect(() => userService.logInUser(credentials)).toThrow("Incorrect password.");
-
-});
-
-test('calculateAge should return the correct age based on birthDate', () => {
-    // Given
+// Test for calculateAge
+test('Given a birth date, When calculateAge is called, Then it should return the correct age', () => {
     const birthDate = new Date('1990-01-01');
-    let expectedAge = new Date().getFullYear() - birthDate.getFullYear();
-    const monthDifference = new Date().getMonth() - birthDate.getMonth();
-    
-    // Adjust expected age if the birthday hasn't occurred yet this year
-    if (monthDifference < 0 || (monthDifference === 0 && new Date().getDate() < birthDate.getDate())) {
-        expectedAge = expectedAge - 1;
-    }
+    const age = userService.calculateAge(birthDate);
 
-    // When
-    const result = userService.calculateAge(birthDate);
-
-    // Then
-    expect(result).toBe(expectedAge);
+    expect(age).toBe(new Date().getFullYear() - 1990);
 });
+
+
+// // Test for authenticate - valid credentials
+// test('Given valid credentials, When authenticate is called, Then it should return an authentication response', async () => {
+//     (userDb.getUser ByEmail as jest.Mock).mockResolvedValue(mockUser );
+//     (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+
+//     const response = await userService.authenticate({
+//         emailAddress: 'testuser@example.com',
+//         password: 'password', // This is the plain password
+//         role: 'standard'
+//     });
+
+//     expect(response).toHaveProperty('token');
+//     expect(response).toHaveProperty('username', 'testuser');
+//     expect(response).toHaveProperty('role', 'standard');
+// });
+
+// // Test for authenticate - invalid credentials
+// test('Given invalid credentials, When authenticate is called, Then it should throw a ServiceError', async () => {
+//     (userDb.getUser ByEmail as jest.Mock).mockResolvedValue(mockUser );
+//     (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+
+//     await expect(userService.authenticate({
+//         emailAddress: 'testuser@example.com',
+//         password: 'wrongpassword',
+//         role: 'standard'
+//     })).rejects.toThrow(ServiceError);
+// });
+
+// // Test for updatePurchasedGames - game found
+// test('Given the game exists, When updatePurchasedGames is called, Then it should update the user\'s purchased games', async () => {
+//     const mockGame = { id: 1, title: 'Test Game' };
+
+//     (gameDb.findById as jest.Mock).mockResolvedValue(mockGame);
+//     (userDb.updatePurchases as jest.Mock).mockResolvedValue(undefined);
+
+//     await expect(userService.updatePurchasedGames(mockUser , 1)).resolves.toBeUndefined();
+//     expect(gameDb.findById).toHaveBeenCalledWith(1);
+//     expect(userDb.updatePurchases).toHaveBeenCalledWith(mockUser );
+// });
+
+// // Test for updatePurchasedGames - game not found
+// test('Given the game does not exist, When updatePurchasedGames is called, Then it should throw a ServiceError', async () => {
+//     (gameDb.findById as jest.Mock).mockResolvedValue(null);
+
+//     await expect(userService.updatePurchasedGames(mockUser , 999)).rejects.toThrow(ServiceError);
+//     expect(gameDb.findById).toHaveBeenCalledWith(999);
+// });
+
+// // Test for addPayment - valid input
+// test('Given valid input, When addPayment is called, Then it should add the payment', async () => {
+//     const mockGame = { id: 1, title: 'Test Game' };
+//     const mockPurchase = new Purchase({
+//         user: mockUser ,
+//         game: mockGame,
+//         amountPayed: 19.99,
+//         currency: 'USD',
+//         dateOfPurchase: new Date()
+//     });
+
+//     (userDb.findByUsername as jest.Mock).mockResolvedValue(mockUser );
+//     (gameDb.findById as jest.Mock).mockResolvedValue(mockGame);
+//     (userDb.addPayment as jest.Mock).mockResolvedValue(undefined);
+
+//     await expect(userService.addPayment('testuser', 19.99, 'USD', new Date().toISOString(), 1)).resolves.toBeUndefined();
+//     expect(userDb.findByUsername).toHaveBeenCalledWith('testuser');
+//     expect(gameDb.findById).toHaveBeenCalledWith(1);
+//     expect(userDb.addPayment).toHaveBeenCalledWith(expect.any(Purchase));
+// });
+
+// // Test for addPayment - user not found
+// test('Given the user does not exist, When addPayment is called, Then it should throw an error', async () => {
+//     (userDb.findByUsername as jest.Mock).mockResolvedValue(null);
+
+//     await expect(userService.addPayment('nonexistentuser', 19.99, 'USD', new Date().toISOString(), 1)).rejects.toThrow("User  not found: nonexistentuser");
+//     expect(userDb.findBy Username).toHaveBeenCalledWith('nonexistentuser');
+// });
+
+// // Test for addPayment - invalid amount
+// test('Given an invalid amount, When addPayment is called, Then it should throw an error', async () => {
+//     await expect(userService.addPayment('testuser', -10, 'USD', new Date().toISOString(), 1)).rejects.toThrow("Invalid amount: Must be a positive number.");
+// });

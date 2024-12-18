@@ -10,12 +10,13 @@ export type User = {
   country: string;
   age: number;
   purchasedGames: Game[];
+  publisherId: number;
 };
 
 export type Login = {
   emailAddress: string;
   password: string;
-  role: string;
+  // role: string;
   // role: 'moderator' | 'standardUser';
 }
 
@@ -53,7 +54,7 @@ export type Publisher = {
 
 export type Purchase = { 
   dateOfPurchase: Date;
-  currency: 'USD' | 'EUR' | 'GBP' | 'ROBUX' | 'GEL' | 'LRA' | string;
+  currency: 'USD' | 'EUR' | 'GBP' | 'ROBUX' | string;
   amountPayed: number;
 };
 

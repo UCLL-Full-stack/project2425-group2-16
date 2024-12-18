@@ -2,10 +2,12 @@ import { Serializer } from "v8";
 import { ServiceError } from "../errors/ServiceError";
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
-import { AuthenticationResponse, Login, UserInput } from "../types";
+import { AuthenticationResponse, Login, UserInput, authenticateInput } from "../types";
 import bcrypt from 'bcrypt';
 import generateJWTtoken from "../util/jwt";
 import { UserRole } from "@prisma/client";
+import gameDb from "../repository/game.db";
+import { Purchase } from "../model/purchase";
 
 const getAllUsers = async (): Promise<Array<User>> => { 
     const users = await userDb.getAllUsers();
@@ -71,7 +73,7 @@ const saveNewUser =  async (userData: User): Promise<User> => {
 };
 
 
-const authenticate = async ({emailAddress, password, role}: UserInput): Promise<AuthenticationResponse> => {
+const authenticate = async ({emailAddress, password, role}: authenticateInput): Promise<AuthenticationResponse> => {
     const user = await userDb.getUserByEmail(emailAddress);
     if (!user){
         throw new ServiceError(`Incorrect username or password.`);
@@ -88,11 +90,68 @@ const authenticate = async ({emailAddress, password, role}: UserInput): Promise<
     return {token: token, username: username, role: role};
 };
 
+const updatePurchasedGames = async (user: User, gameId: number): Promise<void> => {
+    try {
+        const game = await gameDb.findById(gameId);
+    
+        user.addPurchasedGame(game);
+    
+        await userDb.updatePurchases(user); // Removed the extra parenthesis
+    }
+    catch(error) { 
+        throw new ServiceError("aaaaaa")
+    }
 
+}
+const addPayment = async (
+    username: string,
+    amount: number,
+    currency: string,
+    time: string,
+    gameId: number
+): Promise<void> => {
+
+    const purchaseTime = new Date(time); // This will create a Date object from the ISO string
+    if (!username || !amount || !currency || !time || !gameId) {
+        throw new Error("Invalid input: All fields are required.");
+    }
+
+    if (typeof amount !== 'number' || amount <= 0) {
+        throw new Error("Invalid amount: Must be a positive number.");
+    }
+
+    if (!(purchaseTime instanceof Date) || isNaN(purchaseTime.getTime())) {
+        throw new Error("Invalid time: Must be a valid Date object.");
+    }
+
+    try {
+        // Check if the user exists in the database
+        console.log("starten kugel schugel")
+        const user = await userDb.findByUsername(username); // Add `await` to handle async if necessary
+        if (!user) {
+            throw new Error(`User not found: ${username}`);
+        }
+        console.log(user.getUsername());
+        // Get the user ID
+        const userId = user.getId();
+        if (!userId) {
+            throw new Error("Invalid user: Unable to retrieve user ID.");
+        }
+        const game = await gameDb.findById(gameId)
+        // Add the payment record to the database
+        const paymentToSave = new Purchase({user, game, amountPayed: amount, currency, dateOfPurchase: purchaseTime})
+        await userDb.addPayment(paymentToSave);
+    } catch (error) {
+        console.error("Service error:", error);
+        throw new Error("An error occurred while processing the payment. Please try again.");
+    }
+};
 
 
 
 export default  {
+    addPayment,
+    updatePurchasedGames,
     getAllUsers,
     saveNewUser,
     calculateAge,

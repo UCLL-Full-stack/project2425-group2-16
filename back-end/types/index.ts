@@ -13,6 +13,12 @@ type UserInput = {
     role: UserRole;
 }
 
+type authenticateInput = { 
+    emailAddress: string;
+    password: string;
+    role: UserRole;
+}
+
 type ListInput = {
     username: string;
     gameId: number;
@@ -74,5 +80,6 @@ export {
     PurchaseInput,
     PurchasedGamesInput,
     AuthenticationResponse,
-    ListInput
+    ListInput,
+    authenticateInput
 }

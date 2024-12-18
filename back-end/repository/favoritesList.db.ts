@@ -192,3 +192,34 @@ export default {
     save, 
     replaceFavoritesList
 };
+
+
+
+// const updatePurchases = async (inputUser: User ): Promise<void> => {
+//     try {
+//         // Assuming user.getPurchasedGames() returns an array of game IDs
+//         const purchasedGames = inputUser .getPurchasedGames().map(gameId => ({
+//             userId: inputUser.id, // Use the user ID from inputUser 
+//             gameId: Number(gameId),       // Use the game ID from the purchased games
+//         }));
+
+//         await prisma.$transaction(async (transactionPrisma) => {
+//             // First, delete existing purchased games for the user
+//             await transactionPrisma.purchasedGameUser .deleteMany({
+//                 where: {
+//                     userId: inputUser .id, // Delete all associations for this user
+//                 },
+//             });
+
+//             // Then, create new purchased games associations
+//             await transactionPrisma.purchasedGameUser .createMany({
+//                 data: purchasedGames // Use the structured data
+//             });
+//         });
+
+//         console.log("User  purchases updated successfully");
+//     } catch (error) {
+//         console.error("Error updating user purchases:", error);
+//         throw new Error("Failed to update user purchases");
+//     }
+// };

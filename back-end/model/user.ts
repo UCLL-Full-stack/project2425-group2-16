@@ -2,8 +2,10 @@ import { UserRole } from "@prisma/client";
 import { DomainError } from "../errors/DomainError";
 import { FavoritesList } from "./favoritesList";
 import { Game } from "./game";
+import { Purchase } from "./purchase";
 
 export class User {
+    
     id: number;
     username: string;
     phoneNumber: bigint;
@@ -17,6 +19,8 @@ export class User {
     purchasedGames: Game[];
     favoritesList?: FavoritesList;
     role: UserRole; 
+    purchases?: Purchase[];
+    publisherId?: number;
     // enum of standard / moderator 
     constructor(data: {
         id: number;
@@ -30,6 +34,7 @@ export class User {
         country: string;
         age?: number;
         role: UserRole;
+        publisherId?: number;
     }) {
         if (!data.username) {
             throw new DomainError("Username is required");
@@ -72,6 +77,8 @@ export class User {
         this.age = data.age;
         this.purchasedGames = [];
         this.role = data.role;
+        this.purchases = [];
+        this.publisherId = data.publisherId;
     }
 
     // Validation methods
@@ -131,6 +138,7 @@ export class User {
         country: string;
         age?: number;
         role: UserRole;
+        purchasedGames?: Array<Game>
     }): User {
         return new User(data);
     }
@@ -143,6 +151,14 @@ export class User {
     public setId(value: number): void {
         this.id = value;
     }
+
+    public addPurchasedGame(game: Game): void {
+        this.purchasedGames.push(game);
+    }
+
+    // public getPurchasedGames(): Array<Game>{ 
+    //     return this.purchasedGames;
+    // }
 
     public getUsername(): string {
         return this.username;
@@ -240,6 +256,8 @@ export class User {
     public setFavoritesList(value: FavoritesList | undefined): void {
         this.favoritesList = value;
     }
+
+    
 
 
 

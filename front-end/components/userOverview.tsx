@@ -47,8 +47,9 @@ const UserOverview: React.FC<Props> = ({ user }) => {
   };
 
   const fetchPurchasedGames = async () => {
-    const fullUser = await userService.fetchUser();
-    const purGames = fullUser.purchasedGames;
+    // const fullUser = await userService.fetchUser();
+    // const purGames = fullUser.purchasedGames;
+    const purGames = await gameService.findPurchasedByUser(user.username)
     console.log("purchased games:" + purGames);
     purGames.length == 0 ? setPurMessage("No purchased games found") : null;
     setPurchased(purGames);
