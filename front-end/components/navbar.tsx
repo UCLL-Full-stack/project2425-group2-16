@@ -11,12 +11,14 @@ const NavBar: React.FC = () => {
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
+  const [role, setRole] = useState<string | null>(null);
 
   const navigateTo = (path: string) => {
     router.push(path);
   };
 
   const handleLogout = (): void => {
+    setRole('');
     sessionStorage.setItem("loggedInUser", "");
     setLoggedInUser(null);
     setMessage("Log out successful. Now redirecting to homepage...")
@@ -30,10 +32,14 @@ const NavBar: React.FC = () => {
   };
 
   useEffect(() => {
+    setRole('');
     setMessage("");
     const user = sessionStorage.getItem("loggedInUser");
     if (user) {
       setLoggedInUser(user);
+      const parsedUser = JSON.parse(user);
+      const role = parsedUser.role;
+      setRole(role);
     }
   }, []);
 
@@ -61,7 +67,11 @@ const NavBar: React.FC = () => {
             </Link>
           </li><li>
             <Link className="nav_link" href="/profile">{t('nav.profile')}</Link>
-            </li></>
+            </li>
+          {role == "moderator" && (<li>
+            <Link className="nav_link" href="/users/allUsers">{t('nav.users')}</Link>
+            </li>)}
+            </>
         )}
       <Language></Language>
       </ul>

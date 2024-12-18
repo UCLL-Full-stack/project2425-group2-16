@@ -12,7 +12,8 @@
     "register": "Register",
     "logout": "Log Out",
     "Language": "Language",
-    "logging in...": "Logging in..."
+    "logging in...": "Logging in...",
+    "users": "Users"
   },
   "info": {
     "greet": "Hello",

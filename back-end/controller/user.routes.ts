@@ -93,7 +93,8 @@ const router = express.Router();
 
 router.get('/getAll', async (req: Request, res: Response) => {
     try {
-        const users = await userService.getAllUsers();
+        const role = req.query.role as string;
+        const users = await userService.getAllUsers(role);
         res.status(200).json(users);
     } catch (error) {
         const err = error as Error;

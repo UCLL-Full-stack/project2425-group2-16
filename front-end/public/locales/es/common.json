@@ -12,7 +12,8 @@
     "register": "Registrarse",
     "logout": "Cerrar Sesión",
     "Language": "Idioma",
-    "logging in...": "Iniciando sesión..."
+    "logging in...": "Iniciando sesión...",
+    "users": "Usuarios"
   },
   "info": {
     "greet": "Hola",

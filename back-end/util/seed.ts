@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { Game } from './model/game';
+import { Game } from '../model/game';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -73,13 +73,13 @@ async function main() {
 
   const game4 = await prisma.game.create({
     data: {
-      title: 'al-qaida simulator',
-      genre: 'terrorism',
+      title: 'lawnmower simulator',
+      genre: 'boring',
       rating: 4,
       supportedLanguages: 'English, French, Italian',
       price: 9.11,
       systemRequirements: 'Windows 7, 8, or 10, Intel Core i5, 8GB RAM',
-      releaseDate: new Date('2001-11-13'),
+      releaseDate: new Date('2005-11-13'),
       multiplayer: false,
       publisherId: publisher2.id,
     },
@@ -128,7 +128,7 @@ async function main() {
       country: 'Albania',
       age: 39,
       role: 'publisher',
-      publisherId: 2,
+      publisherId: publisher2.id,
     },
   })
 

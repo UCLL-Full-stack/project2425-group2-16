@@ -420,3 +420,32 @@ form {
     justify-content: center;
     max-width: 80%; /* Ensure it's not too wide */
 }
+
+
+.custom-ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Add space between items */
+}
+
+.custom-ul li {
+    background-color: #f0f0f0; /* Light grey background */
+    color: black;
+    padding: 10px 15px; /* Add padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.custom-ul li:hover {
+    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    transform: translateY(-2px); /* Lift item on hover */
+}
+
+.custom-ul li:active {
+    background-color: #d0d0d0; /* Even darker grey on click */
+    transform: translateY(0); /* Reset lift on click */
+}

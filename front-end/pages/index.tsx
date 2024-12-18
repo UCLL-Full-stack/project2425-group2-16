@@ -67,6 +67,7 @@ const Home: React.FC = () => {
             <table className="userTable">
                 <thead>
                     <tr>
+                        <th>Username</th>
                         <th>Email</th>
                         <th>Password</th>
                         <th>Role</th>
@@ -74,14 +75,22 @@ const Home: React.FC = () => {
                 </thead>
                 <tbody>
                     <tr>
+                        <td>gamer123</td>
                         <td>gamer123@example.com</td>
                         <td>password123</td>
                         <td>standard (normal user)</td>
                     </tr>
                     <tr>
+                        <td>adventureFan</td>   
                         <td>adventureFan@example.com</td>
                         <td>adventure123</td>
                         <td>moderator (admin)</td>
+                    </tr>
+                    <tr>
+                        <td>ubisoftBoss</td>   
+                        <td>ubisoftShelbik@example.com</td>
+                        <td>ubisoftShelbik</td>
+                        <td>publisher</td>
                     </tr>
                     
                     

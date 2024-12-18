@@ -1,5 +1,5 @@
 export type User = {
-  id: string;
+  id: number;
   username: string;
   phoneNumber: number;
   emailAddress: string;
@@ -11,6 +11,7 @@ export type User = {
   age: number;
   purchasedGames: Game[];
   publisherId: number;
+  role: string;
 };
 
 export type Login = {

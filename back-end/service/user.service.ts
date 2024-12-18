@@ -9,9 +9,14 @@ import { UserRole } from "@prisma/client";
 import gameDb from "../repository/game.db";
 import { Purchase } from "../model/purchase";
 
-const getAllUsers = async (): Promise<Array<User>> => { 
+const getAllUsers = async (role: string): Promise<Array<User>> => { 
+    if (role == "moderator"){
     const users = await userDb.getAllUsers();
     return users;
+    }
+    else{
+        throw new ServiceError('You are not authorized to view this page.');
+    }
 }
 
 const findByUsername = async (username: string): Promise<User> => {
