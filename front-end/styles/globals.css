@@ -387,7 +387,6 @@ form {
 
 
 
-/* card form */
 .cardForm { 
     color: black;
 }
@@ -402,50 +401,156 @@ form {
 }
 
 
-/* Hint container styling */
 .hintDiv {
     border: 2px solid black;
     width: 50%;
-    position: fixed; /* Change to fixed to make it stay in view even when scrolling */
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white; /* Ensure the background is solid */
-    z-index: 10000; /* Make sure it is on top of all other elements */
+    background-color: white;
+    z-index: 10000;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for emphasis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 80%; /* Ensure it's not too wide */
+    max-width: 80%;
 }
 
 
 .custom-ul {
-    list-style-type: none; /* Remove default bullets */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack items vertically */
-    gap: 10px; /* Add space between items */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
 }
 
 .custom-ul li {
-    background-color: #f0f0f0; /* Light grey background */
+    background-color: #f0f0f0;
     color: black;
-    padding: 10px 15px; /* Add padding */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .custom-ul li:hover {
-    background-color: #e0e0e0; /* Slightly darker grey on hover */
-    transform: translateY(-2px); /* Lift item on hover */
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
 }
 
 .custom-ul li:active {
-    background-color: #d0d0d0; /* Even darker grey on click */
-    transform: translateY(0); /* Reset lift on click */
+    background-color: #d0d0d0;
+    transform: translateY(0);
+}
+
+
+
+.buy-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buy-header {
+    text-align: center;
+    color: #333;
+}
+
+.buy-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    justify-items: center;
+}
+
+.buy-formGroup {
+    margin-bottom: 15px;
+    align-items: center;
+    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.buy-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.buy-input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.buy-select {
+    width: 30%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.buy-button {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.buy-priceWrapper {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.buy-priceLabel {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.buy-priceValue {
+    font-size: 24px;
+    color: #0070f3;
+}
+
+
+.deleteButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+    background-color: #ff1a1a;
+}
+
+.deleteButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.5);
 }

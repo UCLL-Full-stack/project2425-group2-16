@@ -124,7 +124,7 @@ const GameDescriptionPopup: React.FC<Props> = ({ selectedGame, onClose, moderato
                 <button className={styles.closeButton} onClick={onClose}><span className={styles.icon}>×</span></button>
                 {game && (
                     <>  
-                        {moderatorStatus && <button onClick={angryModeratorDeletes}>Delete</button>}
+                        {moderatorStatus && <button onClick={angryModeratorDeletes} className={"deleteButton"}>Delete</button>}
                         <h2>{game.title}</h2>
                         <p><strong>System Requirements:</strong> {game.systemRequirements}</p>
                         <p><strong>Rating:</strong> {game.rating}</p>

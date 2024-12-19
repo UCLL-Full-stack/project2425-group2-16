@@ -57,49 +57,53 @@ const PurchasePage: React.FC = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <>
-            <h1>Purchase Game</h1>
-            <form onSubmit={handleSubmit} className="cardForm">
-                <div>
-                    <label htmlFor="creditCardNumber" className="cardInputLabel">Credit Card Number</label>
+        <div className={"buy-container"}>
+            <h1 className={"buy-header"}>Purchase Game</h1>
+            <form onSubmit={handleSubmit} className={"buy-form"}>
+                <div className={"buy-formGroup"}>
+                    <label htmlFor="creditCardNumber" className={"buy-label"}>Credit Card Number</label>
                     <input
                         type="tel"
                         id="creditCardNumber"
                         value={creditCardNumber}
                         onChange={(e) => setCreditCardNumber(e.target.value)}
                         required
+                        className={"buy-input"}
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="civ" className="cardInputLabel">CIV</label>
+                <div className={"buy-formGroup"}>
+                    <label htmlFor="civ" className={"buy-label"}>CIV</label>
                     <input
                         type="tel"
                         id="civ"
                         value={civ}
                         onChange={(e) => setCiv(e.target.value)}
                         required
+                        className={"buy-input"}
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="nameOnCard" className="cardInputLabel">Name on the Card</label>
+                <div className={"buy-formGroup"}>
+                    <label htmlFor="nameOnCard" className={"buy-label"}>Name on the Card</label>
                     <input
                         type="text"
                         id="nameOnCard"
                         value={nameOnCard}
                         onChange={(e) => setNameOnCard(e.target.value)}
                         required
+                        className={"buy-input"}
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="currency" className="cardInputLabel">Currency</label>
+                <div className={"buy-formGroup"}>
+                    <label htmlFor="currency" className={"buy-label"}>Currency</label>
                     <select
                         id="currency"
                         value={currency}
                         onChange={(e) => setCurrency(e.target.value)}
                         required
+                        className={"buy-select"}
                     >
                         <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
@@ -107,15 +111,16 @@ const PurchasePage: React.FC = () => {
                     </select>
                 </div>
            
-                <button type="submit">Submit</button>
+                <button type="submit" className={"buy-button"}>Submit</button>
                 
             </form>
-            <div className='purchasePage_Pwrap'>
-                <p>Price:</p>
-                <p>{game ? game.price : 0}</p>
+            <div className={"buy-priceWrapper"}>
+                <p className={"buy-priceLabel"}>Price:</p>
+                <p className={"buy-priceValue"}>{game ? game.price : 0}</p>
             </div>
-        </>
+        </div>
     );
 };
+
 
 export default PurchasePage;
