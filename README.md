@@ -13,3 +13,4 @@ Instead, please open a terminal in the back-end folder and run `npm test [test f
 
 ## Note for self about extra packages needed!!
 - So far: bcrypt, jwt, helmet, babel, and a few babel + jest dependencies for testing, and useRef for timeout message management
+- Please also remember to perform `npm install` in the root folder, the frontend folder, and the backend folder. Thank you!
