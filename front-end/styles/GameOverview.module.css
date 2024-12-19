@@ -1,47 +1,47 @@
 .game-list {
     padding: 2rem;
-    background-color: #f8f9fa; /* Light background color */
+    background-color: #f8f9fa;  
 }
 
 .game-card {
-    background-color: white; /* Card background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    padding: 1.5rem; /* Inner padding */
-    transition: transform 0.2s; /* Smooth hover effect */
-    cursor: pointer; /* Change cursor on hover */
+    background-color: white;  
+    border-radius: 8px;  
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
+    padding: 1.5rem;  
+    transition: transform 0.2s;  
+    cursor: pointer;  
 }
 
 .game-card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
+    transform: translateY(-5px);  
 }
 
 .game-title {
-    font-size: 1.5rem; /* Title font size */
-    font-weight: 600; /* Bold title */
-    color: #343a40; /* Dark text color */
+    font-size: 1.5rem;  
+    font-weight: 600;  
+    color: #343a40;  
 }
 
 .game-info {
-    font-size: 0.9rem; /* Smaller text for other info */
-    color: #6c757d; /* Muted text color */
+    font-size: 0.9rem;  
+    color: #6c757d;  
 }
 
 .game-price {
-    font-weight: 500; /* Emphasize the price */
-    color: #28a745; /* Green color for price */
+    font-weight: 500;  
+    color: #28a745;  
 }
 
 .game-list-title {
-    font-size: 2rem; /* Heading size for the list */
-    margin-bottom: 1.5rem; /* Space below title */
-    text-align: center; /* Center align the title */
+    font-size: 2rem;  
+    margin-bottom: 1.5rem;  
+    text-align: center;  
 }
 
 .grid-container {
-    display: grid; /* Use CSS grid for layout */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
-    gap: 1.5rem; /* Gap between items */
+    display: grid;  
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  
+    gap: 1.5rem;  
 }
 
 
@@ -52,11 +52,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);  
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Make sure it's above other content */
+    z-index: 1000;  
 }
 
 .modalContent {
@@ -89,36 +89,65 @@
 }
 
 .buyButton {
-    background-color: #ff5733; /* Vibrant red-orange color */
-    color: white; /* White text */
-    font-size: 16px; /* Text size */
-    font-weight: bold; /* Bold text */
-    padding: 12px 24px; /* Padding for the button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #ff5733;  
+    color: white;  
+    font-size: 16px;  
+    font-weight: bold;  
+    padding: 12px 24px;  
+    border: none;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    transition: all 0.3s ease;  
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
   }
   
   .buyButton:hover {
-    background-color: #ff3f1a; /* Darker red on hover */
-    transform: translateY(-2px); /* Slight lift effect on hover */
+    background-color: #ff3f1a;  
+    transform: translateY(-2px);  
   }
   
   .buyButton:active {
-    background-color: #e63946; /* Darker shade on click */
-    transform: translateY(0); /* Return to normal position */
+    background-color: #e63946;  
+    transform: translateY(0);  
   }
   
   .buyButton:focus {
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.5); /* Focus ring on button */
+    outline: none;  
+    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.5);  
   }
 
 
 .search-bar {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem; /* Space below the search bar */
+    margin-bottom: 2rem;  
+}
+
+.listButton { 
+    background-color: #5499d6;  
+    color: white;  
+    font-size: 16px;  
+    font-weight: bold;  
+    padding: 12px 24px;  
+    border: none;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    transition: all 0.3s ease;  
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+}
+
+.listbutton:hover {
+    background-color: #5381ff;  
+    transform: translateY(-2px);  
+}
+
+.buttonsWrap { 
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.cardForm { 
+    /* color: black; */
+
 }

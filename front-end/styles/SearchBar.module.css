@@ -1,39 +1,39 @@
 .searchInput {
     width: 100%;
-    margin: 10px auto; /* Center the input */
-    max-width: 500px; /* Max width for the input */
-    padding: 0.5rem 1rem; /* Padding inside the input */
-    border: 1px solid #ced4da; /* Light border */
-    border-radius: 4px 0 0 4px; /* Rounded corners on the left */
-    font-size: 1rem; /* Font size */
-    outline: none; /* Remove default outline */
-    transition: border-color 0.2s; /* Smooth border color transition */
+    margin: 10px auto;  
+    max-width: 500px;  
+    padding: 0.5rem 1rem;  
+    border: 1px solid #ced4da;  
+    border-radius: 4px 0 0 4px;  
+    font-size: 1rem;  
+    outline: none;  
+    transition: border-color 0.2s;  
 }
 
 .searchInput:focus {
-    border-color: #80bdff; /* Border color on focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    border-color: #80bdff;  
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);  
 }
 
 .search-button {
-    padding: 0.75rem 1rem; /* Padding inside the button */
-    border: 1px solid #ced4da; /* Light border */
-    border-left: none; /* Remove left border */
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    font-size: 1rem; /* Font size */
-    border-radius: 0 4px 4px 0; /* Rounded corners on the right */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.2s; /* Smooth background color transition */
+    padding: 0.75rem 1rem;  
+    border: 1px solid #ced4da;  
+    border-left: none;  
+    background-color: #007bff;  
+    color: white;  
+    font-size: 1rem;  
+    border-radius: 0 4px 4px 0;  
+    cursor: pointer;  
+    transition: background-color 0.2s;  
 }
 
 .search-button:hover {
-    background-color: #0056b3; /* Darker background on hover */
+    background-color: #0056b3;  
 }
 
 .search-button:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    outline: none;  
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);  
 }
 
 

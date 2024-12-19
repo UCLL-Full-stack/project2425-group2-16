@@ -4,7 +4,7 @@ body{
 }
 
 
-/*  header and anvigation  */
+ 
 header { 
     background-color: rgb(5, 5, 83);
     width: 100%;
@@ -38,10 +38,10 @@ li {
     align-items: center;
 }
 
-/* end of header and navigation */
+ 
 
 
-/*inputy form */
+ 
 form {
     display: flex;
     flex-direction: column;
@@ -59,7 +59,7 @@ form {
     justify-content: space-around;
     justify-items: center;
     align-items: center;
-    /* border: 2px yellow solid; */
+     
     width: 100%;
 }
 
@@ -69,10 +69,10 @@ form {
     min-height: 40px;
 }
 
-/* end of input form */
+ 
 
 
-/* start of searchbar */
+ 
 .searchbar_div { 
     border: 2px black solid;
     margin-top: 10px;
@@ -96,7 +96,7 @@ form {
 } 
 
 
-/* pup up starts here  */
+ 
 
 .pupUpDiv {
     position: fixed; 

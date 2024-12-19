@@ -1,5 +1,6 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { User } from "@types";
+import { Game } from "@types";
 import userService from "@services/UserService";
 import router from "next/router";
 
@@ -12,11 +13,15 @@ const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [accountCreationDate] = useState<Date>(new Date());
   const [message, setMessage] = useState<string>("");
+  const [gudMessage, setGudMessage] = useState<string>("");
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setMessage('');
+    setGudMessage('');
 
     // Convert birthDate string to Date object
     const birthDateObj = new Date(birthDate);
@@ -41,12 +46,13 @@ const RegisterForm: React.FC = () => {
       timeZone: timezone,
       accountCreationDate: accountCreationDate,
       age: age,
+      purchasedGames: [] as Game[]
     };
 
     try {
       const data = await userService.createUser(user);
       console.log("User created successfully:", data);
-      setMessage("User created successfully! Redirecting to homepage...");
+      setGudMessage("User created successfully! Redirecting to homepage...");
       setTimeout(() => {
         router.push("/");
       }, 1000);
@@ -70,10 +76,32 @@ const RegisterForm: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+          // Clear any existing timeout before setting a new one
+          if (messageTimeoutRef.current) {
+              clearTimeout(messageTimeoutRef.current);
+          }
+  
+          // Set the timeout to clear the message after 5 seconds
+          if (message) {
+              messageTimeoutRef.current = setTimeout(() => {
+                  setMessage('');
+                  messageTimeoutRef.current = null; // Reset the reference
+              }, 5000);
+          }
+  
+          // Cleanup timeout on component unmount
+          return () => {
+              if (messageTimeoutRef.current) {
+                  clearTimeout(messageTimeoutRef.current);
+              }
+          };
+      }, [message]);
+
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div className="inputDiv">
+    <div className='centered-form-container'>
+      <form onSubmit={handleSubmit} className="centered-form">
           <input
             type="text"
             placeholder="Username"
@@ -82,8 +110,6 @@ const RegisterForm: React.FC = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
-        <div className="inputDiv">
           <input
             type="tel"
             placeholder="Phone Number"
@@ -92,8 +118,6 @@ const RegisterForm: React.FC = () => {
             value={phoneNumber.toString()} // Convert number to string for display
             onChange={(e) => handlePhoneNumberChange(e.target.value)} // Handle phone number input
           />
-        </div>
-        <div className="inputDiv">
           <input
             type="email"
             placeholder="Email Address"
@@ -102,8 +126,6 @@ const RegisterForm: React.FC = () => {
             value={emailAddress}
             onChange={(e) => setEmailAddress(e.target.value)}
           />
-        </div>
-        <div className="inputDiv">
           <input
             type="date"
             placeholder="Birth Date"
@@ -112,8 +134,6 @@ const RegisterForm: React.FC = () => {
             value={birthDate} // Use the state string for input value
             onChange={(e) => setBirthDate(e.target.value)} // Update state directly with string
           />
-        </div>
-        <div className="inputDiv">
           <input
             type="text"
             placeholder="Country"
@@ -122,8 +142,6 @@ const RegisterForm: React.FC = () => {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
-        </div>
-        <div className="inputDiv">
           <input
             type="password"
             placeholder="Password"
@@ -132,12 +150,13 @@ const RegisterForm: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
         <button type="submit" onClick={() => setMessage("")}>
           Submit
         </button>
       </form>
-      {message && <p className="message">{message}</p>}
+      </div>
+      {message && <p className="popupStyle">{message}</p>}
+      {gudMessage && <p className="gudPopupStyle">{gudMessage}</p>}
     </>
   );
 };

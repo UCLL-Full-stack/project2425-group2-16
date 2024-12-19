@@ -1,26 +1,83 @@
+
 body{
     margin: 0px;
     width: 100%;
 }
 
 
-/*  header and anvigation  */
+
+ 
 header { 
     background-color: rgb(5, 5, 83);
     width: 100%;
     height: 120px;
-    /* border: 2px green solid; */
+     
     margin: 0px;
 }
 
 nav { 
-    /* height: 100%; */
-    /* width: 100%;     */
+     
+     
     margin: 0px;
-    /* border: 2px black solid; */
+     
     height: 100%;
 
 }
+
+.nav_link{
+    color: aqua;
+}
+
+
+
+
+p{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: aqua;
+    margin-right: 20px;
+    
+}
+
+select{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.langButton {
+    background-color: beige;  
+    color: black;  
+    font-size: 16px;  
+    font-weight: bold;  
+    padding: 12px 24px;  
+    border: none;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    transition: all 0.3s ease;  
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  }
+  
+  .langButton:hover {
+    background-color: rgb(212, 212, 120);  
+    transform: translateY(-2px);  
+  }
+  
+  .langButton:active {
+    background-color: #e63946;  
+    transform: translateY(0);  
+  }
+  
+  .langButton:focus {
+    outline: none;  
+    box-shadow: 0 0 0 2px rgba(255, 87, 51, 0.5);  
+  }
 
 
 
@@ -33,20 +90,23 @@ ul {
    
     height: 100%;              
     font-size: 25px;           
-    list-style-type: none;       
+    list-style-type: none;    
+   
 }
 
 li { 
     color: aqua;
     display: flex;
-
+    font-size: 27px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     align-items: center;
 }
 
-/* end of header and navigation */
+
+ 
 
 
-/*inputy form */
+ 
 form {
     display: flex;
     flex-direction: column;
@@ -64,7 +124,7 @@ form {
     justify-content: space-around;
     justify-items: center;
     align-items: center;
-    /* border: 2px yellow solid; */
+     
     width: 100%;
 }
 
@@ -74,10 +134,10 @@ form {
     min-height: 40px;
 }
 
-/* end of input form */
+ 
 
 
-/* start of searchbar */
+ 
 .searchbar_div { 
     border: 2px black solid;
     margin-top: 10px;
@@ -105,37 +165,287 @@ form {
 
 .search-input {
     width: 100%;
-    max-width: 500px; /* Max width for the input */
-    padding: 0.75rem 1rem; /* Padding inside the input */
-    border: 1px solid #ced4da; /* Light border */
-    border-radius: 4px 0 0 4px; /* Rounded corners on the left */
-    font-size: 1rem; /* Font size */
-    outline: none; /* Remove default outline */
-    transition: border-color 0.2s; /* Smooth border color transition */
+    max-width: 500px;  
+    padding: 0.75rem 1rem;  
+    border: 1px solid #ced4da;  
+    border-radius: 4px 0 0 4px;  
+    font-size: 1rem;  
+    outline: none;  
+    transition: border-color 0.2s;  
 }
 
 .search-input:focus {
-    border-color: #80bdff; /* Border color on focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    border-color: #80bdff;  
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);  
 }
 
 .search-button {
-    padding: 0.75rem 1rem; /* Padding inside the button */
-    border: 1px solid #ced4da; /* Light border */
-    border-left: none; /* Remove left border */
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    font-size: 1rem; /* Font size */
-    border-radius: 0 4px 4px 0; /* Rounded corners on the right */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.2s; /* Smooth background color transition */
+    padding: 0.75rem 1rem;  
+    border: 1px solid #ced4da;  
+    border-left: none;  
+    background-color: #007bff;  
+    color: white;  
+    font-size: 1rem;  
+    border-radius: 0 4px 4px 0;  
+    cursor: pointer;  
+    transition: background-color 0.2s;  
 }
 
 .search-button:hover {
-    background-color: #0056b3; /* Darker background on hover */
+    background-color: #0056b3;  
 }
 
 .search-button:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    outline: none;  
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);  
+}
+
+
+.ml-6{
+    margin-top: 35px;
+}
+
+.filterButtons { 
+    color: green;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+}
+
+ 
+.purchasedFilterButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .purchasedFilterButton:hover {
+    background-color: #45a049;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);  
+  }
+  
+  .favoritesFilterButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .favoritesFilterButton:hover {
+    background-color: #9f9d1c;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);  
+  }
+  
+
+ 
+
+.hintDiv {
+     
+}
+.hintDivText { 
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.userTableButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  
+  .userTableButton:hover {
+    background-color: #45a049;
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);  
+  }
+
+
+
+.userTable {
+    width: 80%;
+    margin: 20px auto;  
+    border-collapse: collapse;  
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  
+}
+
+.userTable th, .userTable td {
+    border: 1px solid #ddd;  
+    padding: 12px 15px;  
+    text-align: left;  
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+}
+
+.userTable th {
+    background-color: #f4f4f4;  
+    font-weight: bold;  
+}
+
+.userTable tr:nth-child(even) {
+    background-color: #f9f9f9;  
+}
+
+.userTable tr:hover {
+    background-color: #f1f1f1;  
+}
+
+
+.centered-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding-top: 20px; /* Adjust this value as needed */
+}
+
+.centered-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.centered-form input[type="text"],
+.centered-form input[type="email"],
+.centered-form input[type="date"],
+.centered-form input[type="tel"],
+.centered-form input[type="password"],
+.centered-form textarea {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.centered-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.centered-form button:hover {
+    background-color: #0056b3;
+}
+
+
+.popupStyle {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 16px;
+}
+
+.gudPopupStyle {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(82, 199, 9, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 16px;
+}
+
+
+
+/* card form */
+.cardForm { 
+    color: black;
+}
+
+.cardInputLabel { 
+    color: black;
+}
+
+.purchasePage_Pwrap {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Hint container styling */
+.hintDiv {
+    border: 2px solid black;
+    width: 50%;
+    position: fixed; /* Change to fixed to make it stay in view even when scrolling */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white; /* Ensure the background is solid */
+    z-index: 10000; /* Make sure it is on top of all other elements */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for emphasis */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 80%; /* Ensure it's not too wide */
+}
+
+
+.custom-ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Add space between items */
+}
+
+.custom-ul li {
+    background-color: #f0f0f0; /* Light grey background */
+    color: black;
+    padding: 10px 15px; /* Add padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.custom-ul li:hover {
+    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    transform: translateY(-2px); /* Lift item on hover */
+}
+
+.custom-ul li:active {
+    background-color: #d0d0d0; /* Even darker grey on click */
+    transform: translateY(0); /* Reset lift on click */
 }

@@ -3,19 +3,21 @@ import { Publisher } from "./publisher";
 import { Purchase } from "./purchase";
 
 export class Game {
-    private genre: string;
-    private rating: number;
-    private supportedLanguages: string;
-    readonly title: string;
-    private price: number;
-    private systemRequirements: string;
-    private releaseDate: Date;
-    private multiplayer: boolean;
-    private publisherId: number;  // Foreign key to Publisher
-    private publisher?: Publisher; // Optional relation to Publisher (will be fetched later)
-    private purchases: Purchase[];
+    id: number;
+    genre: string;
+    rating: number;
+    supportedLanguages: string;
+    title: string;
+    price: number;
+    systemRequirements: string;
+    releaseDate: Date;
+    multiplayer: boolean;
+    publisherId: number;  // Foreign key to Publisher
+    publisher?: Publisher; // Optional relation to Publisher (will be fetched later)
+    purchases: Purchase[];
 
     constructor(Game: {
+        id: number;
         genre: string;
         rating: number;
         supportedLanguages: string;
@@ -27,6 +29,7 @@ export class Game {
         publisherId: number; // Foreign key to Publisher
     }) {
         this.validate(Game);
+        this.id = Game.id;
         this.genre = Game.genre;
         this.rating = Game.rating;
         this.supportedLanguages = Game.supportedLanguages;
@@ -79,6 +82,11 @@ export class Game {
             throw new DomainError('Publisher ID is required.');
         }
     }
+
+
+    public getId(): number {
+        return this.id;
+    } 
 
     public getGenre(): string {
         return this.genre;
@@ -171,6 +179,7 @@ export class Game {
     }
 
     public static from(data: {
+        id: number;
         genre: string;
         rating: number;
         supportedLanguages: string;

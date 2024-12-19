@@ -7,10 +7,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum UserRole {
+  standard      
+  moderator     
+  publisher
+}
+
 model Game {
   id                 Int       @id @default(autoincrement())
-  title              String
-  genre              String @default("Unknown")
+  title              String    @unique 
+  genre              String    @default("Unknown")
   rating             Int
   supportedLanguages String
   price              Float
@@ -19,26 +25,67 @@ model Game {
   multiplayer        Boolean
   publisherId        Int
   publisher          Publisher @relation(fields: [publisherId], references: [id])
+  purchasedBy        purchasedGameUser[]
+  // Many-to-many relation via junction table
+  favoritesLists     FavoritesListGame[]
+  purchases         Purchase[]
+  @@unique([title, releaseDate])
+}
 
-  purchases Purchase[]
-   @@unique([title, releaseDate])
+model purchasedGameUser {
+  gameId         Int 
+  userId         Int 
+
+  user          User @relation(fields: [userId], references: [id])
+  game          Game @relation(fields: [gameId], references: [id])
+  @@id([userId, gameId])
+}
+
+model FavoritesList {
+  id             Int            @id @default(autoincrement())
+  userId         Int            
+  privacySettings Boolean
+  createdAt      DateTime       @default(now())
+  description    String
+  
+  // Many-to-many relation via junction table
+  games          FavoritesListGame[]
+  
+  // Relations
+  owner  User @relation(fields: [userId], references: [id])
+  @@unique([userId])
+}
+
+// Junction table for many-to-many relationship
+model FavoritesListGame {
+  favoritesListId Int
+  gameId         Int
+  
+  favoritesList  FavoritesList @relation(fields: [favoritesListId], references: [id])
+  game           Game          @relation(fields: [gameId], references: [id])
+  
+  @@id([favoritesListId, gameId])
 }
 
 model User {
-  id                  Int      @id @default(autoincrement())
-  username            String
+  id                  Int                 @id @default(autoincrement())
+  username            String              @unique
   phoneNumber         BigInt
-  emailAddress        String @unique
+  emailAddress        String              @unique
   birthDate           DateTime
   password            String
   accountCreationDate DateTime
   timeZone            String
   country             String
   age                 Int
-
-  purchases Purchase[]
-  @@unique([username])
+  role                UserRole            
+  purchases           Purchase[]
+  purchasedGames      purchasedGameUser[]
+  favoritesList       FavoritesList?
+  publisherId         Int?                @unique
+  publisher           Publisher?          @relation(fields: [publisherId], references: [id])
 }
+
 
 model Publisher {
   id                    Int      @id @default(autoincrement())
@@ -49,8 +96,10 @@ model Publisher {
   country               String
   website               String
   games                 Game[]
+  user                  User?    
   @@unique([name, website])
 }
+
 
 model Purchase {
   id             Int      @id @default(autoincrement())
@@ -64,5 +113,4 @@ model Purchase {
   user User @relation(fields: [userId], references: [id])
   game Game @relation(fields: [gameId], references: [id])
 
-  @@unique([userId, gameId]) // Prevent duplicate purchases
 }

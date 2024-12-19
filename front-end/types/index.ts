@@ -1,5 +1,5 @@
 export type User = {
-  id: string;
+  id: number;
   username: string;
   phoneNumber: number;
   emailAddress: string;
@@ -9,23 +9,31 @@ export type User = {
   timeZone: string;
   country: string;
   age: number;
+  purchasedGames: Game[];
+  publisherId: number;
+  role: string;
 };
 
 export type Login = {
   emailAddress: string;
   password: string;
+  // role: string;
+  // role: 'moderator' | 'standardUser';
 }
 
-
-export type FavoritesList = { 
-    privacySettings: string;
-    listCreationDate: Date;
-    description: string;
-    listName: string;
+export type FavoritesList = {
+  some(arg0: (favoritedGame: any) => boolean): unknown;
+  id?: number;
+  privacySettings: boolean;
+  description: string;
+  listName?: string; // Optional, since it's not in the backend class
+  listCreationDate?: Date; // Optional, since it's not in the backend class
+  games: Array<Game>; // Add this to match backend
+  owner: User; // Add this to match backend
 };
 
 export type Game = {
-  id: string; 
+  id: number; 
   genre: string;
   rating: number;
   supportedLanguages: string;
@@ -48,7 +56,7 @@ export type Publisher = {
 
 export type Purchase = { 
   dateOfPurchase: Date;
-  currency: 'USD' | 'EUR' | 'GBP' | 'ROBUX' | 'GEL' | 'LRA' | string;
+  currency: 'USD' | 'EUR' | 'GBP' | 'ROBUX' | string;
   amountPayed: number;
 };
 

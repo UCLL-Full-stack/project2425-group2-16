@@ -1,0 +1,35 @@
+{
+  "pages": {
+    "Register": "Register Page",
+    "Profile": "Profile Page",
+    "Login": "Log In Page",
+    "Home": "Home Page"
+  },
+  "nav": {
+    "home": "Home",
+    "login": "Log in",
+    "profile": "My Profile",
+    "register": "Register",
+    "logout": "Log Out",
+    "Language": "Language",
+    "logging in...": "Logging in...",
+    "users": "Users"
+  },
+  "info": {
+    "greet": "Hello",
+    "email": "E-mail",
+    "phone": "Phone number",
+    "country": "Country",
+    "password": "Password"
+  },
+  "message": {
+    "logout": "Logging out...",
+    "userFail": "Failed to fetch user. Please try refreshing the page or logging out and back in."
+  },
+
+  "status": {
+    "loginGud": "User logged in successfully! Redirecting...",
+    "loginBad": "There was an error logging the user in; please try again.",
+    "loginTeribol": "There was an unknown error logging the user in."
+  }
+}

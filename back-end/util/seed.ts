@@ -57,9 +57,37 @@ async function main() {
     },
   });
 
+  const game3 = await prisma.game.create({
+    data: {
+      title: 'Babje',
+      genre: 'shooter',
+      rating: 4,
+      supportedLanguages: 'English, French, Italian',
+      price: 20.99,
+      systemRequirements: 'Windows 7, 8, or 10, Intel Core i5, 8GB RAM',
+      releaseDate: new Date('2008-11-13'),
+      multiplayer: false,
+      publisherId: publisher2.id,
+    },
+  });
+
+  const game4 = await prisma.game.create({
+    data: {
+      title: 'lawnmower simulator',
+      genre: 'boring',
+      rating: 4,
+      supportedLanguages: 'English, French, Italian',
+      price: 9.11,
+      systemRequirements: 'Windows 7, 8, or 10, Intel Core i5, 8GB RAM',
+      releaseDate: new Date('2005-11-13'),
+      multiplayer: false,
+      publisherId: publisher2.id,
+    },
+  });
   // Seed Users
   const user1 = await prisma.user.create({
     data: {
+      // id: 1,
       username: 'gamer123',
       phoneNumber: 1234567890,
       emailAddress: 'gamer123@example.com',
@@ -69,6 +97,7 @@ async function main() {
       timeZone: 'UTC',
       country: 'USA',
       age: 34,
+      role: 'standard',
     },
   });
 
@@ -83,29 +112,38 @@ async function main() {
       timeZone: 'UTC',
       country: 'Canada',
       age: 39,
+      role: 'moderator',
     },
   });
+
+  const user3 = await prisma.user.create({
+    data: { 
+      username: 'ubisoftBoss',
+      phoneNumber: 9876543210,
+      emailAddress: 'ubisoftShelbik@example.com',
+      birthDate: new Date('1985-06-10'),
+      password: await bcrypt.hash('ubisoftShelbik', 12),
+      accountCreationDate: new Date(),
+      timeZone: 'UTC',
+      country: 'Albania',
+      age: 39,
+      role: 'publisher',
+      publisherId: publisher2.id,
+    },
+  })
 
   // Seed Purchases
   const purchase1 = await prisma.purchase.create({
     data: {
       userId: user1.id,
-      gameId: game1.id,
+      gameId: game2.id,
       dateOfPurchase: new Date(),
       currency: 'USD',
       amountPayed: 19.99,
     },
   });
 
-  const purchase2 = await prisma.purchase.create({
-    data: {
-      userId: user2.id,
-      gameId: game2.id,
-      dateOfPurchase: new Date(),
-      currency: 'USD',
-      amountPayed: 29.99,
-    },
-  });
+
 
   console.log('Seed data has been added.');
 }

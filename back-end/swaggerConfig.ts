@@ -61,13 +61,14 @@ const swaggerOpts: OpenAPIV3.Document = {
                         description: 'Age of the user',
                         example: 34,
                     },
-                    purchasedGames: {
-                        type: 'array',
-                        items: {
-                        },
-                    },
+                    role: {
+                        type: 'string',
+                        description: 'user role',
+                        example: 'standard',
+                    }
+                    
                 },
-                required: ['username', 'phoneNumber', 'emailAddress', 'birthDate', 'password', 'accountCreationDate', 'timeZone', 'country', 'age'],
+                required: ['username', 'phoneNumber', 'emailAddress', 'birthDate', 'password', 'accountCreationDate', 'timeZone', 'country'],
             },
             Game: {
                 type: 'object',
@@ -132,6 +133,38 @@ const swaggerOpts: OpenAPIV3.Document = {
                         example: "Password123"
                     }
                 }
+            },
+            FavoritesList: {
+                type: 'object',
+                properties: {
+                    userId: {
+                        type: 'string',
+                        description: 'ID of the user who owns the favorites list',
+                        example: 'user123',
+                    },
+                    games: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            description: 'ID of a game in the favorites list',
+                            example: 'game456',
+                        },
+                        description: 'List of game IDs that are favorites of the user',
+                    },
+                    createdAt: {
+                        type: 'string',
+                        format: 'date-time',
+                        description: 'Date when the favorites list was created',
+                        example: new Date().toISOString(),
+                    },
+                    updatedAt: {
+                        type: 'string',
+                        format: 'date-time',
+                        description: 'Date when the favorites list was last updated',
+                        example: new Date().toISOString(),
+                    },
+                },
+                required: ['userId', 'games', 'createdAt', 'updatedAt'],
             }
         },
     },
