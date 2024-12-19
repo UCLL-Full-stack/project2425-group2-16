@@ -2,6 +2,7 @@ import { Publisher } from '../../model/publisher';
 import { DomainError } from '../../errors/DomainError';
 
 const validPublisherData = {
+    id: 1,
     contactInformation: 'contact@example.com',
     overallRating: 4.5,
     dateOfFirstPublishing: new Date('2010-05-20'),

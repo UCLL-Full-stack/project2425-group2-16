@@ -5,6 +5,9 @@ Description: the Black Bazaar is the ideal game browsing and purchasing platform
 
 ### Nicolás Benedetti González / Saba Narimanishvili
 
+# IMPORTANT NOTE ABOUT TESTING
+- Because of some issues with Jest installation and binary location, pressing the green arrow next to each test on the file itself doesn't seem to work.
+Instead, please open a terminal in the back-end folder and run `npm test [test file name]` instead. The same applies to frontend tests. Thank you!!
 
 ## Note for self about extra packages needed!!
 - So far: bcrypt, jwt, helmet, babel, and a few babel + jest dependencies for testing, and useRef for timeout message management
