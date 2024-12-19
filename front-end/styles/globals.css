@@ -475,6 +475,7 @@ form {
     align-items: center;
     width: 80%;
     justify-items: center;
+    border-style: none;
 }
 
 .buy-formGroup {
@@ -490,6 +491,7 @@ form {
     margin-bottom: 5px;
     font-weight: bold;
     text-align: center;
+    color: black;
 }
 
 .buy-input {
@@ -553,4 +555,13 @@ form {
 .deleteButton:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.5);
+}
+
+
+.useralert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }

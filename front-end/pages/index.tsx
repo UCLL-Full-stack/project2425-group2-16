@@ -64,38 +64,38 @@ const Home: React.FC = () => {
         </header>
         <button className="userTableButton" onClick={toggleTable}>View Users Table</button>
         {table && 
-            <table className="userTable">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>gamer123</td>
-                        <td>gamer123@example.com</td>
-                        <td>password123</td>
-                        <td>standard (normal user)</td>
-                    </tr>
-                    <tr>
-                        <td>adventureFan</td>   
-                        <td>adventureFan@example.com</td>
-                        <td>adventure123</td>
-                        <td>moderator (admin)</td>
-                    </tr>
-                    <tr>
-                        <td>ubisoftBoss</td>   
-                        <td>ubisoftShelbik@example.com</td>
-                        <td>ubisoftShelbik</td>
-                        <td>publisher</td>
-                    </tr>
-                    
-                    
-                </tbody>
-            </table>
+            <><table className="userTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>gamer123</td>
+                            <td>gamer123@example.com</td>
+                            <td>password123</td>
+                            <td>standard (normal user)</td>
+                        </tr>
+                        <tr>
+                            <td>adventureFan</td>
+                            <td>adventureFan@example.com</td>
+                            <td>adventure123</td>
+                            <td>moderator (admin)</td>
+                        </tr>
+                        <tr>
+                            <td>ubisoftBoss</td>
+                            <td>ubisoftShelbik@example.com</td>
+                            <td>ubisoftShelbik</td>
+                            <td>publisher</td>
+                        </tr>
+
+
+                    </tbody>
+                </table><p className={"useralert"}>For the dynamic route part of the project, please log in as administrator (adventureFan) and navigate to "/users/[username]", choosing a username from the table above.</p></>
         }
 
 
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
         <SearchBar Allgames={Games} setFilteredGames={setFilteredGames} />
         <GameOverview games={filteredGames}/>
         {errorMessage && <div>
-            <p className="errorMessageIndex">{errorMessage}
+            <p className="useralert">{errorMessage}
             </p>
             </div>
             }
