@@ -28,10 +28,10 @@ beforeEach(() => {
 });
 
 // Test for getAllUsers
-test('Given the database has users, When getAllUsers is called, Then it should return all users', async () => {
+test('Given the database has users, When getAllUsers is called (as a moderator, which is the only role that has permission to get all users), Then it should return all users', async () => {
     (userDb.getAllUsers as jest.Mock).mockResolvedValue([mockUser]);
 
-    const users = await userService.getAllUsers();
+    const users = await userService.getAllUsers('moderator');
 
     expect(users).toEqual([mockUser]);
     expect(userDb.getAllUsers).toHaveBeenCalledTimes(1);

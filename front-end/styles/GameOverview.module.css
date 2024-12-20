@@ -85,11 +85,11 @@
 .icon {
     font-size: 20px;
     font-weight: bold;
-    color: #333;
+    color: #100f0f;
 }
 
 .buyButton {
-    background-color: #ff5733;  
+    background-color: #48ab21;  
     color: white;  
     font-size: 16px;  
     font-weight: bold;  
@@ -147,7 +147,3 @@
     
 }
 
-.cardForm { 
-    /* color: black; */
-
-}

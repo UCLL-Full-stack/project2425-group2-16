@@ -98,7 +98,7 @@ const saveUser = async (user: User): Promise<User> => {
                 timeZone: user.getTimeZone(),
                 country: user.getCountry(),
                 age: user.getAge() ?? 0,
-                role: user.getRole(), // Add this line to specify the role
+                role: 'standard', // Add this line to specify the role
 
                 // add other required fields here
             }

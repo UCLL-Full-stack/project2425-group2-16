@@ -30,9 +30,9 @@ const gameOverview: React.FC<Props> = ({ games }) => {
                 setIsLoading(true); 
                 try {
                     const fetchedPurchased = await gameService.findPurchasedByUser(username);
+                    setPurchasedGames(fetchedPurchased || []);
                     const fetchedFavorites = await ListService.fetchByUser(username);
 
-                    setPurchasedGames(fetchedPurchased || []);
                     setFavoritedGames(Array.isArray(fetchedFavorites) ? fetchedFavorites : []);
                 } catch (error) {
                     console.error("Failed to fetch purchased or favorited games:", error);
@@ -43,7 +43,7 @@ const gameOverview: React.FC<Props> = ({ games }) => {
         };
 
         fetchUserGames();
-    }, []); 
+    }, [favoritedStatus]); 
 
     const sessionStorageRoleDealer = async () => { 
         const user = sessionStorage.getItem("loggedInUser");

@@ -9,7 +9,9 @@ const validGameData = {
     price: 59.99,
     systemRequirements: "8GB RAM, GTX 1050, 50GB Storage",
     releaseDate: new Date("2023-04-20"),
-    multiplayer: true
+    multiplayer: true,
+    id: 1,
+    publisherId: 101
 };
 
 // Helper function to create a Game with given parameters

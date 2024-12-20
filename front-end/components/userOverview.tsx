@@ -13,12 +13,13 @@ type Props = {
 };
 
 const UserOverview: React.FC<Props> = ({ user }) => {
-  const [favorites, setFavorites] = useState<Array<Game>>([]);
+  const [Favorites, setFavorites] = useState<Array<Game>>([]);
   const [purchased, setPurchased] = useState<Array<Game>>([]);
   const [favMessage, setFavMessage] = useState<string | null>(null);
   const [purMessage, setPurMessage] = useState<string | null>(null);
   const [favChosen, setFavChosen] = useState<boolean>(true);
   const [purChosen, setPurChosen] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
 
   // const [purchasedGames, setPurchasedGmas] = useState<Array<Game>>;
 
@@ -33,6 +34,7 @@ const UserOverview: React.FC<Props> = ({ user }) => {
 
     // Parse the user string into an object
     const userObj = JSON.parse(user);
+    setRole(userObj.role);
 
     // Now you can safely access the username
     const username = userObj.username;
@@ -42,6 +44,7 @@ const UserOverview: React.FC<Props> = ({ user }) => {
       const favorites = await ListService.fetchByUser(username);
       const gamesList = favorites.games;
       setFavorites(gamesList);
+      gamesList.length == 0 ? setFavMessage("No favorite games found!") : null;
     } catch (error) {
       setFavMessage("No favorite games found!");
     }
@@ -98,27 +101,38 @@ const UserOverview: React.FC<Props> = ({ user }) => {
           </p>
         </div>
       </div>
-
-      <div className="filterButtons">
-        <button className="purchasedFilterButton" onClick={choosePur}>purchased</button>
-        <button className="favoritesFilterButton" onClick={chooseFav}>favorites</button>
-      </div>
-      {favChosen && (
+  
+      {/* Only show filter buttons and content if the role is not 'moderator' */}
+      {role !== "moderator" && (
         <>
-          <GameOverview games={favorites} />
-          {favMessage && <p>{favMessage}</p>}
+          <div className="filterButtons">
+            <button className="purchasedFilterButton" onClick={choosePur}>
+              Purchased
+            </button>
+            <button className="favoritesFilterButton" onClick={chooseFav}>
+              Favorites
+            </button>
+          </div>
+  
+          {/* Display the filtered content based on chosen filter */}
+          {favChosen && (
+            <>
+              <GameOverview games={Favorites} />
+              {favMessage && <p>{favMessage}</p>}
+            </>
+          )}
+  
+          {purChosen && (
+            <>
+              <GameOverview games={purchased} />
+              {purMessage && <p>{purMessage}</p>}
+            </>
+          )}
         </>
       )}
-      {purChosen && (
-        <>
-          <GameOverview games={purchased} />
-          {purMessage && <p>{purMessage}</p>}
-        </>
-      )}
-
-      
     </>
   );
+  
 };
 
 export default UserOverview;

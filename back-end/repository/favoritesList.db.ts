@@ -86,20 +86,32 @@ const save = async (favoritesList: FavoritesList) => {
 };
 const replaceFavoritesList = async (list: FavoritesList): Promise<FavoritesList> => {
     try {
+        // Fetch the existing list by userId to ensure it adheres to the unique constraint
+        const existingList = await prisma.favoritesList.findUnique({
+            where: { userId: list.owner.id },
+        });
+
+        if (!existingList) {
+            throw new Error(`Favorites list for userId ${list.owner.id} not found`);
+        }
+
+        // Explicitly delete all existing games associated with the list
+        await prisma.favoritesListGame.deleteMany({
+            where: { favoritesListId: existingList.id },
+        });
+
+        // Update the FavoritesList with new data and associate the new games
         const updatedFavoritesList = await prisma.favoritesList.update({
-            where: { id: list.id },
+            where: { id: existingList.id },
             data: {
                 privacySettings: list.privacySettings,
                 description: list.description,
-                userId: list.owner.id, // Update the owner ID if necessary
                 games: {
-                    // This assumes you want to replace the existing games
-                    deleteMany: {}, // Remove all existing associations
-                    create: list.games.map(game => ({
-                        gameId: game.id // Assuming you have a gameId field in the junction table
-                    }))
-                }
-            }
+                    create: list.games.map((game) => ({
+                        gameId: game.id,
+                    })),
+                },
+            },
         });
 
         // Create a new instance of FavoritesList using the updated data
@@ -108,7 +120,7 @@ const replaceFavoritesList = async (list: FavoritesList): Promise<FavoritesList>
             privacySettings: updatedFavoritesList.privacySettings,
             description: updatedFavoritesList.description,
             owner: list.owner, // Assuming you have the owner object available
-            games: list.games // You may want to fetch the games again if needed
+            games: list.games, // Use the input games, or refetch if needed
         });
 
         return favoritesListInstance; // Return the mapped instance
@@ -117,6 +129,7 @@ const replaceFavoritesList = async (list: FavoritesList): Promise<FavoritesList>
         throw new Error("Database error while replacing favorites list");
     }
 };
+
 
 const updateFavoritesList = async (list: FavoritesList, userId: number) => {
     try {

@@ -12,16 +12,24 @@ const getAllGames = async (): Promise<Game[]> => {
     }
 };
 
-const deleteGame = async (id: number): Promise<void> => { 
+const deleteGame = async (id: number): Promise<void> => {
     try {
-        await database.game.delete({
-            where: { id: id},
+        // Delete all records from FavoritesListGame that reference the game
+        await database.favoritesListGame.deleteMany({
+            where: {
+                gameId: id,  // Assuming the foreign key in FavoritesListGame is gameId
+            }
+        });
 
+        // Now delete the game
+        await database.game.delete({
+            where: { id: id }
         });
     } catch (error) {
         console.error(`Error deleting game: ${id}`, error);
     }
 };
+
 
 
 const findById = async (id: number): Promise<Game> => { 
