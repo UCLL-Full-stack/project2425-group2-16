@@ -10,7 +10,3 @@ The demo video for the project can be found in the root directory of this projec
 # IMPORTANT NOTE ABOUT TESTING
 - Because of some issues with Jest installation and binary location, pressing the green arrow next to each test on the file itself doesn't seem to work.
 Instead, please open a terminal in the back-end folder and run `npm test [test file name]` instead. The same applies to frontend tests. Thank you!!
-
-## Note for self about extra packages needed!!
-- So far: bcrypt, jwt, helmet, babel, and a few babel + jest dependencies for testing, and useRef for timeout message management
-- Please also remember to perform `npm install` in the root folder, the frontend folder, and the backend folder. Thank you!
